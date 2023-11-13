@@ -3,7 +3,7 @@
 ![GitHub](https://img.shields.io/github/license/dagstuhl-publishing/beta-faircore4eosc) ![GitHub top language](https://img.shields.io/github/languages/top/dagstuhl-publishing/beta-faircore4eosc) ![GitHub last commit (by committer)](https://img.shields.io/github/last-commit/dagstuhl-publishing/beta-faircore4eosc) 
 
 [![SWH](https://archive.softwareheritage.org/badge/origin/https://github.com/dagstuhl-publishing/beta-faircore4eosc/)](https://archive.softwareheritage.org/browse/origin/?origin_url=https://github.com/dagstuhl-publishing/beta-faircore4eosc)
-[![SWH](https://archive.softwareheritage.org/badge/swh:1:snp:8f6ad0ffefef9bff8d9088771162dfe8bece8031/)](https://archive.softwareheritage.org/swh:1:snp:8f6ad0ffefef9bff8d9088771162dfe8bece8031;origin=https://github.com/dagstuhl-publishing/beta-faircore4eosc)
+[![SWH](https://archive.softwareheritage.org/badge/swh:1:snp:ffa4d4defb93dc29061c5a86f2867292520f2d16/)](https://archive.softwareheritage.org/swh:1:snp:ffa4d4defb93dc29061c5a86f2867292520f2d16;origin=https://github.com/dagstuhl-publishing/beta-faircore4eosc)
 ![Static Badge](https://img.shields.io/badge/Public%20Page-https://ariel.dagstuhl.de-8A2BE2)
  
 ## Installation Steps:
