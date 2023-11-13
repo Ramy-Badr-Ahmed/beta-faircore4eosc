@@ -1,0 +1,22 @@
+<strong>Gitlab:</strong>
+<pre class='pre-scrollable-large'>
+ # Same GitHub Structure
+
+ # Differences:
+
+   - Dash sign before breakpoints:
+     ..userName/repoName/<strong>−</strong>/tree|blob|sha1_git/..
+
+   - Hosts may vary:
+        https://gricad-gitlab.univ-grenoble-alpes.fr/..
+        host: gricad-gitlab.univ-grenoble-alpes.fr
+
+   - Repository name supports slashes:
+        https://gitlab.de/username/repo/name/..
+
+-------
+Ticket:
+-------
+ https://github.com/dagstuhl-publishing/faircore4eosc/issues/127
+
+</pre>

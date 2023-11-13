@@ -1,0 +1,2 @@
+var r= document.querySelector('meta[name="csrf-token"]');
+r?window.axios.defaults.headers.common["X-CSRF-TOKEN"]=r.content:console.error("CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token")

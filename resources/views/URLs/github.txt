@@ -1,0 +1,54 @@
+<strong>Github:</strong>
+<pre class='pre-scrollable-large'>
+
+< Branches | Revisions | Directories >
+
+  https://github.com/userName/repoName/
+  [
+    tree / ( {branch_name} ┃ {sha1_git} ) / [ {dir_path} ]
+    ┃
+    blob / ( {branch_name} ┃ {sha1_git} ) / {file_path}
+  ]
+
+  {branch_name} ➜ default_branch | URL-Encoded
+  (notably: with slashes /b/r/a/n/c/h/n/a/m/e)
+
+  {sha1_git}  ➜ 20-bytes hash (40-characters hex-string)
+                (Latest Commit)
+
+  {dir_path}  ➜  /{dir_name}/ ┃ /{dir_name}/../{dir_name}/
+
+  {file_path} ➜ /{dir_name}/../{file_name}/ ┃ /{file_name}/
+
+  {dir_name}, {file_name} ➜  URL-Encoded
+
+< Releases >
+
+  https://github.com/userName/repoName/
+  (
+    tree / {release_name} / [ {dir_path} ]
+    ┃
+    blob / {release_name} / {file_path}
+  )
+  ┃
+  releases/tag/{release_name}
+
+  {release_name} ➜ URL-Encoded
+
+  {dir_path}  ➜ /{dir_name}/ ┃ /{dir_name}/../{dir_name}/
+
+  {file_path} ➜ /{dir_name}/../{file_name}/ ┃ /{file_name}/
+
+  {dir_name}, {file_name} ➜  URL-Encoded
+
+< Pull Requests >
+
+  https://github.com/userName/repoName/pull/{pull_number}
+
+  {pull_number} ➜ Integer
+
+-------
+Ticket:
+-------
+ https://github.com/dagstuhl-publishing/faircore4eosc/issues/125
+</pre>

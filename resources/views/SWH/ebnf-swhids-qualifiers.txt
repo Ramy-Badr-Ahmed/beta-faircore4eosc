@@ -1,0 +1,22 @@
+
+<identifier> ::= <identifier_core> <qualifiers> ;
+
+<qualifiers> := ";" <qualifier> [ <qualifiers> ] ;
+<qualifier> ::=
+    <context_qualifier>
+  | <fragment_qualifier>
+  ;
+<context_qualifier> ::=
+    <origin_ctxt>
+  | <visit_ctxt>
+  | <anchor_ctxt>
+  | <path_ctxt>
+  ;
+<origin_ctxt> ::= "origin" "=" <url_escaped> ;
+<visit_ctxt> ::= "visit" "=" <identifier_core> ;
+<anchor_ctxt> ::= "anchor" "=" <identifier_core> ;
+<path_ctxt> ::= "path" "=" <path_absolute_escaped> ;
+<fragment_qualifier> ::= "lines" "=" <line_number> ["-" <line_number>] ;
+<line_number> ::= <dec_digit> + ;
+<url_escaped> ::= (* RFC 3987 IRI *)
+<path_absolute_escaped> ::= (* RFC 3987 absolute path *)

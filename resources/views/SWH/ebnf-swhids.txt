@@ -1,0 +1,13 @@
+
+<identifier_core> ::= "swh" ":" <scheme_version> ":" <object_type> ":" <object_id> ;
+<scheme_version> ::= "1" ;
+<object_type> ::=
+    "snp"  (* snapshot *)
+  | "rel"  (* release *)
+  | "rev"  (* revision *)
+  | "dir"  (* directory *)
+  | "cnt"  (* content *)
+  ;
+<object_id> ::= 40 * <hex_digit> ;  (* intrinsic object id, as hex-encoded SHA1 *)
+<dec_digit> ::= "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" ;
+<hex_digit> ::= <dec_digit> | "a" | "b" | "c" | "d" | "e" | "f" ;

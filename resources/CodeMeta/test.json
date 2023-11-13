@@ -1,0 +1,18 @@
+{
+  "schema.org/author": {
+    "@list": [
+      {
+        "@type": "schema.org/Person",
+        "schema.org/givenName": "value",
+        "schema.org/familyName": "value",
+        "schema.org/email": "value",
+        "@id": "value",
+        "schema.org/affiliation": {
+          "@type": "schema.org/Organization",
+          "schema.org/name": "value"
+        }
+      }
+      ⋮
+    ]
+  }
+}

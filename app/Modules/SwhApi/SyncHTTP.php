@@ -1,0 +1,180 @@
+<?php
+
+/**
+ * @Author: Ramy-Badr-Ahmed
+ * @Desc: LZI -- SWH API Client
+ * @Repo: https://github.com/dagstuhl-publishing/beta-faircore4eosc
+ */
+
+namespace App\Modules\SwhApi;
+
+use Exception;
+use Illuminate\Http\Client\Response;
+use Illuminate\Http\Client\ConnectionException;
+use Illuminate\Http\Client\RequestException;
+use GuzzleHttp\Exception\RequestException as GuzzleRequestException;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Validation\ValidationException;
+use Throwable;
+use Illuminate\Support\Collection;
+
+class SyncHTTP extends HTTPClient
+{
+
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->HTTPRequest = $this->HTTPRequest->withOptions([
+            'synchronous' => true
+            ]);
+    }
+
+    /**
+     * @throws RequestException
+     */
+    public static function call(string $method, string $on, Collection $append2Url, ...$options): Response|iterable|Throwable
+    {
+        $newHTTP = new self();
+        return $newHTTP->invoke($method, $on, $append2Url, ...$options);
+    }
+
+    /**
+     * @param string $method
+     * @param string $on
+     * @param Collection $append2Url
+     * @param ...$options
+     * @return Response|iterable|Throwable
+     * @throws RequestException
+     */
+    public function invoke(string $method, string $on, Collection $append2Url, ...$options): Response|iterable|Throwable
+    {
+        $method = Str::lower($method);
+        try{
+            self::addLogs("Logging started for ".$on);
+
+            self::prepareForInvoke($method, $on,$append2Url);
+
+            $uri = is_null($append2Url)
+                ? $on
+                : Str::replaceArray('~', $append2Url->toArray(), self::$apiURL . self::API_ENDPOINTS[$on]['route']);
+
+            self::addLogs("Invoking '$method' on --> ". $uri);
+
+            $response = $this->HTTPRequest->withOptions(['delay' => $options["delay"] ?? 0, 'debug' => $options["debug"] ?? false])->$method($uri);
+
+            return match (true){
+                $response->redirect() => new Exception('Exceeded redirects preset.', '7'),
+                $response->successful() && $response->status() === 200 => $response
+            };
+
+        }catch(RequestException $e){
+
+            return $this->handleRequestException($e);
+        }
+        catch(GuzzleRequestException | ConnectionException | ValidationException $e){
+
+            $this->addErrors((match (substr(get_class($e), strrpos(get_class($e), "\\" ) )  ){
+                    "\GuzzleRequestException" => "GuzzleHTTP Request Exception occurred --> ",
+                    "\ConnectionException" => "Connection Error --> ",
+                    "\ValidationException" => "Validation Exception. PrepareForInvoke() Error --> "
+                })
+                .$e->getCode().": ".$e->getMessage()
+            );
+            return $e;
+        }
+        catch(Exception $e){
+            $this->addErrors(match(true) {
+                $e->getCode() === 980   => "PrepareForInvoke() Error --> " . $e->getMessage(),
+                in_array($e->getCode(), self::$serverErrorCodes) => "Server Error --> " . $e->getMessage().": ".$e->getCode(),
+                default => "Some other Error occurred: --> " . $e->getMessage().": ".$e->getCode(),
+            });
+            return $e;
+        }
+    }
+
+    /**
+     * @throws RequestException
+     */
+    private function handleRequestException(RequestException $e): iterable
+    {
+        $ErrorResponse = $e->response->json();
+
+        $ErrorMessage = "Non-Successful HTTP Status Code: ".$e->response->status()." --> Reason: ";
+
+        $this->addErrors($ErrorMessage . match (true) {
+                $e->response->status() === 403 => "Forbidden Status code. No granted access or invalid token",
+                default => $ErrorResponse['reason'] ?? $ErrorResponse
+            });
+
+        $contentPattern = substr(self::API_ENDPOINTS['content']['route'], 0, strpos(self::API_ENDPOINTS['content']['route'], ":") + 1 );
+        $multipleContentEndpoint = preg_match("#".$contentPattern."([a-fA-F0-9]{40}|[a-fA-F0-9]{64})/[a-z]+#i", $e->response->effectiveUri()->getPath());
+
+        $e->response->throwIf( !$multipleContentEndpoint );
+
+        return $e->response->json();
+    }
+
+    /**
+     * @param string $method
+     * @param string $uri
+     * @param ...$options
+     * @return Response
+     */
+    public function invokeHTTP(string $method, string $uri, ...$options): Response
+    {
+        $method = Str::lower($method);
+        return Http::withOptions(
+            [
+                'delay' => $options["delay"] ?? 0,
+                'debug' => $options["debug"] ?? false,
+                'decode_content' => 'gzip',
+                'version' => '1.1',
+                'http_errors' => true,
+                'verify' => true,
+                'force_ip_resolve' => 'v4',
+                'allow_redirects' => ['max' => 2, 'protocols' => ['https'], 'track_redirects' => true],
+            ])
+            ->timeout($options["timeout"] ?? 3)
+            ->connectTimeout($options["connectTimeout"] ?? 3)
+            ->retry($options["retry"] ?? 3, $options["sleepMS"] ?? 500)
+            ->$method($uri);
+    }
+
+    /**
+     * @param string $method
+     * @param string $URI
+     * @return bool|Throwable
+     */
+    public function isHttpMethodAllowed(string $method, string $URI): bool|Throwable
+    {
+        try{
+            self::addLogs("Checking HTTP Method: " . $method . " on --> " . $URI);
+
+            $response = $this->HTTPRequest->head($URI);
+
+            $allowHeader = $response->header('Allow');
+
+            if (!Str::contains($allowHeader, Str::upper($method))) {
+                throw new Exception("HTTP method '$method' is not allowed on this endpoint", 405);
+            }
+
+            self::addLogs("Method '$method' is allowed on this route");
+            return true;
+
+        }catch(RequestException $e){
+            $this->addErrors("HEAD Test didn't pass on this given route: ".$e->response->status());
+            return $e;
+        }catch(Exception $e){
+            $this->addErrors($e->getCode() . " : " .$e->getMessage());
+            return $e;
+        }
+    }
+
+}
+
+
+
+
+

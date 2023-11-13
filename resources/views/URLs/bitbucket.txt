@@ -1,0 +1,24 @@
+<strong>Bitbucket</strong>
+<pre class='pre-scrollable-large'>
+
+< Branch | Revisions | Directories >
+
+ https://bitbucket.org/userName/repoName/src/
+    {branch_name}/[ {path} ]
+    ┃
+    {sha1_git}/{sha1_path}
+
+   {sha1_git}  ➜ 20-bytes hash (40-character hex string)
+
+   {sha1_path} ➜ {path}?at={branch_name}
+
+   {branch_name} ➜ master ┃ URL-Encoded
+
+   {path} ➜ /{dir_name}/../{file_name}/ ┃ /{file_name}/
+   {dir_name}, {file_name} ➜  URL-Encoded
+
+-------
+Ticket:
+-------
+https://github.com/dagstuhl-publishing/faircore4eosc/issues/129
+</pre>
