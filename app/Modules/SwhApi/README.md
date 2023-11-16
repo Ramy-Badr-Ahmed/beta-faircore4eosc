@@ -4,8 +4,8 @@ LZI has developed this API client and connector as part of the FAIR4CoreEOSC pro
 The functionality and use-cases are based upon the Software Heritage workflow provided as the server-side of communications.
 
 
-| Project Tracking | https://github.com/orgs/dagstuhl-publishing/projects/8  |
-|------------------|---|
+| Project Tracking | https://github.com/orgs/dagstuhl-publishing/projects/8 |
+|------------------|--------------------------------------------------------|
 
 ## API Principles
 
@@ -45,37 +45,36 @@ The following settings are related to the base connection classes:
 
     * `HTTPClient`: Initialises a [`PendingRequest`](https://laravel.com/api/9.x/Illuminate/Http/Client/PendingRequest.html) instance with essential configurations for outgoing calls and defines the expected SWH endpoints.
     * `SyncHTTP`: Invokes synchronous HTTP calls and can receive multiple modifiable configurations.
-      
-      > [!Note]
+
       > Asynchronous calls can be handled with [`Laravel Queues`](https://laravel.com/docs/10.x/queues). At the time of writing, SWH does not support such a pattern on the server-side.
 
 - #### Default Configurations
 
 The following configs are pre-configured in the `API Client` for all outgoing requests to SWH:
 
-| Config              | Value                                                                                 | Notes                                                                                                                                                                                                                                                                                                                     |
-|---------------------|---------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `accept`            | `application/json`                                                                    | - Specify the content type expected in SWH response to initiated requests.                                                                                                                                                                                                                                                |
-| `decode_content`    | `gzip`                                                                                | - Pass `gzip` as the `Accept-Encoding` header. <br/>- Allows data transfer compression.                                                                                                                                                                                                                                   |
-| `debug`             | `false`                                                                               | - Enable debug output (`cURL` verbose of `CURLOPT_VERBOSE` will be emitted).                                                                                                                                                                                                                                              |
-| `delay`             | `0`                                                                                   | - The number of milliseconds to delay before sending requests to SWH.                                                                                                                                                                                                                                                     |
-| `allow_redirects`   | - `max: 1`<br/>- `strict: true`<br/>- `protocols: https`<br/>-`track_redirects: true` | - Describes the redirect behaviour to SWH request: <br/>- Maximum number of allowed redirects.<br/>- use `strict` RFC compliant redirects.<br/>- Allowed protocol for redirect requests.<br/>- Redirected URI and status code are tracked in headers(`X-Guzzle-Redirect-History` and `X-Guzzle-Redirect-Status-History`). |
-| `force_ip_resolve`  | `v4`                                                                                  | - Enforces ipv4 protocol only.                                                                                                                                                                                                                                                                                            |
-| `verify`            | `true`                                                                                | - Enables SSL certificate verification of SWH.<br/>- Uses the default CA bundle provided by OS.                                                                                                                                                                                                                           |
-| `version`           | `1.1`                                                                                 | - HTTP Protocol version to use with the request.                                                                                                                                                                                                                                                                               |
-| `synchronous`       | `true`                                                                                | - Inform HTTP handlers that waiting on SWH response is expected                                                                                                                                                                                                                                                           |
+| Config             | Value                                                                                 | Notes                                                                                                                                                                                                                                                                                                                     |
+|--------------------|---------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `accept`           | `application/json`                                                                    | - Specify the content type expected in SWH response to initiated requests.                                                                                                                                                                                                                                                |
+| `decode_content`   | `gzip`                                                                                | - Pass `gzip` as the `Accept-Encoding` header. <br/>- Allows data transfer compression.                                                                                                                                                                                                                                   |
+| `debug`            | `false`                                                                               | - Enable debug output (`cURL` verbose of `CURLOPT_VERBOSE` will be emitted).                                                                                                                                                                                                                                              |
+| `delay`            | `0`                                                                                   | - The number of milliseconds to delay before sending requests to SWH.                                                                                                                                                                                                                                                     |
+| `allow_redirects`  | - `max: 1`<br/>- `strict: true`<br/>- `protocols: https`<br/>-`track_redirects: true` | - Describes the redirect behaviour to SWH request: <br/>- Maximum number of allowed redirects.<br/>- use `strict` RFC compliant redirects.<br/>- Allowed protocol for redirect requests.<br/>- Redirected URI and status code are tracked in headers(`X-Guzzle-Redirect-History` and `X-Guzzle-Redirect-Status-History`). |
+| `force_ip_resolve` | `v4`                                                                                  | - Enforces ipv4 protocol only.                                                                                                                                                                                                                                                                                            |
+| `verify`           | `true`                                                                                | - Enables SSL certificate verification of SWH.<br/>- Uses the default CA bundle provided by OS.                                                                                                                                                                                                                           |
+| `version`          | `1.1`                                                                                 | - HTTP Protocol version to use with the request.                                                                                                                                                                                                                                                                          |
+| `synchronous`      | `true`                                                                                | - Inform HTTP handlers that waiting on SWH response is expected                                                                                                                                                                                                                                                           |
 
 - #### Default Throwables (Exceptions)
 
 The following `Exceptions` are caught (and `returned` gracefully to the invoking methods) by the `API Client` regardless to SWH endpoints:
 
-| Exception                   | On                                                                                                                        | Notes                                                                                                            |
-|-----------------------------|---------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------|
-| `RequestException`       | Client-side errors                                                                                                              | `e.g.` All 400-level errors except SWH-endpoints-related errors `(e.g., 400, 404)`; these will be reported individually per SWH endpoint, see class methods below |
-| `GuzzleRequestException` | Internal errors                                                                                                            | `e.g.` Configuration Errors                                                                                      |
-| `ConnectionException`    | Internal errors                                                                                                            | `e.g.` Configuration Errors/loss of connectivity, ..                                                             |
-| `ValidationException`    | Non-valid `URL/SHA1`                                                                                                      | `e.g.` Non-valid parameters expected by SWH endpoints before invoking a SWH call                                 |
-| `Exception`              | - SWH Server-side errors<br/>- HTTP Method mismatch <br/>- Invalid/Unsupported SWH endpoint <br/>- All other errors | `e.g.` All 500-level Errors, Unexpected, ..                                                                      |
+| Exception                | On                                                                                                                  | Notes                                                                                                                                                             |
+|--------------------------|---------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `RequestException`       | Client-side errors                                                                                                  | `e.g.` All 400-level errors except SWH-endpoints-related errors `(e.g., 400, 404)`; these will be reported individually per SWH endpoint, see class methods below |
+| `GuzzleRequestException` | Internal errors                                                                                                     | `e.g.` Configuration Errors                                                                                                                                       |
+| `ConnectionException`    | Internal errors                                                                                                     | `e.g.` Configuration Errors/loss of connectivity, ..                                                                                                              |
+| `ValidationException`    | Non-valid `URL/SHA1`                                                                                                | `e.g.` Non-valid parameters expected by SWH endpoints before invoking a SWH call                                                                                  |
+| `Exception`              | - SWH Server-side errors<br/>- HTTP Method mismatch <br/>- Invalid/Unsupported SWH endpoint <br/>- All other errors | `e.g.` All 500-level Errors, Unexpected, ..                                                                                                                       |
 
 - #### Accessing Errors (Exceptions) through any instantiated class object, `$obj`
 
@@ -108,10 +107,10 @@ The following configs can be tweaked on different levels:
 | `fileTimestamp`     | `bool`                  | - Allows temporarily logging to a timestamped file.<br/> - Default: `false` Stored under `(storage/logs/swhAPI.log)`                                   | Class  |
 | `responseType`      | `collect\|object\|json` | - Receives SWH response in one of these types <br/>- `Collection`<br/>- `Object`<br/>- `Array (default)`                                               | Class  |
 | `echoFlag`          | `bool`                  | - Allows echoing output to `stdout` in the opened tinker session                                                                                       | Class  |
-| `timeout`           | `5`                     | - The maximum number of _seconds_ to wait while trying to connect to SWH<br/><br/>- Throws `ConnectionException` when exhausted.                         | Class  |
-| `connectTimeout`    | `5`                     | - The maximum number of _seconds_ to wait for a SWH response.                                                                                            | Class  |
+| `timeout`           | `5`                     | - The maximum number of _seconds_ to wait while trying to connect to SWH<br/><br/>- Throws `ConnectionException` when exhausted.                       | Class  |
+| `connectTimeout`    | `5`                     | - The maximum number of _seconds_ to wait for a SWH response.                                                                                          | Class  |
 | `retry`             | `5`                     | - Attempt retries if there has been `connectionException` or <br/>`$e->response->status() >= 500`<br/><br/>- Throws `RequestException` when exhausted. | Class  |
-| `sleepMilliseconds` | `5000`                  | - The number of _milliseconds_ to wait in between retry attempts.                                                                                        | Class  |
+| `sleepMilliseconds` | `5000`                  | - The number of _milliseconds_ to wait in between retry attempts.                                                                                      | Class  |
 
 ### A) Class-level Options:
 
@@ -176,8 +175,8 @@ This class reveals information regarding software origins as stored in SWH.
 >>- `$url: <string>` the origin url
 >>- `...$options: named parameters` [Configs](https://github.com/dagstuhl-publishing/beta-faircore4eosc/edit/main/app/Modules/SwhApi/README.md#preset-configurations)
 
-| `Issues Tracking` | https://github.com/dagstuhl-publishing/faircore4eosc/issues/14  |
-|------------------|---|
+| `Issues Tracking` | https://github.com/dagstuhl-publishing/faircore4eosc/issues/14 |
+|-------------------|----------------------------------------------------------------|
 
 Instantiate an origin object for the desired repository URL:
 
@@ -191,8 +190,7 @@ Instantiate an origin object for the desired repository URL:
 > #### SwhOrigins Methods:
 
 - Get `ori` ID of the given URL in the SWH archive.
-
-    > [!NOTE]
+ 
     > `oriID` is not part of SWH identifiers specification. It's used internally for the `graph` endpoint.
 
 | `Class` Method            | Returns                                                        | `SWH` Endpoint  | `HTTP` Method |
@@ -215,9 +213,9 @@ Instantiate an origin object for the desired repository URL:
 
 - Retrieve all data from the `origin` endpoint of the given URL in the SWH archive.
   
-| `Class` Method                 | Method `$options` (defaults)                                                                             | Returns                                                                             | `SWH` Endpoint  | `HTTP` Method |
-|--------------------------------|--------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------|---------------|-------------|
-| `getFullOrigin([...$options])` | Named Parameters: <br/>- `withHeaders: bool (false)`<br/>- `delay: ms (0)`<br/>- `debug: bool (false)` | - `Iterable\|Collection\|stdClass`<br/>- `Throwable: RequestException \| Exception` | [`origin`](https://docs.softwareheritage.org/devel/swh-web/uri-scheme-api.html#get--api-1-origin-(origin_url)-get-) | GET         |
+| `Class` Method                 | Method `$options` (defaults)                                                                           | Returns                                                                             | `SWH` Endpoint                                                                                                      | `HTTP` Method |
+|--------------------------------|--------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------|---------------|
+| `getFullOrigin([...$options])` | Named Parameters: <br/>- `withHeaders: bool (false)`<br/>- `delay: ms (0)`<br/>- `debug: bool (false)` | - `Iterable\|Collection\|stdClass`<br/>- `Throwable: RequestException \| Exception` | [`origin`](https://docs.softwareheritage.org/devel/swh-web/uri-scheme-api.html#get--api-1-origin-(origin_url)-get-) | GET           |
 
   
 ```php
@@ -279,8 +277,8 @@ This class reveals information regarding SWH visits on software origins and rela
 >>- `$url: <string>` the origin url
 >>- `...$options: named parameters` [Configs](https://github.com/dagstuhl-publishing/beta-faircore4eosc/edit/main/app/Modules/SwhApi/README.md#preset-configurations)
 
-| `Issues Tracking` | https://github.com/dagstuhl-publishing/faircore4eosc/issues/14  |
-|------------------|---|
+| `Issues Tracking` | https://github.com/dagstuhl-publishing/faircore4eosc/issues/14 |
+|-------------------|----------------------------------------------------------------|
 
 Instantiate a visit object for the desired repository URL:
 
@@ -295,9 +293,8 @@ Instantiate a visit object for the desired repository URL:
 > #### SwhVisits Methods:
 
 - Get all performed visits' data by SWH on an origin.
-  
-  > [!NOTE]
-  > This method follows pagination internally depending on the Link Header.
+
+    > This method follows pagination internally depending on the Link Header.
 
 | `Class` Method                | Method `$options` (defaults)                                                                          | Returns                                                                             | `SWH` Endpoint                                                                                                         | `HTTP` Method |
 |-------------------------------|-------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------|---------------|
@@ -324,7 +321,6 @@ Instantiate a visit object for the desired repository URL:
 
 - Show all visits data with the SWH `full` visit status only.
 
-  > [!NOTE]
   > This method follows pagination internally depending on the Link Header.
 
 | `Class` Method                      | Method `$options` (defaults)                                                                          | Returns                                                                             | `SWH` Endpoint                                                                                                         | `HTTP` Method |
@@ -363,8 +359,7 @@ Instantiate a visit object for the desired repository URL:
 ```
 
 - Show all visits having distinct snapshots.
-
-  > [!NOTE]
+ 
   > This method follows pagination internally depending on the Link Header.
 
 | `Class` Method                            | Method `$options` (defaults)                                                                          | Returns                                                                             | `SWH` Endpoint                                                                                                         | `HTTP` Method |
@@ -389,7 +384,6 @@ Instantiate a visit object for the desired repository URL:
 
 - Show the very _last_ `full` visit from the swh visits list (data) of an origin.
 
-  > [!NOTE]
   > This method follows pagination internally depending on the Link Header.
 
 | `Class` Method                       | Method `$options` (defaults)                                                                          | Returns                                                                             | `SWH` Endpoint                                                                                                         | `HTTP` Method |
@@ -441,7 +435,6 @@ Instantiate a visit object for the desired repository URL:
 
 - Generate all tree root nodes (`snapshots`) keyed by the corresponding timestamp.
 
-    > [!NOTE]
     > This method follows pagination internally depending on the Link Header.
 
 | `Class` Method                             | Method `$options` (defaults)                                                                                                              | Returns                                                                             | `SWH` Endpoint                                                                                                         | `HTTP` Method |
@@ -460,7 +453,6 @@ Instantiate a visit object for the desired repository URL:
 
 - Get a specific `snp` core ID from the visits list based on a visit date/identifier.
 
-  > [!NOTE]
   > This method follows pagination internally depending on the Link Header.
 
 | `Class` Method                         | Method Arguments                                                                                                      | Returns                                                        | `SWH` Endpoint                                                                                                           | `HTTP` Method |
@@ -484,7 +476,6 @@ Instantiate a visit object for the desired repository URL:
 
 - Get a specific `snp` core ID for a given visit specified by its identifier or order in the visit list.
 
-  > [!NOTE]
   > This method follows pagination internally depending on the Link Header.
 
 | `Class` Method            | Method Arguments                                                                                | Returns                                                        | `SWH` Endpoint                                                                                                                                                                                                                                                                                                                                  | `HTTP` Method |
@@ -512,7 +503,6 @@ Instantiate a visit object for the desired repository URL:
 
 - Build tree nodes from all roots (snapshots) for the given origin keyed by the corresponding SWH object type.
 
-    > [!NOTE]
     > This can take time for dense repositories. The method ignores revision log.
 
 | `Class` Method     | Returns                                                       | `SWH` Endpoint                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | `HTTP` Method |
@@ -609,8 +599,7 @@ Instantiate a node object for any SWH object (`snapshot`, `revision`, `release`,
 ```
 
 - Get all information of the given node.
-  
-  > [!NOTE]
+
   > This method follows pagination internally depending on the Link Header.
 
 | `Class` Method            | Method `$options` (defaults)                                                                          | Returns                                                                             | `SWH` Endpoint                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       | `HTTP` Method |
@@ -714,8 +703,7 @@ $nodeObject->nodeEdges()
 
 
 - Get a specific node from the set of edges by its name. Depending on node type, the target name may refer to `branch`, `directory`, `file`, `tag`, etc.
-  
-    > [!NOTE]
+
     > This method resolves the child node directly to its nodeID (`SWHID/SwhObject`).
 
 | `Class` Method                | Method Arguments       | Returns                                                                                                            | `SWH` Endpoint                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       | `HTTP` Method |
@@ -772,8 +760,7 @@ $nodeObject->nodeEdges()
 ```
 
 - Traverse to a specific target node.
-  
-    > [!NOTE]
+
     > This method resolves the child node directly to its nodeID (`SWHID/SwhObject`).
     > 
     > For snapshot nodes, this method expects an array of two queues as described in [`traverseFromSnp`](#vi-treetraversal)
@@ -838,7 +825,6 @@ Abstract class usage:
 
 - Get all data of a `Snapshot` per its identifier.
 
-    > [!NOTE]
     > This method follows pagination and builds the entire node contents.
 
 | `Class static` Method                    | Method Arguments                                            | Method `$options` (defaults)                                                                          | Returns                                                                             | `SWH` Endpoint                                                                                                         | `HTTP` Method |
@@ -971,7 +957,6 @@ Abstract class usage:
 
 - Resolve a `snapshot` node to one of its edges as given by the in-branch name (default: `main/master` or what `HEAD` points to). `Null` is returned if target doesn't exist.
 
-  > [!NOTE]
   > This method follows pagination and searches the entire node contents for the requested child node.
 
 | `Class static` Method                       | Method Arguments                                                                                                                                                          | Returns                                                                                  | `SWH` Endpoint                                                                                                       | `HTTP` Method |
@@ -1056,7 +1041,6 @@ Abstract class usage:
 
 - Resolve a `release` node to its direct edge (`rev/rel`). As per SWH docs, `Release` nodes can branch into another `release` or directly to `revision` nodes.
 
-    > [!NOTE]
     > If `revID` is eventually sought, then traversing (see `TreeTraversal` class) to the `revision` node is relevant instead, `traverseFromRelToRev()`.  
 
 | `Class static` Method        | Method Arguments                                           | Returns                                                                     | `SWH` Endpoint                                                                                                  | `HTTP` Method |
@@ -1123,7 +1107,6 @@ TreeEdges::getNextNodeFromDir('swh:1:dir:2f987353e99c0ad90ab0de0b5cf9fbbf7f0cd34
 
 - Get all edges of a `snapshot` node keyed by the respective name of children nodes (`tags/pulls/features/branches`).
 
-    > [!NOTE]
     > This method follows pagination to build entire snapshot node edges.
 
 | `Class` Method                           | Method Arguments                                           | Method `$options` (defaults)                                                                          | Returns                                                                             | `SWH` Endpoint                                                                                                       | `HTTP` Method |
@@ -1156,8 +1139,8 @@ TreeEdges::getNextNodeFromDir('swh:1:dir:2f987353e99c0ad90ab0de0b5cf9fbbf7f0cd34
 
 - Get all edges of a `revision` node keyed by the respective name of children nodes (`root-dir/parents-revisions`).
 
-| `Class` Method                           | Method Arguments                                           | Method `$options` (defaults)                                                                          | Returns                                                                             | `SWH` Endpoint                                                                                                       | `HTTP` Method |
-|------------------------------------------|------------------------------------------------------------|-------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------|---------------|
+| `Class` Method                           | Method Arguments                                           | Method `$options` (defaults)                                                                          | Returns                                                                             | `SWH` Endpoint                                                                                                    | `HTTP` Method |
+|------------------------------------------|------------------------------------------------------------|-------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------|---------------|
 | `getRevisionEdges($revID[,...$options])` | `<string> $revID:`<br/>- `40-hex-chars`<br/>- `full SWHID` | Named Parameters:<br/>- `withHeaders: bool (false)`<br/>- `delay: ms (0)`<br/>- `debug: bool (false)` | - `Iterable\|Collection\|stdClass`<br/>- `Throwable: RequestException \| Exception` | [`revision`](https://docs.softwareheritage.org/devel/swh-web/uri-scheme-api.html#get--api-1-revision-(sha1_git)-) | GET           |
 
 ```php
@@ -1216,14 +1199,13 @@ Abstract class usage:
 > TreeTraversal::methodName();     // methodName() is prepended with the class name and two colons `::` 
 ```
 
-| `Issues Tracking` | https://github.com/dagstuhl-publishing/faircore4eosc/issues/64  |
-|------------------|---|
+| `Issues Tracking` | https://github.com/dagstuhl-publishing/faircore4eosc/issues/64 |
+|-------------------|----------------------------------------------------------------|
 
 > #### TreeTraversal Methods:
 
 - Traverse from `snapshot` node to any child node, `revision`, `release (resolved to its revision)`, `directory`, `content` specified by an `Array` of  `Queues` for target nodes.
-
-    > [!NOTE]
+ 
     > This method resolves the children nodes directly to their nodeIDs (`SWHIDs/SwhObjects`).
     > 
     > This method amends automatically the `branchName` key if part of the `branch` name is appended to the `path` key instead. i.e. the path queue pushes entries to the branch queue on demand.
@@ -1281,8 +1263,7 @@ Abstract class usage:
 ```
 
 - Traverse from `revision` node to a child node (`directory/content`) specified by its path relative the root directory (i.e. direct `revision` edge).
-  
-    > [!NOTE]
+
     > This method resolves the child node directly to its nodeID (`SWHID/SwhObject`).
 
 | `Class static` Method             | Method Arguments                                                                                                                                           | Returns                                                                     | `SWH` Endpoints                                                                                                                       | `HTTP` Method |
@@ -1326,7 +1307,6 @@ Abstract class usage:
 
 - Traverse from `revision` node to a child node (`directory/content`) specified by its path relative the root directory (direct `revision` edge).
 
-  > [!NOTE]
   > This method retrieves the full child node (akin to node Hopping).
 
 | `Class static` Method                             | Method Arguments                                                                                                                                           | Method `$options` (defaults)                                                                          | Returns                                                                             | `SWH` Endpoint                                                                                                                       | `HTTP` Method |
@@ -1342,8 +1322,7 @@ Abstract class usage:
 ```
 
 - Traverse from `release` node to the `revision` child node.
-  
-  > [!NOTE]
+
   > This method resolves the `release` node directly to the `revision` it finally points (can track multiple releases till its final `revision` node).
   
 | `Class static` Method          | Method Arguments                                           | Returns                                                                     | `SWH` Endpoint                                                                                                  | `HTTP` Method |
@@ -1360,7 +1339,6 @@ Abstract class usage:
 
 - Traverse from `directory` node to a child node (`subdirectory/content`) specified by its path relative the root directory.
 
-  > [!NOTE]
   > This method resolves the child node directly to its nodeID (`SWHID/SwhObject`).
 
 | `Class static` Method             | Method Arguments                                                                                                                                         | Returns                                                                     | `SWH` Endpoint                                                                                                                 | `HTTP` Method |
@@ -1398,7 +1376,6 @@ Abstract class usage:
 
 - Traverse from `directory` node to a child node (`subdirectory/content`) specified by its path relative the root directory.
 
-  > [!NOTE]
   > This method retrieves the full child node data which bundles all `directory` contents under `target` ID (from which such directory contents can be further expanded).
 
 | `Class static` Method                             | Method Arguments                                                                                                                                         | Method `$options` (defaults)                                                                          | Returns                                                                             | `SWH` Endpoint                                                                                                               | `HTTP` Method |
@@ -1418,7 +1395,6 @@ Abstract class usage:
 
 - Traverse from `snapshot` to historical commit (from revisions log) given the sha1 for the commit. It returns the commit hash as `revision` ID if exists, else returns `Null`.
 
-  > [!NOTE]
   > This method follows `snapshot` pagination and interacts with the BFS traversal on the revision graph.
 
 | `Class static` Method                         | Method Arguments                                                                                                        | Returns                                                                                  | `SWH` Endpoint                                                                                                                                                                                           | `HTTP` Method |
@@ -1439,7 +1415,6 @@ Abstract class usage:
 
 - Traverse from `revision` to historical commit (from revisions log) given the sha1 for the commit. It returns the commit hash as `revision` ID if exists, else returns `Null`.
 
-  > [!NOTE]
   > This method interacts with the BFS traversal on the revision graph.
 
 | `Class static` Method                         | Method Arguments                                                                                                        | Returns                                                                                  | `SWH` Endpoint                                                               | `HTTP` Method |
@@ -1570,7 +1545,6 @@ Instantiate archive objects for desired repositories w/o paths in their URL:
 
 - Whilst archiving, retrieve current status data of the archival request per its date or identifier.
 
-  > [!NOTE]
   > If at the time of retrieval the archival has been finished: 
   > 
   > - This method automatically propagates the detected `nodeHits`.
@@ -1601,7 +1575,6 @@ Instantiate archive objects for desired repositories w/o paths in their URL:
 
 - Continuously request status data of an archival request till archival has been finished (i.e. `save_task_status` returns `succeeded`).
 
-    > [!NOTE]
     > This method tracks the archival progress and automatically propagates the detected `nodeHits` after successful archival.
     >
     > This method builds a list of SwhIDs (keyed: `swh_id_list`) as well as contextual IDs (keyed `contextual_swh_ids`) in its final output.
@@ -1650,7 +1623,6 @@ Instantiate archive objects for desired repositories w/o paths in their URL:
 
 - Retrieve the data of the latest archival attempt for a given SW origin in SWH (regardless to a self-submitted archival request)
 
-    > [!NOTE]
     > This method automatically propagates the detected `nodeHits`.
     > 
     > This method builds a list of SwhIDs (keyed: `swh_id_list`) as well as contextual IDs (keyed `contextual_swh_ids`) in its final output.
@@ -1690,7 +1662,6 @@ Instantiate archive objects for desired repositories w/o paths in their URL:
 
 - Retrieve the root node (`snapshot`) of any successful archival attempt per its date or save request identifier.
 
-    > [!NOTE]
     > This method resolves the latest archival attempt to the root node directly.
 
 | `Class static` Method                         | Method Arguments                                                                                  | Returns                                                                                                                          | `SWH` Endpoint                                                                                                                                        | `HTTP` Method |
@@ -1838,7 +1809,6 @@ Instantiate archive objects for desired repositories w/o paths in their URL:
 
 - Retrieve the root node (`snapshot`) of any successful archival attempt per its save request identifier.
 
-  > [!NOTE]
   > This method resolves the latest archival attempt to the root node directly using the `save` endpoint with identifier.
 
 | `Class static` Method                     | Method Arguments                 | Returns                                                                                                                    | `SWH` Endpoint                                                                                                                       | `HTTP` Method |
@@ -1876,7 +1846,6 @@ Abstract class usage:
 
 - Get metadata for a given `revision` node by its identifier.
 
-    > [!NOTE]
     > `revision` metadata are defined by the following node keys: `message, author, committer, committer_date, type, metadata`.
 
 | `Class static` Method                       | Method Arguments                                             | Method `$options` (defaults)                                                                          | Returns                                                                             | `SWH` Endpoint                                                                                                    | `HTTP` Method |
@@ -1905,7 +1874,6 @@ Abstract class usage:
 
 - Get metadata for a given `release` node by its identifier.
 
-  > [!NOTE]
   > `release` metadata are defined by the following node keys: `message, author, date`.
 
 | `Class static` Method                      | Method Arguments                                              | Method `$options` (defaults)                                                                          | Returns                                                                             | `SWH` Endpoint                                                                                                  | `HTTP` Method |
@@ -1927,7 +1895,6 @@ Abstract class usage:
 
 - Get metadata for a given `content` node by its identifier.
 
-    > [!NOTE]
     > This method retrieves the full `content` data and follows internally the links of `fileType`, `language`, and `license` to build full content node with metaData. 
 
 | `Class static` Method                              | Method Arguments                                             | Method `$options` (defaults)                                                                          | Returns                                                         | `SWH` Endpoint                                                                                                                           | `HTTP` Method |
@@ -1959,7 +1926,6 @@ Abstract class usage:
 
 - Get origin MetaData per its URL
 
-    > [!NOTE]
     > Returns a list of metadata authorities that provided metadata on the given target
     > 
     > Appends the `raw extrinsic metadata` collected on each object to the final results.

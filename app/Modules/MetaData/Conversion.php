@@ -25,9 +25,11 @@ class Conversion
     public const BIBTEX = "bibTex";
     public const BIBLATEX = "bibLaTex";
     public const SUPPORTED_FORMATS = [self::DATACITE, self::BIBLATEX, self::BIBTEX];
+    private const TEX_SEPARATOR = ",\n";
     private const BIBTEX_HEADING = "@misc{";
     private const BIBLATEX_HEADING = "@software{";
     private const BIBLATEX_VERSION_HEADING = "@softwareversion{";
+    private const LATEX_OPENING = "{";
     private const LATEX_CLOSING = "}";
     private static array $readConversions;
     private static array $rules;
@@ -159,7 +161,7 @@ class Conversion
     private static function formatLatexContents(array $latexArray) : string
     {
         return implode('', array_values(Arr::map($latexArray, function ($item, $key){
-            return "\t".$key . str_repeat(' ', 3)."=".str_repeat(' ', 3). "'$item'". ",\n";
+            return "\t".$key . str_repeat(' ', 3)."=".str_repeat(' ', 3). self::LATEX_OPENING.$item.self::LATEX_CLOSING.self::TEX_SEPARATOR;
         })));
     }
 
@@ -182,7 +184,7 @@ class Conversion
 
         $bibtex = self::getLatexContents($compositionOnCodeMeta, imageKeys: $bibTexDirect, codeMetaDirect: $codeMetaDirect, convertedCodeMeta: $convertedCodeMeta);
 
-        return self::BIBTEX_HEADING.$compositionOnCodeMeta["bibtexKey"]."\n".$bibtex.self::LATEX_CLOSING;
+        return self::BIBTEX_HEADING.$compositionOnCodeMeta["bibtexKey"].self::TEX_SEPARATOR.$bibtex.self::LATEX_CLOSING;
 
     }
 
@@ -242,7 +244,7 @@ class Conversion
 
         $bibLaTex = self::getLatexContents($compositionOnCodeMeta, imageKeys: $bibLaTexDirect, codeMetaDirect: $codeMetaDirect, convertedCodeMeta: $convertedCodeMeta);
 
-        $bibLaTex = self::BIBLATEX_HEADING.$compositionOnCodeMeta["bibLaTexKey"]."\n".$bibLaTex.self::LATEX_CLOSING;
+        $bibLaTex = self::BIBLATEX_HEADING.$compositionOnCodeMeta["bibLaTexKey"].self::TEX_SEPARATOR.$bibLaTex.self::LATEX_CLOSING;
 
         if(isset($compositionOnCodeMetaVersion)){
             $bibLaTexVersionArray = $compositionOnCodeMetaVersion;
@@ -251,7 +253,7 @@ class Conversion
 
             $bibLaTexVersion = self::formatLatexContents($bibLaTexVersionArray);
 
-            $bibLaTex .= "\n".self::BIBLATEX_VERSION_HEADING.$compositionOnCodeMetaVersion["bibLaTexSubKey"]."\n".$bibLaTexVersion.self::LATEX_CLOSING;
+            $bibLaTex .= "\n".self::BIBLATEX_VERSION_HEADING.$compositionOnCodeMetaVersion["bibLaTexSubKey"].self::TEX_SEPARATOR.$bibLaTexVersion.self::LATEX_CLOSING;
         }
         return $bibLaTex;
     }
