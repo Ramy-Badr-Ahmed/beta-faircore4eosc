@@ -46,7 +46,7 @@ abstract class Constants
             "step3" => [ 'author.*.givenName',  'author.*.familyName' ]
         ],
         "bibLaTex" => [
-            "step1" => [ 'name', 'dateCreated', 'publisher.url' ],
+            "step1" => [ 'name', 'dateCreated', 'publisher.url', 'dateModified' ],
             "step2" => [ 'identifier' ],
             "step3" => [ 'author.*.givenName', 'author.*.familyName' ]
         ],

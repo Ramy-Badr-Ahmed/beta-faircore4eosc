@@ -706,7 +706,7 @@
                                 },
                                 resizable:true, maxWidth: 140, tooltip:false },
 
-                            { title: 'SWH-IDs', field: 'swhid', headerHozAlign:'center', formatter: 'html', minWidth: 440, frozen:true,
+                            { title: 'SWHIDs', field: 'swhid', headerHozAlign:'center', formatter: 'html', minWidth: 440, frozen:true,
                                 cellClick: ajaxTabulator.swhidCellClicked,
                                 cellMouseEnter: ajaxTabulator.swhCellMouseEnter, cellMouseLeave: ajaxTabulator.swhCellMouseLeave,
                                 headerPopup:"<span style='font-size:1.0em; color: #2578ab; font-weight: bold; font-family: Consolas, sans-serif;'>SWH Core IDs & SWH Contextual IDs</span>",

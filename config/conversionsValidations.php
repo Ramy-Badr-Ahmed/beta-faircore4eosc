@@ -11,6 +11,7 @@ return [
         "bibLaTex" => [
             'name' => 'required',
             'dateCreated' => 'required',
+            'dateModified' => 'required_with:version',
             'publisher.url' => 'required',
             'identifier' => 'required',
             'author.*.givenName' => 'required',
@@ -72,6 +73,7 @@ return [
         "bibLaTex" => [
             'name.required' => 'bibLaTex: The :attribute cannot be empty',
             'dateCreated.required' => 'bibLaTex: Creation date cannot be empty',
+            'dateModified.required_with' => 'bibLaTex: :attribute cannot be empty non-empty version',
             'publisher.url.required' =>'bibLaTex: Publication URL cannot be empty',
             'identifier.required' => 'bibLaTex: The :attribute cannot be empty',
             'author.*.givenName.required' => 'bibLaTex: Author :position firstName cannot be empty',
@@ -130,7 +132,8 @@ return [
         ],
         "bibLaTex" => [
             'name' => 'SW Name used for bibLaTex key',
-            'identifier' => 'identifier used for bibLaTex key'
+            'identifier' => 'identifier used for bibLaTex key',
+            'dateModified' => 'Release Date'
         ],
         "dataCite" => [
             'name' => 'SW Name used for dataCite titles',

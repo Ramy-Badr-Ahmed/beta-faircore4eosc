@@ -12,6 +12,7 @@ use Composer\Spdx\SpdxLicenses;
 use ErrorException;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
@@ -235,12 +236,8 @@ class Conversion
     private function generateBibLaTex(): string
     {
         extract($this->targetConversion);
-         [
-             $convertedCodeMeta,
-             $compositionOnCodeMeta,
-             $compositionOnCodeMetaVersion
-         ]
-             = self::convert2BibLaTex($codeMetaDirect, $codeMetaComposition, $bibLaTexIndirect, $bibLaTexIndirectVersion);
+
+        extract(self::convert2BibLaTex($codeMetaDirect, $codeMetaComposition, $bibLaTexIndirect, $bibLaTexIndirectVersion));
 
         $bibLaTex = self::getLatexContents($compositionOnCodeMeta, imageKeys: $bibLaTexDirect, codeMetaDirect: $codeMetaDirect, convertedCodeMeta: $convertedCodeMeta);
 
@@ -271,14 +268,13 @@ class Conversion
                 'author' => [
                     'names' => implode(' and ', Arr::map($codeMetaValue, function ($authorArray){
                         return $authorArray['familyName'].", ".$authorArray['givenName']; })),
-                    'affiliations' => implode(' and ', Arr::pluck($codeMetaValue, 'affiliation.name'))
+                    'affiliations' => Arr::pluck($codeMetaValue, 'affiliation.name')
                 ],
                 'name', 'description', 'softwareVersion', 'identifier',
                 'version', 'releaseNotes', 'isPartOf'  => $codeMetaValue,
 
                 'downloadUrl', 'url', 'codeRepository', 'readme', 'buildInstructions', 'license' => "\url{{$codeMetaValue}}",
                 'publisher' => Arr::except($codeMetaValue, ["@type"]),
-                'relatedLink' => implode(', ', collect($codeMetaValue)->all()),
                 'dateCreated', 'datePublished', 'dateModified' => array_merge(date_parse($codeMetaValue), ["full" => $codeMetaValue]),
                 'funder' => implode(', ', Arr::pluck(Arr::isAssoc($codeMetaValue) ? [$codeMetaValue] : $codeMetaValue, 'name')),
             };
@@ -291,11 +287,18 @@ class Conversion
 
             "month" => isset($convertedCodeMeta['dateCreated']) ? $convertedCodeMeta['dateCreated']["month"] : null,
 
-            "url" => "\url{".$convertedCodeMeta['publisher']['url']."}",
+            "url" => $convertedCodeMeta['publisher']['url'],
 
             "publisher" => $convertedCodeMeta['publisher']['name'] ?? null,
 
-            "institution" => $convertedCodeMeta['author']['affiliations'] ?? null,
+            "institution" => call_user_func(function ($affiliations){
+
+                /** @var Collection $affiliations */
+                return $affiliations->whereNotNull()->isEmpty()
+                    ? null
+                    : $affiliations->map(fn($val) => $val ?? 'Unknown')->implode(' and ');
+
+            }, collect($convertedCodeMeta['author']['affiliations'])),
 
             "note" => call_user_func(function(...$codeMetaEquivalent){
                                             $note = implode("\n\t", Arr::whereNotNull($codeMetaEquivalent));
@@ -307,28 +310,28 @@ class Conversion
 
             "urldate" => isset($convertedCodeMeta['datePublished']) ? $convertedCodeMeta['datePublished']["full"] : null,
 
-            "bibLaTexKey" => Str::slug($this->codeMetaData['name'], "-").  "__".$convertedCodeMeta['identifier'] ?? ''
+            "bibLaTexKey" => Str::slug($this->codeMetaData['name'], "-").  "__".$convertedCodeMeta['identifier']
         ]));
 
         return array_merge([
-            $convertedCodeMeta,
-            $compositionOnCodeMeta
+            "convertedCodeMeta"     =>  $convertedCodeMeta,
+            "compositionOnCodeMeta" =>  $compositionOnCodeMeta
         ],
             isset($convertedCodeMeta['version'])
                 ? [
-                Arr::whereNotNull(array_combine($bibLaTexIndirectVersion, [
+                "compositionOnCodeMetaVersion" => Arr::whereNotNull(array_combine($bibLaTexIndirectVersion, [
                     "version" => $convertedCodeMeta['version'],
                     "year"    => $convertedCodeMeta['dateModified']["year"],
-                    "month"   => isset($convertedCodeMeta['dateModified']) ? $convertedCodeMeta['dateModified']["month"] : null,
-                    "date"    => isset($convertedCodeMeta['dateModified']) ? $convertedCodeMeta['dateModified']["full"] :  null,
+                    "month"   => $convertedCodeMeta['dateModified']["month"],
+                    "date"    => $convertedCodeMeta['dateModified']["full"],
                     "file"    => $convertedCodeMeta['downloadUrl'] ?? null,
                     "note"    => $convertedCodeMeta['releaseNotes'] ?? null,
                     "introducedin"   => $convertedCodeMeta['isPartOf'] ?? null,
                     "crossref"       => $compositionOnCodeMeta['bibLaTexKey'],
-                    "bibLaTexSubKey" => $compositionOnCodeMeta['bibLaTexKey']."_version_".$convertedCodeMeta['version'] ?? ''
+                    "bibLaTexSubKey" => $compositionOnCodeMeta['bibLaTexKey']."_version_".$convertedCodeMeta['version']
                 ]))
             ]
-                : null
+                : []
         );
     }
 
