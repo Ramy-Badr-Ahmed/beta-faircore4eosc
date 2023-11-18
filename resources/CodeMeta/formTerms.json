@@ -184,7 +184,7 @@
         "expanded":  "<div class=\"vertical-stack\"><span id=\"collapsible-btn1\" ><strong>Expanded</strong> <code>JSON-LD</code> <span class=\"glyphicon glyphicon-retweet\" aria-hidden=\"true\"></span></span><div id=\"HasPa1\" class=\"collapse in\">?</div></div>",
         "compacted": "<div class=\"vertical-stack\"><span id=\"collapsible-btn2\" ><strong>Compacted</strong> <code>JSON-LD</code> <span class=\"glyphicon glyphicon-retweet\" aria-hidden=\"true\"></span></span><div id=\"HasPa2\" class=\"collapse\">?</div></div>",
         "info": "Please indicate if this SW instance has parts (e.g. releases) embodied by this SW instance.",
-        "placeHolder" : "https://doi.org/..",
+        "placeHolder" : "https://..",
         "wireModel" : "formData.hasPart"
     },
     "isPartOf" : {
@@ -195,7 +195,7 @@
         "expanded":  "<div class=\"vertical-stack\"><span id=\"collapsible-btn1\" ><strong>Expanded</strong> <code>JSON-LD</code> <span class=\"glyphicon glyphicon-retweet\" aria-hidden=\"true\"></span></span><div id=\"IsPa1\" class=\"collapse in\">?</div></div>",
         "compacted": "<div class=\"vertical-stack\"><span id=\"collapsible-btn2\" ><strong>Compacted</strong> <code>JSON-LD</code> <span class=\"glyphicon glyphicon-retweet\" aria-hidden=\"true\"></span></span><div id=\"IsPa2\" class=\"collapse\">?</div></div>",
         "info": "Please indicate if this SW instance is part of bigger framework.<br><br>Please fill in the reverse property <code>hasPart</code> accordingly.",
-        "placeHolder" : "https://doi.org/..",
+        "placeHolder" : "https://..",
         "wireModel" : "formData.isPartOf"
     },
     "releaseNotes" : {
