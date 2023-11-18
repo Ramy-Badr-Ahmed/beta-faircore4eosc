@@ -49,13 +49,12 @@ trait Conversions
      */
     private function convertAndValidate(string $format): void
     {
-        if(!isset($this->codeMetaImport)){
-            $this->generateCodeMeta(filteredRules: true);
-            if(session()->has('stepEmpty')) throw ValidationException::withMessages([]);
-        }
+        $this->generateCodeMeta(filteredRules: true);
+
+        if(session()->has('stepEmpty')) throw ValidationException::withMessages([]);
+
         if($format !== 'swhXML'){
-            self::$conversion->codeMetaData = $this->findCodeMetaData();
-            self::$conversion->format = $format;
+            [self::$conversion->codeMetaData , self::$conversion->format] = [$this->findCodeMetaData(), $format];
         }
 
         $formatConverted = $this->validate4Schemes($format);

@@ -31,10 +31,10 @@
     },
     "bibLaTex": {
                 "codeMetaDirect" : [
-                    "name", "description", "identifier" , "downloadUrl", "softwareVersion", "license", "relatedLink", "codeRepository", "funder"
+                    "name", "description", "identifier" , "downloadUrl", "softwareVersion", "license", "codeRepository", "funder"
                 ],
                 "bibLaTexDirect" : [
-                    "title", "abstract", "doi", "file", "version", "license", "related", "repository", "organization"
+                    "title", "abstract", "doi", "file", "version", "license", "repository", "organization"
                 ],
                 "codeMetaComposition" : [
                     "author", "datePublished", "dateCreated", "dateModified", "publisher", "version", "buildInstructions", "readme", "releaseNotes", "isPartOf"
