@@ -38,6 +38,13 @@
                     </a>
                     Bitbucket
                 </p>
+                <p style="margin-bottom: 20px">
+                    <a tabindex="0" role="button" data-toggle="urlPopoverGithub" title="Supported Propagation" data-html="true" data-placement="left"
+                       data-content= "{{$URLPopover['examples']}}">
+                        <i class="glyphicon thin glyphicon-info-sign" style="margin-right: 6px;font-size: 12px"></i>
+                    </a>
+                    Examples
+                </p>
             </div>
         </div>
 

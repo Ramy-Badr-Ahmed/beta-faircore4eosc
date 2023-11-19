@@ -1,0 +1,23 @@
+<pre class='pre-scrollable-large'>
+
+https://github.com/HoTT/HoTT/tree/master/theories/Algebra/AbSES
+
+https://gricad-gitlab.univ-grenoble-alpes.fr/CamiTK/CamiTK
+
+https://github.com/torvalds/linux/pull/797
+
+https://github.com/madvorak/grammars/tree/publish
+
+https://github.com/PowerShell/PowerShell/blob/master/docs/dev-process/breaking-change-contract.md
+
+https://git.uni-jena.de/algo-engineering/blockmodeling
+
+https://github.com/torvalds/linux/releases/tag/v6.7-rc1
+
+https://bitbucket.org/ramydemo/d14/src/master/README.md
+
+https://gitlab.com/georgebissias/BCHUnlimited
+
+https://github.com/tensordiffeq/TensorDiffEq
+
+</pre>
