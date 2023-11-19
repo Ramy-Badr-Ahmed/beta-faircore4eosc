@@ -45,7 +45,7 @@ class Archive extends SyncHTTP implements SwhArchive
 
     private const BITBUCKET = 'bitbucket.org';
 
-    private const GIT_BREAKPOINTS = ["tree", "blob", "releases/tag", "pull", "commit"];
+    private const GIT_BREAKPOINTS = ["tree", "blob", "releases", "pull", "commit"];
 
     private const BITBUCKET_BREAKPOINTS = ["src"];
 
@@ -171,12 +171,10 @@ class Archive extends SyncHTTP implements SwhArchive
         $pathArray[$pos] = preg_replace('/^-/i', $pathArray[$pos+1], $pathArray[$pos]);
 
         $gitBreakpoint  = Arr::first(self::GIT_BREAKPOINTS, function ($val) use($pathArray, $pos){
-            return  $pathArray[$pos] === 'releases'
-                ? Str::is($val, $pathArray[$pos]."/".$pathArray[$pos+1])
-                : Str::is($val, $pathArray[$pos]);
+            return Str::is($val, $pathArray[$pos]);
         });
 
-        $pathArray = explode('/'.$gitBreakpoint.'/', $decomposedURL["path"]);
+        $pathArray = explode('/'. ($pathArray[$pos] === 'releases' ? $gitBreakpoint."/".$pathArray[$pos+1] : $gitBreakpoint) .'/', $decomposedURL["path"]);
 
         $this->url = sprintf('%s://%s%s', $decomposedURL['scheme'], $decomposedURL['host'], Str::of($pathArray[0])->replaceMatches('/-$/', ""));
         return $pathArray[1];
