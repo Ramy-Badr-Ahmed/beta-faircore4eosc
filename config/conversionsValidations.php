@@ -73,7 +73,7 @@ return [
         "bibLaTex" => [
             'name.required' => 'bibLaTex: The :attribute cannot be empty',
             'dateCreated.required' => 'bibLaTex: Creation date cannot be empty',
-            'dateModified.required_with' => 'bibLaTex: :attribute cannot be empty non-empty version',
+            'dateModified.required_with' => 'bibLaTex: :attribute cannot be empty with non-empty version',
             'publisher.url.required' =>'bibLaTex: Publication URL cannot be empty',
             'identifier.required' => 'bibLaTex: The :attribute cannot be empty',
             'author.*.givenName.required' => 'bibLaTex: Author :position firstName cannot be empty',

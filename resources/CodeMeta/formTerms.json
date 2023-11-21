@@ -347,8 +347,8 @@
         "compacted-JSON-LD": "<pre class='pre-scrollable'>{\n  \"schema.org/identifier\": {\n    \"@id\": \"value\"\n  }\n}</pre>",
         "expanded":  "<div class=\"vertical-stack\"><span id=\"collapsible-btn1\" ><strong>Expanded</strong> <code>JSON-LD</code> <span class=\"glyphicon glyphicon-retweet\" aria-hidden=\"true\"></span></span><div id=\"Iden1\" class=\"collapse in\">?</div></div>",
         "compacted": "<div class=\"vertical-stack\"><span id=\"collapsible-btn2\" ><strong>Compacted</strong> <code>JSON-LD</code> <span class=\"glyphicon glyphicon-retweet\" aria-hidden=\"true\"></span></span><div id=\"Iden2\" class=\"collapse\">?</div></div>",
-        "info": "Please provide an identifier for your SW application, if any.<br><br>Examples: doi, etc.",
-        "placeHolder" : "ISBNs, UUIDs, DOIs, etc.",
+        "info": "Please provide an identifier for your SW application, if any.<br><br>Examples: doi, full link of a SWH resolver etc.",
+        "placeHolder" : "DOIs, Full SWHIDs Link etc.",
         "wireModel" : "formData.identifier"
     },
     "referencePublication" : {

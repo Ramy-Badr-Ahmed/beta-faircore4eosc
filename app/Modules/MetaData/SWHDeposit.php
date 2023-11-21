@@ -125,7 +125,7 @@ class SWHDeposit
                 }
                 return is_int($key)
                     ? $key
-                    : "codeMeta:".$key;
+                    : "codemeta:".$key;
             })
             ->combine($codeMetaData)
 
