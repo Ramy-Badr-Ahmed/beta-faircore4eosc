@@ -5,7 +5,7 @@
 
 @section('headline', 'LZI — WP6.2 — Beta')
 
-@section('subtitle') <h4 style="letter-spacing: 2px">Feedback Form</h4> @endsection
+@section('subtitle') <h4 style="letter-spacing: 2px">Feedback/Corrections/Bugs ?</h4> @endsection
 
 @section('main')
 
@@ -42,7 +42,7 @@
                         <div class="form-group @if($errors->feedbackForm->has('subject')) has-error @endif">
                             <label class="control-label col-md-2" for="subject">Subject</label>
                             <div class="col-md-6">
-                                <select name="subject" id="subject" class="form-control">
+                                <select name="subject[]" id="subject" class="form-control" multiple size = 10>
                                     <option value="None" selected="selected" disabled>Please select</option>
                                     <optgroup label="Archive - Reference">
                                         <option value="Tree-View" >Tree-View</option>
@@ -58,6 +58,7 @@
                                         <option value="DataCite">DataCite</option>
                                     </optgroup>
                                 </select>
+                                <span>Multiple selections possible</span>
 
                                 @if($errors->feedbackForm->has('subject'))
                                     <span class="help-block">{{ $errors->feedbackForm->first('subject') }} </span>

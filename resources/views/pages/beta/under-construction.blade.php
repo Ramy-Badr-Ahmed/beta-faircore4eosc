@@ -18,7 +18,7 @@
     <div class="container-fluid" style="margin-top: 30px; border: none">
         <div class="row">
             <div class="col-md-12 text-center" style="letter-spacing: 1px; font-weight: bold; margin-bottom: 30px">
-                LZI — SWH API Principles
+                I) LZI — SWH API Principles
             </div>
         </div>
         <hr style="margin-bottom:50px; border-top-color: rgba(126, 183, 196, 0.46);"/>
@@ -51,12 +51,24 @@
                 </figure>
             </div>
         </div>
+        <div class="row text-center">
+            <div class="col-md-12" style="border: none">
+                <figure>
+                    <img src="{{url('/images/DAG.svg')}}" width="50%" height="60%" alt="swh-merkle-dag-model" title="swh-merkle-dag">
+                    <figcaption class="text-center" style="font-weight: bold; letter-spacing: 0.04em; margin-top: 10px; color: #229ad7">
+                        Topology of the Software Heritage Merkle DAG
+                    </figcaption>
+                </figure>
+            </div>
+        </div>
     </div>
     <hr style="margin-bottom:50px; border-top-color: rgba(126, 183, 196, 0.46);"/>
     <div class="row">
       <div class="col-md-12 text-center" style="letter-spacing: 1px; font-weight: bold; margin-bottom: 30px">
-             <i class="glyphicon glyphicon-new-window" style="margin-right: 6px;font-size: 14px"></i>
-             <a href="https://github.com/dagstuhl-publishing/beta-faircore4eosc/blob/main/app/Modules/SwhApi/README.md" target='_blank' rel='noopener noreferrer'>Documentation</a>
+             <a href="https://github.com/dagstuhl-publishing/beta-faircore4eosc/blob/main/app/Modules/SwhApi/README.md" target='_blank' rel='noopener noreferrer'>
+                 II) API Documentation
+             </a><i class="glyphicon glyphicon-new-window" style="margin: auto 6px;font-size: 14px"></i>
+
       </div>
     </div>
 

@@ -163,8 +163,8 @@ class SoftwareHeritageController extends Controller
             $mailData = [
                 'user' => $request->input('user'),
                 'email' => $request->input('email'),
-                'subject' => 'Feedback Form --> '.$request->input('subject'),
-                'message' => $request->input('textarea'),
+                'subject' => 'Feedback Form --> '.implode(', ',$request->input('subject')),
+                'message' => $request->input('message'),
             ];
 
             Mail::to(env('MAIL_FROM_ADDRESS'))->send(new EOSCMailer($mailData));
