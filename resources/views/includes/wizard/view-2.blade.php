@@ -39,9 +39,12 @@
                 <i class="glyphicon glyphicon-search text-info"></i>
             </div>
             <div class="flex-Error-msg">
-                <span class="-msg">Known to Software Heritage: <i class="hidden" wire:loading.class.remove="hidden">Checking ...</i><i wire:loading.class.add="hidden">{{var_export($isKnown, true)}}</i></span>
+                <span class="-msg">Known to Software Heritage:
+                    <i class="hidden" wire:loading.class.remove="hidden">Checking ...</i>
+                    <i wire:loading.class.add="hidden">{{var_export($isKnown, true)}}</i>
+                </span>
 
-                <button @class(["btn", "btn-xs", "btn-info", "-btn", "-btn-effect", "hide" => $isKnown === false || !isset($isKnown)])
+                <button @class(["btn", "btn-xs", "btn-info", "-btn", "-btn-effect", "hide" => $isKnown === true || !isset($isKnown)])
                     wire:click.prevent="archiveNow()" wire:loading.attr="disabled">
                         <span class="glyphicon glyphicon-flag" aria-hidden="true" style="padding-right: 5px"></span>Archive it!
                 </button>

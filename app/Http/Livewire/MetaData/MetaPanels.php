@@ -329,7 +329,7 @@ class MetaPanels extends Component
     }
 
     /**
-     * @throws Exception
+     * @throws ValidationException
      */
     public function archiveNow(): void
     {
