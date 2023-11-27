@@ -73,4 +73,6 @@ trait Properties
     public ?string $github = Null;
     public ?string $zenodo = Null;
     public ?array $sessionValidationErrors = Null;
+    public ?bool $isKnown = Null;
+    public ?bool $archivalRunning = Null;
 }

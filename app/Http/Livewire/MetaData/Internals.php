@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\MetaData;
 
+use App\Modules\SwhApi\SwhOrigins;
 use DOMException;
 use ErrorException;
 use Illuminate\Support\Arr;
@@ -398,6 +399,13 @@ trait Internals
         }), function ($val){
             return $val[1];
         });
+    }
+
+    private function isKnown2SWH(): bool
+    {
+        $swh = new SwhOrigins($this->formData['codeRepository']);
+
+        return is_bool($swh->originExists());
     }
 
     /**

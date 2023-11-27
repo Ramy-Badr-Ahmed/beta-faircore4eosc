@@ -2,9 +2,12 @@
 
 namespace App\Http\Livewire\MetaData;
 
+use App\Models\SoftwareHeritageRequest;
 use App\Models\SwMetaForm;
+use App\Modules\SwhApi\Archive;
 use DOMException;
 use ErrorException;
+use Exception;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
@@ -16,6 +19,7 @@ use JetBrains\PhpStorm\NoReturn;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Livewire\Component;
 use Throwable;
+use UnhandledMatchError;
 
 class MetaPanels extends Component
 {
@@ -321,6 +325,31 @@ class MetaPanels extends Component
         }
         if($this->viewFlags['tripMode']!=='defer'){
             $this->generateCodeMeta(true);
+        }
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function archiveNow(): void
+    {
+        try{
+            $depositArchival = new Archive($this->formData['codeRepository']);
+            $saveResponse = $depositArchival->save2Swh();
+
+            if($saveResponse instanceof Throwable){
+                throw new Exception();
+            }
+
+            $saveResponse["origin_url"] = $this->formData['codeRepository'];
+
+            $newUrl = new SoftwareHeritageRequest();
+            $newUrl->populateFromPostForm($saveResponse);
+
+            $this->archivalRunning = true;
+
+        }catch(UnhandledMatchError | Exception $e){
+            throw ValidationException::withMessages(['formData.codeRepository' => 'Archival Error. Please try it in an archival page for more details.']);
         }
     }
 

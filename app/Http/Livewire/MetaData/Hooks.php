@@ -237,4 +237,17 @@ trait Hooks
         $this->emit('equateHeights', 'codeMetaImport');
     }
 
+    /**
+     * @throws ValidationException
+     */
+    public function updatedFormDataCodeRepository(): void
+    {
+        $this->reset('isKnown');
+
+        $this->validateOnly('formData.codeRepository', $this->rules['step2']);
+
+        $this->isKnown = $this->isKnown2SWH();
+
+    }
+
 }

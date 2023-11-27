@@ -24,14 +24,36 @@
                 </a>
             </div>
 
-            <input type="text" class="input-md form-control" id="id_codeRepository" name="codeRepository"
+            <input type="text" class="input-md form-control" id="id_codeRepository" name="codeRepository" placeholder="{{$codeRepository['placeHolder']}}"
                    wire:target="@if($tripMode!=='defer') formData, viewFlags.swFunders
                                     @else generateCodeMeta @endif" wire:loading.class="noDirt"
-                   wire:model.{{$tripMode}}="{{$codeRepository['wireModel']}}" placeholder="{{$codeRepository['placeHolder']}}"/>
+                   wire:model.lazy="{{$codeRepository['wireModel']}}"/>
 
             <x-livewire.view-errors :wiredFormData="$codeRepository['wireModel']" :crossMark="true"/>
         </div>
     </div>
+
+    @if(!$errors->has($codeRepository['wireModel']))
+        <div class="flex-container fadeInUp" style="border:none; margin-top: 15px;">
+            <div class="flex-Error-bell">
+                <i class="glyphicon glyphicon-search text-info"></i>
+            </div>
+            <div class="flex-Error-msg">
+                <span class="-msg">Known to Software Heritage: <i class="hidden" wire:loading.class.remove="hidden">Checking ...</i><i wire:loading.class.add="hidden">{{var_export($isKnown, true)}}</i></span>
+
+                <button @class(["btn", "btn-xs", "btn-info", "-btn", "-btn-effect", "hide" => $isKnown === false || !isset($isKnown)])
+                    wire:click.prevent="archiveNow()" wire:loading.attr="disabled">
+                        <span class="glyphicon glyphicon-flag" aria-hidden="true" style="padding-right: 5px"></span>Archive it!
+                </button>
+
+                <a href="{{route('tree-view')}}" target='_blank' @class(["hide" => !isset($archivalRunning)])>
+                    <span style="font-family: Consolas, sans-serif">Archival progress</span>
+                    <span class="glyphicon glyphicon-new-window" aria-hidden="true" style="margin: auto 5px;font-size: 14px"></span>
+                </a>
+            </div>
+        </div>
+    @endif
+
     <x-livewire.view-errors :wiredFormData="$codeRepository['wireModel']"/>
 </div>
 
