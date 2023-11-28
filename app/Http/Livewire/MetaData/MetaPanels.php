@@ -353,6 +353,11 @@ class MetaPanels extends Component
         }
     }
 
+    public function checkRepoWithSwh(): void
+    {
+        $this->isKnown = $this->isKnown2SWH();
+    }
+
     #[NoReturn] public static function dumpDie(): void
     {
         echo '<pre>'.print_r("<b>Security Warning</b>: Tampering detected.\n

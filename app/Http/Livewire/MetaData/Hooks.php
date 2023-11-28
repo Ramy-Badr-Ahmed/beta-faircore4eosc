@@ -242,11 +242,12 @@ trait Hooks
      */
     public function updatedFormDataCodeRepository(): void
     {
-        $this->reset('isKnown');
+
+        $this->reset('isKnown', 'archivalRunning');
 
         $this->validateOnly('formData.codeRepository', $this->rules['step2']);
 
-        $this->isKnown = $this->isKnown2SWH();
+        $this->checkRepoWithSwh();
 
     }
 
