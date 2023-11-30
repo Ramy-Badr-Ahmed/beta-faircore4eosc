@@ -25,7 +25,7 @@
             </div>
 
             <input type="text" class="input-md form-control" id="id_codeRepository" name="codeRepository" placeholder="{{$codeRepository['placeHolder']}}"
-                   wire:target="@if($tripMode!=='defer') formData, viewFlags.swFunders
+                   wire:target="@if($tripMode!=='defer') formData, viewFlags.swRepository, viewFlags.swCode, viewFlags.swFunders
                                     @else generateCodeMeta @endif" wire:loading.class="noDirt"
                    wire:model.lazy="{{$codeRepository['wireModel']}}"/>
 
@@ -110,7 +110,7 @@
             </div>
 
             <input type="text"  class="input-md form-control" id="id_contIntegration" name="contIntegration"
-                   wire:target="@if($tripMode!=='defer') formData, viewFlags.swFunders
+                   wire:target="@if($tripMode!=='defer') formData, viewFlags.swRepository, viewFlags.swCode, viewFlags.swFunders
                                     @else generateCodeMeta @endif" wire:loading.class="noDirt"
                    wire:model.{{$tripMode}}="{{$contIntegration['wireModel']}}" placeholder="{{$contIntegration['placeHolder']}}"/>
 
@@ -143,7 +143,7 @@
             </div>
 
             <input type="text" class="input-md form-control" id="id_issueTracker" name="issueTracker"
-                   wire:target="@if($tripMode!=='defer') formData, viewFlags.swFunders
+                   wire:target="@if($tripMode!=='defer') formData, viewFlags.swRepository, viewFlags.swCode, viewFlags.swFunders
                                     @else generateCodeMeta @endif" wire:loading.class="noDirt"
                    wire:model.{{$tripMode}}="{{$issueTracker['wireModel']}}" placeholder="{{$issueTracker['placeHolder']}}"   />
 
@@ -175,7 +175,7 @@
             </div>
 
             <input type="text"  class="input-md form-control" id="id_readme" name="readme"
-                   wire:target="@if($tripMode!=='defer') formData, viewFlags.swPublished, viewFlags.swRelease, viewFlags.swFileSystem
+                   wire:target="@if($tripMode!=='defer') formData, viewFlags.swRepository, viewFlags.swCode, viewFlags.swFunders
                                     @else generateCodeMeta @endif" wire:loading.class="noDirt"
                    wire:model.{{$tripMode}}="{{$readme['wireModel']}}" placeholder="{{$readme['placeHolder']}}"/>
 
@@ -208,7 +208,7 @@
             </div>
 
             <textarea class="input-md form-control"  name="relatedLink" id="id_relatedLink"
-                      wire:target="@if($tripMode!=='defer') formData, viewFlags.swFunders
+                      wire:target="@if($tripMode!=='defer') formData, viewFlags.swRepository, viewFlags.swCode, viewFlags.swFunders
                                     @else generateCodeMeta @endif" wire:loading.class="noDirt"
                       wire:model.{{$tripMode}}="{{$relatedLink['wireModel']}}" placeholder="{{$relatedLink['placeHolder']}}">
                 </textarea>
@@ -238,7 +238,7 @@
             </div>
 
             <select class="form-control" id="id_developmentStatus" name="developmentStatus"
-                    wire:target="@if($tripMode!=='defer') formData, viewFlags.swFunders
+                    wire:target="@if($tripMode!=='defer') formData, viewFlags.swRepository, viewFlags.swCode, viewFlags.swFunders
                                     @else generateCodeMeta @endif" wire:loading.class="noDirt"
                     wire:model.{{$tripMode}}="{{$developmentStatus['wireModel']}}" >
 
@@ -280,7 +280,7 @@
             </div>
 
             <input type="text" class="input-md form-control" id="id_programmingLanguage" name="programmingLanguage"
-                   wire:target="@if($tripMode!=='defer') formData, viewFlags.swFunders
+                   wire:target="@if($tripMode!=='defer') formData, viewFlags.swRepository, viewFlags.swCode, viewFlags.swFunders
                                     @else generateCodeMeta @endif" wire:loading.class="noDirt"
                    wire:model.{{$tripMode}}="{{$programmingLanguage['wireModel']}}" placeholder="{{$programmingLanguage['placeHolder']}}"/>
 
@@ -337,7 +337,7 @@
             </div>
 
             <input type="text"  class="input-md form-control" id="id_runtimePlatform" name="runtimePlatform"
-                   wire:target="@if($tripMode!=='defer') formData, viewFlags.swFunders
+                   wire:target="@if($tripMode!=='defer') formData, viewFlags.swRepository, viewFlags.swCode, viewFlags.swFunders
                                     @else generateCodeMeta @endif" wire:loading.class="noDirt"
                    wire:model.{{$tripMode}}="{{$runtimePlatform['wireModel']}}" placeholder="{{$runtimePlatform['placeHolder']}}"   />
         </div>
@@ -367,7 +367,7 @@
             </div>
 
             <input type="text"  class="input-md form-control" id="id_operatingSystem" name="operatingSystem"
-                   wire:target="@if($tripMode!=='defer') formData, viewFlags.swFunders
+                   wire:target="@if($tripMode!=='defer') formData, viewFlags.swRepository, viewFlags.swCode, viewFlags.swFunders
                                     @else generateCodeMeta @endif" wire:loading.class="noDirt"
                    wire:model.{{$tripMode}}="{{$operatingSystem['wireModel']}}" placeholder="{{$operatingSystem['placeHolder']}}"/>
 
@@ -400,12 +400,14 @@
             </div>
 
             <input type="text" class="input-md form-control" id="id_softwareRequirements" name="softwareRequirements"
-                   wire:target="@if($tripMode!=='defer') formData, viewFlags.swFunders
+                   wire:target="@if($tripMode!=='defer') formData, viewFlags.swRepository, viewFlags.swCode, viewFlags.swFunders
                                     @else generateCodeMeta @endif" wire:loading.class="noDirt"
                    wire:model.{{$tripMode}}="{{$softwareRequirements['wireModel']}}" placeholder="{{$softwareRequirements['placeHolder']}}"   />
         </div>
     </div>
 </div>
+
+<hr class="style1"/>
 
 <div id="div_id_applicationCategory" style="margin-bottom:25px" class="form-group">
     <div class="row center-block">
@@ -428,7 +430,7 @@
             </div>
 
             <input type="text"  class="input-md form-control" id="id_applicationCategory" name="applicationCategory"
-                   wire:target="@if($tripMode!=='defer') formData, viewFlags.swFunders
+                   wire:target="@if($tripMode!=='defer') formData, viewFlags.swRepository, viewFlags.swCode, viewFlags.swFunders
                                     @else generateCodeMeta @endif" wire:loading.class="noDirt"
                    wire:model.{{$tripMode}}="{{$applicationCategory['wireModel']}}" placeholder="{{$applicationCategory['placeHolder']}}"
             />
@@ -457,14 +459,12 @@
             </div>
 
             <input type="text" class="input-md form-control" id="id_keywords" name="keywords"
-                   wire:target="@if($tripMode!=='defer') formData, viewFlags.swFunders
+                   wire:target="@if($tripMode!=='defer') formData, viewFlags.swRepository, viewFlags.swCode, viewFlags.swFunders
                                     @else generateCodeMeta @endif" wire:loading.class="noDirt"
                    wire:model.{{$tripMode}}="{{$keywords['wireModel']}}" placeholder="{{$keywords['placeHolder']}}"   />
         </div>
     </div>
 </div>
-
-<hr class="style1"/>
 
 <div id="div_id_identifier" style="margin-bottom:25px" class="form-group @error($identifier['wireModel']) has-error @enderror">
     <div class="row center-block">
@@ -489,7 +489,7 @@
             </div>
 
             <input type="text"  class="input-md form-control" id="id_identifier" name="identifier"
-                   wire:target="@if($tripMode!=='defer') formData, viewFlags.swFunders
+                   wire:target="@if($tripMode!=='defer') formData, viewFlags.swRepository, viewFlags.swCode, viewFlags.swFunders
                                     @else generateCodeMeta @endif" wire:loading.class="noDirt"
                    wire:model.{{$tripMode}}="{{$identifier['wireModel']}}" placeholder="{{$identifier['placeHolder']}}"/>
 
@@ -520,7 +520,7 @@
             </div>
 
             <textarea class="input-md form-control"  id="id_referencePublication" name="referencePublication"
-                      wire:target="@if($tripMode!=='defer') formData, viewFlags.swFunders
+                      wire:target="@if($tripMode!=='defer') formData, viewFlags.swRepository, viewFlags.swCode, viewFlags.swFunders
                                     @else generateCodeMeta @endif" wire:loading.class="noDirt"
                       wire:model.{{$tripMode}}="{{$referencePublication['wireModel']}}" placeholder="{{$referencePublication['placeHolder']}}">
             </textarea>
@@ -531,6 +531,8 @@
     <x-livewire.view-errors :wiredFormData="$referencePublication['wireModel']"/>
 </div>
 
+<hr class="style1"/>
+
 <div id="div_id_fundersRadio" style="margin-bottom:25px;" class="form-group clearfix">
     <div class="row center-block">
         <label for="id_fundersRadio" class="col-md-3 control-label"
@@ -540,14 +542,14 @@
 
             <label class="radio-inline">
                 <input type="radio" name="fundersOptionsRadios" id="id_fundersRadio_1" value="1"
-                       wire:target="@if($tripMode!=='defer') formData, viewFlags.swFunders
+                       wire:target="@if($tripMode!=='defer') formData, viewFlags.swRepository, viewFlags.swCode, viewFlags.swFunders
                                         @else generateCodeMeta @endif" wire:loading.attr="disabled"
                        wire:model="viewFlags.swFunders"
                        @if($funderNumber===1) wire:click="$set('funderNumber', {{$funderNumber+1}})" @endif @checked($viewFlags['swFunders'])> Yes
             </label>
             <label class="radio-inline">
                 <input type="radio" name="fundersOptionsRadios" id="id_fundersRadio_0" value="0"
-                       wire:target="@if($tripMode!=='defer') formData, viewFlags.swFunders
+                       wire:target="@if($tripMode!=='defer') formData, viewFlags.swRepository, viewFlags.swCode, viewFlags.swFunders
                                         @else generateCodeMeta @endif" wire:loading.attr="disabled"
                        wire:model="viewFlags.swFunders"
                        wire:click ="$set('funderNumber', 1)"  @checked(!$viewFlags['swFunders'])>No
