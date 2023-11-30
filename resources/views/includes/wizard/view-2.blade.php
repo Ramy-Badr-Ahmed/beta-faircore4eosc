@@ -39,7 +39,7 @@
                 <i class="glyphicon glyphicon-search text-info"></i>
             </div>
             <div class="flex-Error-msg">
-                <span class="-msg">Known to Software Heritage: <i class="hidden" wire:loading.class.remove="hidden">Checking ...</i><i wire:loading.class.add="hidden">{{var_export($isKnown, true)}}</i></span>
+                <span class="-msg">Known to Software Heritage: <i class="hidden" wire:target="{{$codeRepository['wireModel']}}" wire:loading.class.remove="hidden">Checking ...</i><i wire:target="{{$codeRepository['wireModel']}}" wire:loading.class.add="hidden">{{var_export($isKnown, true)}}</i></span>
 
                 <button @class(["btn", "btn-xs", "btn-info", "-btn", "-btn-effect", "hide" => $isKnown === true || !isset($isKnown) || $archivalRunning === true])
                     wire:click.prevent="archiveNow()" wire:loading.attr="disabled">
@@ -62,7 +62,33 @@
     <x-livewire.view-errors :wiredFormData="$codeRepository['wireModel']"/>
 </div>
 
-<div id="div_id_contIntegration" style="margin-bottom:25px" class="form-group @error($contIntegration['wireModel']) has-error @enderror">
+<div id="div_id_repoRadio" style="margin-bottom:25px" class="form-group clearfix">
+    <div class="row center-block">
+        <div class="col-md-3 like-label"
+             wire:target="extractCodeMeta, viewFlags.swRepository, generateCodeMeta"
+             wire:loading.class="blur">Is there Repository-related MetaData?
+        </div>
+        <div class="col-md-9 input-group">
+
+            <label class="radio-inline">
+                <input type="radio" name="repoOptionsRadios" id="id_repoRadio_1" value="1"
+                       wire:target="@if($tripMode!=='defer') formData, viewFlags.swRepository, viewFlags.swCode, viewFlags.swFunders
+                                       @else generateCodeMeta @endif" wire:loading.attr="disabled"
+                       wire:model="viewFlags.swRepository" @checked($viewFlags['swRepository'])  > Yes
+            </label>
+            <label class="radio-inline">
+                <input type="radio" name="repoOptionsRadios" id="id_repoRadio_0" value="0"
+                       wire:target="@if($tripMode!=='defer') formData, viewFlags.swRepository, viewFlags.swCode, viewFlags.swFunders
+                                       @else generateCodeMeta @endif" wire:loading.attr="disabled"
+                       wire:model="viewFlags.swRepository" @checked(!$viewFlags['swRepository'])>No
+            </label>
+
+        </div>
+    </div>
+</div>
+
+<div id="div_id_contIntegration" style="margin-bottom:25px"  @php($hasError = (bool)$errors->has($contIntegration['wireModel']))
+    @class(['form-group','fadeIn', 'hide' => !$viewFlags['swRepository'], 'has-error' => $hasError])>
     <div class="row center-block">
         <label for="id_contIntegration" class="col-md-3 control-label"
                wire:target="extractCodeMeta, @if($tripMode!=='defer') {{$contIntegration['wireModel']}} @else generateCodeMeta @endif"
@@ -94,7 +120,8 @@
     <x-livewire.view-errors :wiredFormData="$contIntegration['wireModel']"/>
 </div>
 
-<div id="div_id_issueTracker" style="margin-bottom:25px" class="form-group @error($issueTracker['wireModel']) has-error @enderror">
+<div id="div_id_issueTracker" style="margin-bottom:25px"  @php($hasError = (bool)$errors->has($issueTracker['wireModel']))
+    @class(['form-group','fadeIn', 'hide' => !$viewFlags['swRepository'], 'has-error' => $hasError])>
     <div class="row center-block">
         <label for="id_issueTracker" class="col-md-3 control-label"
                wire:target="extractCodeMeta, @if($tripMode!=='defer') {{$issueTracker['wireModel']}} @else generateCodeMeta @endif"
@@ -126,7 +153,40 @@
     <x-livewire.view-errors :wiredFormData="$issueTracker['wireModel']"/>
 </div>
 
-<div id="div_id_relatedLink" class="form-group" style="margin-bottom:25px">
+<div id="div_id_readme" style="margin-bottom:25px"  @php($hasError = (bool)$errors->has($readme['wireModel']))
+    @class(['form-group','fadeIn', 'hide' => !$viewFlags['swRepository'], 'has-error' => $hasError])>
+    <div class="row center-block">
+        <label for="id_readme" class="col-md-3 control-label"
+               wire:target="extractCodeMeta, @if($tripMode!=='defer') {{$readme['wireModel']}} @else generateCodeMeta @endif"
+               wire:loading.class="@if($errors->has($readme['wireModel'])) blur-red @else blur @endif ">ReadMe File</label>
+        <div class="col-md-9 input-group">
+            <div class=" input-group-addon border" >
+                <a tabindex="0"   role="button" data-toggle="popover" title="Info" data-html="true" data-placement="bottom"
+                   data-content="{{$readme['info']}}"><i class="glyphicon glyphicon-info-sign"></i></a>
+            </div>
+
+            <div class=" input-group-addon border" wire:key="popover.{{$readme['codeMetaKey'].$time}}">
+
+                <a tabindex="0"   role="button" data-toggle="popover" title="{{$readme['codeMetaKey']}}" data-html="true"
+                   data-content="{{$readme['codeMetaInfo'].preg_replace('/\?/', $readme['expanded-JSON-LD'] , $readme['expanded'])
+                                    .preg_replace('/\?/', $readme['compacted-JSON-LD'] , $readme['compacted'])}}">
+                    <i class="glyphicon thin glyphicon-console"></i>
+                </a>
+            </div>
+
+            <input type="text"  class="input-md form-control" id="id_readme" name="readme"
+                   wire:target="@if($tripMode!=='defer') formData, viewFlags.swPublished, viewFlags.swRelease, viewFlags.swFileSystem
+                                    @else generateCodeMeta @endif" wire:loading.class="noDirt"
+                   wire:model.{{$tripMode}}="{{$readme['wireModel']}}" placeholder="{{$readme['placeHolder']}}"/>
+
+            <x-livewire.view-errors :wiredFormData="$readme['wireModel']" :crossMark="true"/>
+        </div>
+    </div>
+    <x-livewire.view-errors :wiredFormData="$readme['wireModel']"/>
+</div>
+
+<div id="div_id_relatedLink" style="margin-bottom:25px"  @php($hasError = (bool)$errors->has($relatedLink['wireModel']))
+    @class(['form-group','fadeIn', 'hide' => !$viewFlags['swRepository'], 'has-error' => $hasError])>
     <div class="row center-block">
         <label for="id_relatedLink" class="col-md-3 control-label"
                wire:target="extractCodeMeta, @if($tripMode!=='defer') {{$relatedLink['wireModel']}} @else generateCodeMeta @endif"
@@ -152,6 +212,44 @@
                                     @else generateCodeMeta @endif" wire:loading.class="noDirt"
                       wire:model.{{$tripMode}}="{{$relatedLink['wireModel']}}" placeholder="{{$relatedLink['placeHolder']}}">
                 </textarea>
+        </div>
+    </div>
+</div>
+
+<div id="div_id_developmentStatus" style="margin-bottom:25px"  @class(['form-group','fadeIn', 'hide' => !$viewFlags['swRepository']])>
+    <div class="row center-block">
+        <label for="id_developmentStatus" class="col-md-3 control-label"
+               wire:target="extractCodeMeta, @if($tripMode!=='defer') {{$developmentStatus['codeMetaKey']}} @else generateCodeMeta @endif"
+               wire:loading.class="blur">Development Status</label>
+        <div class="col-md-9 input-group" >
+            <div class="input-group-addon border" >
+                <a tabindex="0"   role="button" data-toggle="popover" title="Info" data-html="true"
+                   data-content="{{$developmentStatus['info']}}">
+                    <i class="glyphicon glyphicon-info-sign"></i></a>
+            </div>
+
+            <div class=" input-group-addon border" wire:key="popover.{{$developmentStatus['codeMetaKey'].$time}}">
+
+                <a tabindex="0"   role="button" data-toggle="popover" title="{{$developmentStatus['codeMetaKey']}}" data-html="true"
+                   data-content="{{$developmentStatus['codeMetaInfo'].preg_replace('/\?/', $developmentStatus['expanded-JSON-LD'] , $developmentStatus['expanded'])
+                                    .preg_replace('/\?/', $developmentStatus['compacted-JSON-LD'] , $developmentStatus['compacted'])}}">
+                    <i class="glyphicon thin glyphicon-console"></i>
+                </a>
+            </div>
+
+            <select class="form-control" id="id_developmentStatus" name="developmentStatus"
+                    wire:target="@if($tripMode!=='defer') formData, viewFlags.swFunders
+                                    @else generateCodeMeta @endif" wire:loading.class="noDirt"
+                    wire:model.{{$tripMode}}="{{$developmentStatus['wireModel']}}" >
+
+                <option value="" selected hidden>Select Development Status</option>
+
+                @foreach($devStatuses as $devStatus)
+
+                    <option value="{{ $devStatus }}">{{ $devStatus }}</option>
+
+                @endforeach
+            </select>
         </div>
     </div>
 </div>
@@ -192,7 +290,32 @@
     <x-livewire.view-errors :wiredFormData="$programmingLanguage['wireModel']"/>
 </div>
 
-<div id="div_id_runtimePlatform" style="margin-bottom:25px" class="form-group">
+<div id="div_id_codeRadio" style="margin-bottom:25px" class="form-group clearfix">
+    <div class="row center-block">
+        <div class="col-md-3 like-label"
+             wire:target="extractCodeMeta, viewFlags.swCode, generateCodeMeta"
+             wire:loading.class="blur">Is there Code-related MetaData?
+        </div>
+        <div class="col-md-9 input-group">
+
+            <label class="radio-inline">
+                <input type="radio" name="codeOptionsRadios" id="id_repoRadio_1" value="1"
+                       wire:target="@if($tripMode!=='defer') formData, viewFlags.swRepository, viewFlags.swCode, viewFlags.swFunders
+                                       @else generateCodeMeta @endif" wire:loading.attr="disabled"
+                       wire:model="viewFlags.swCode" @checked($viewFlags['swCode'])  > Yes
+            </label>
+            <label class="radio-inline">
+                <input type="radio" name="codeOptionsRadios" id="id_repoRadio_0" value="0"
+                       wire:target="@if($tripMode!=='defer') formData, viewFlags.swRepository, viewFlags.swCode, viewFlags.swFunders
+                                       @else generateCodeMeta @endif" wire:loading.attr="disabled"
+                       wire:model="viewFlags.swCode" @checked(!$viewFlags['swCode'])>No
+            </label>
+
+        </div>
+    </div>
+</div>
+
+<div id="div_id_runtimePlatform" style="margin-bottom:25px"  @class(['form-group','fadeIn', 'hide' => !$viewFlags['swCode']])>
     <div class="row center-block">
         <label for="id_runtimePlatform" class="col-md-3 control-label"
                wire:target="extractCodeMeta, @if($tripMode!=='defer') {{$runtimePlatform['wireModel']}} @else generateCodeMeta @endif"
@@ -221,7 +344,8 @@
     </div>
 </div>
 
-<div id="div_id_operatingSystem" style="margin-bottom:25px" class="form-group @error($operatingSystem['wireModel']) has-error @enderror">
+<div id="div_id_operatingSystem" style="margin-bottom:25px"  @php($hasError = (bool)$errors->has($operatingSystem['wireModel']))
+    @class(['form-group','fadeIn', 'hide' => !$viewFlags['swCode'], 'has-error' => $hasError])>
     <div class="row center-block">
         <label for="id_operatingSystem" class="col-md-3 control-label"
                wire:target="extractCodeMeta, @if($tripMode!=='defer') {{$operatingSystem['wireModel']}} @else generateCodeMeta @endif"
@@ -253,7 +377,8 @@
     <x-livewire.view-errors :wiredFormData="$operatingSystem['wireModel']"/>
 </div>
 
-<div id="div_id_softwareRequirements" style="margin-bottom:25px" class="form-group">
+
+<div id="div_id_softwareRequirements" style="margin-bottom:25px"  @class(['form-group','fadeIn', 'hide' => !$viewFlags['swCode']])>
     <div class="row center-block">
         <label for="id_softwareRequirements" class="col-md-3 control-label"
                wire:target="extractCodeMeta, @if($tripMode!=='defer') {{$softwareRequirements['wireModel']}} @else generateCodeMeta @endif"
@@ -339,44 +464,6 @@
     </div>
 </div>
 
-<div id="div_id_developmentStatus" style="margin-bottom:25px" class="form-group">
-    <div class="row center-block">
-        <label for="id_developmentStatus" class="col-md-3 control-label"
-               wire:target="extractCodeMeta, @if($tripMode!=='defer') {{$developmentStatus['codeMetaKey']}} @else generateCodeMeta @endif"
-               wire:loading.class="blur">Development Status</label>
-        <div class="col-md-9 input-group" >
-            <div class="input-group-addon border" >
-                <a tabindex="0"   role="button" data-toggle="popover" title="Info" data-html="true"
-                   data-content="{{$developmentStatus['info']}}">
-                    <i class="glyphicon glyphicon-info-sign"></i></a>
-            </div>
-
-            <div class=" input-group-addon border" wire:key="popover.{{$developmentStatus['codeMetaKey'].$time}}">
-
-                <a tabindex="0"   role="button" data-toggle="popover" title="{{$developmentStatus['codeMetaKey']}}" data-html="true"
-                   data-content="{{$developmentStatus['codeMetaInfo'].preg_replace('/\?/', $developmentStatus['expanded-JSON-LD'] , $developmentStatus['expanded'])
-                                    .preg_replace('/\?/', $developmentStatus['compacted-JSON-LD'] , $developmentStatus['compacted'])}}">
-                    <i class="glyphicon thin glyphicon-console"></i>
-                </a>
-            </div>
-
-            <select class="form-control" id="id_developmentStatus" name="developmentStatus"
-                    wire:target="@if($tripMode!=='defer') formData, viewFlags.swFunders
-                                    @else generateCodeMeta @endif" wire:loading.class="noDirt"
-                    wire:model.{{$tripMode}}="{{$developmentStatus['wireModel']}}" >
-
-                <option value="" selected hidden>Select Development Status</option>
-
-                @foreach($devStatuses as $devStatus)
-
-                    <option value="{{ $devStatus }}">{{ $devStatus }}</option>
-
-                @endforeach
-            </select>
-        </div>
-    </div>
-</div>
-
 <hr class="style1"/>
 
 <div id="div_id_identifier" style="margin-bottom:25px" class="form-group @error($identifier['wireModel']) has-error @enderror">
@@ -432,10 +519,11 @@
                 </a>
             </div>
 
-            <input type="text"  class="input-md form-control" id="id_referencePublication" name="referencePublication"
-                   wire:target="@if($tripMode!=='defer') formData, viewFlags.swFunders
+            <textarea class="input-md form-control"  id="id_referencePublication" name="referencePublication"
+                      wire:target="@if($tripMode!=='defer') formData, viewFlags.swFunders
                                     @else generateCodeMeta @endif" wire:loading.class="noDirt"
-                   wire:model.{{$tripMode}}="{{$referencePublication['wireModel']}}" placeholder="{{$referencePublication['placeHolder']}}"/>
+                      wire:model.{{$tripMode}}="{{$referencePublication['wireModel']}}" placeholder="{{$referencePublication['placeHolder']}}">
+            </textarea>
 
             <x-livewire.view-errors :wiredFormData="$referencePublication['wireModel']" :crossMark="true"/>
         </div>

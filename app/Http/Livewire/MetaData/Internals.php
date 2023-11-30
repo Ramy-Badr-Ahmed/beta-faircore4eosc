@@ -290,8 +290,8 @@ trait Internals
         array_walk($keys, function($key) use(&$data){
             if(isset($data[$key])){
 
-                if($key==='relatedLink'){
-                    $data['relatedLink'] = str_replace("\n", "," , $data['relatedLink']);
+                if(in_array($key, Constants::TEXTAREA_ARRAYS_CODEMETA_KEYS)){
+                    $data[$key] = str_replace("\n", "," , $data[$key]);
                 }
 
                 $data[$key] = Collect(explode(',', $data[$key]))
@@ -401,9 +401,9 @@ trait Internals
         });
     }
 
-    private function isKnown2SWH(): bool
+    private function isKnown2SWH(?string $data = null): bool
     {
-        $swh = new SwhOrigins($this->formData['codeRepository']);
+        $swh = new SwhOrigins($data ?? $this->formData['codeRepository']);
 
         return is_bool($swh->originExists());
     }
@@ -477,11 +477,20 @@ trait Internals
                     }
                     return;
                 }
-                if($codeMetaKey === 'version'){
+                if($codeMetaKey === Constants::RELEASE_CODEMETA_KEY){
                     $this->viewFlags['swRelease'] = true;
                 }
-                if(in_array($codeMetaKey, ['fileSize', 'fileFormat', 'encoding'])){
+                if(in_array($codeMetaKey, Constants::SWH_CODEMETA_KEYS)){
+                    $this->isKnown = $this->isKnown2SWH($codeMetaValue);
+                }
+                if(in_array($codeMetaKey, Constants::FILESYSTEM_CODEMETA_KEYS)){
                     $this->viewFlags['swFileSystem'] = true;
+                }
+                if(in_array($codeMetaKey, Constants::REPOSITORY_CODEMETA_KEYS)){
+                    $this->viewFlags['swRepository'] = true;
+                }
+                if(in_array($codeMetaKey, Constants::CODE_CODEMETA_KEYS)){
+                    $this->viewFlags['swCode'] = true;
                 }
                 $this->formData[$codeMetaKey] = is_array($codeMetaValue)
                     ? implode(", ", $codeMetaValue)

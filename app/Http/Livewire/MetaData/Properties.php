@@ -33,6 +33,8 @@ trait Properties
         'swPublished' => false, // true
         'swFileSystem' => false,
         'swFunders' => false,
+        'swRepository' => false,
+        'swCode'=> false,
         'jsonPanel' => true,
         'jsonActive' => true,
         'jsonReadOnly' => true,

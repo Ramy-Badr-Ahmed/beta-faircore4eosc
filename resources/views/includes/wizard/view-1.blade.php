@@ -713,33 +713,3 @@
     <x-livewire.view-errors :wiredFormData="$releaseNotes['wireModel']"/>
 </div>
 
-<div id="div_id_readme" style=" margin-bottom:25px" class="form-group @error($readme['wireModel']) has-error @enderror">
-    <div class="row center-block">
-        <label for="id_readme" class="col-md-3 control-label"
-               wire:target="extractCodeMeta, @if($tripMode!=='defer') {{$readme['wireModel']}} @else generateCodeMeta @endif"
-               wire:loading.class="@if($errors->has($readme['wireModel'])) blur-red @else blur @endif ">ReadMe File</label>
-        <div class="col-md-9 input-group">
-            <div class=" input-group-addon border" >
-                <a tabindex="0"   role="button" data-toggle="popover" title="Info" data-html="true" data-placement="bottom"
-                   data-content="{{$readme['info']}}"><i class="glyphicon glyphicon-info-sign"></i></a>
-            </div>
-
-            <div class=" input-group-addon border" wire:key="popover.{{$readme['codeMetaKey'].$time}}">
-
-                <a tabindex="0"   role="button" data-toggle="popover" title="{{$readme['codeMetaKey']}}" data-html="true"
-                   data-content="{{$readme['codeMetaInfo'].preg_replace('/\?/', $readme['expanded-JSON-LD'] , $readme['expanded'])
-                                    .preg_replace('/\?/', $readme['compacted-JSON-LD'] , $readme['compacted'])}}">
-                    <i class="glyphicon thin glyphicon-console"></i>
-                </a>
-            </div>
-
-            <input type="text"  class="input-md form-control" id="id_readme" name="readme"
-                   wire:target="@if($tripMode!=='defer') formData, viewFlags.swPublished, viewFlags.swRelease, viewFlags.swFileSystem
-                                    @else generateCodeMeta @endif" wire:loading.class="noDirt"
-                   wire:model.{{$tripMode}}="{{$readme['wireModel']}}" placeholder="{{$readme['placeHolder']}}"/>
-
-            <x-livewire.view-errors :wiredFormData="$readme['wireModel']" :crossMark="true"/>
-        </div>
-    </div>
-    <x-livewire.view-errors :wiredFormData="$readme['wireModel']"/>
-</div>

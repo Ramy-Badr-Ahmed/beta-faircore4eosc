@@ -1,7 +1,7 @@
 @extends('layouts.single-column-page')
 
 <x-beta.navigation-bar :isDescribeActive="true"
-                       :mtime="(new DateTime('Europe/Berlin'))->setTimeStamp(File::lastModified(base_path('resources/views/pages/beta/metaPanels.blade.php')))->format('d/M/y @H:i')"/>
+                       :mtime="(new DateTime('Europe/Berlin'))->setTimeStamp(File::lastModified(base_path('resources/views/includes/wizard')))->format('d/M/y @H:i')"/>
 
 @section('headline', 'Software Metadata Dashboard')
 

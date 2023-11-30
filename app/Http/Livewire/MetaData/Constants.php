@@ -26,9 +26,42 @@ abstract class Constants
         'operatingSystem',
         'softwareRequirements',
         'relatedLink',
+        'referencePublication',
         'keywords',
         'applicationCategory'
     ];
+
+    public const FILESYSTEM_CODEMETA_KEYS = [
+        'fileSize',
+        'fileFormat',
+        'encoding'
+    ];
+
+    public const REPOSITORY_CODEMETA_KEYS = [
+        'contIntegration',
+        'issueTracker',
+        'readme',
+        'relatedLink',
+        'developmentStatus'
+    ];
+
+    public const CODE_CODEMETA_KEYS = [
+        'runtimePlatform',
+        'operatingSystem',
+        'softwareRequirements'
+    ];
+
+    public const SWH_CODEMETA_KEYS = [
+        'codeRepository'
+    ];
+
+    public const RELEASE_CODEMETA_KEY = 'version';
+
+    public const TEXTAREA_ARRAYS_CODEMETA_KEYS = [
+        'relatedLink',
+        'referencePublication',
+    ];
+
     public const TABS_MAPPING = [
         'jsonActive' => ['codeMetaJSON', 'codeMetaImport'],
         'swhXMLActive'   => 'swhXML',

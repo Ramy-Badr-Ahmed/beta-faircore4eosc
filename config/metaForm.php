@@ -24,18 +24,21 @@ return [
                     'formData.isPartOf' => 'url|required_if:viewFlags.swRelease,true',
                     'formData.hasPart'  => 'url|nullable',
                     'formData.version' => 'string|required_if:viewFlags.swRelease,true',
-                    'formData.readme' => 'url|nullable',
                     'formData.releaseNotes' => 'string|required_if:viewFlags.swRelease,true',
                     ],
             "step2" =>
                 [
                     'formData.codeRepository' => 'url|required',
+                    'viewFlags.swRepository' => 'boolean',
+                    'viewFlags.swFunder' => 'boolean',
                     'formData.contIntegration' => 'url|nullable',
                     'formData.issueTracker' => 'url|nullable',
+                    'formData.readme' => 'url|nullable',
                     'formData.programmingLanguage' => 'min:1|required',
                     'formData.operatingSystem' => 'exclude_if:getJSONValidation,true|required_with:formData.runtimePlatform',
                     'formData.identifier' => 'url|nullable',
-                    'formData.referencePublication' => 'url|nullable',
+                    //'formData.relatedLinks' => 'url|nullable', // todo
+                    //'formData.referencePublication' => 'url|nullable', // todo
                     'formData.funder.*.funding' => 'string|nullable',
                     'formData.funder.*.funder' => 'string|required_with:formData.funder.*.@id,formData.funder.*.funding',
                     'formData.funder.*.@id' => 'url|required_with:formData.funder.*.funder,formData.funder.*.funding',
