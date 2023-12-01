@@ -153,17 +153,27 @@ trait Hooks
 
     public function updatedViewFlagsSwPublished(): void
     {
-        $this->eraseDataOnViewFlags(['publisher', 'url']);
+        $this->eraseDataOnViewFlags(Constants::SW_PUBLISHED_CODEMETA_KEYS);
     }
 
     public function updatedViewFlagsSwFileSystem(): void
     {
-        $this->eraseDataOnViewFlags(['fileSize', 'fileFormat', 'encoding']);
+        $this->eraseDataOnViewFlags(Constants::FILESYSTEM_CODEMETA_KEYS);
+    }
+
+    public function updatedViewFlagsSwRepository(): void
+    {
+        $this->eraseDataOnViewFlags(Constants::REPOSITORY_CODEMETA_KEYS);
+    }
+
+    public function updatedViewFlagsSwCode(): void
+    {
+        $this->eraseDataOnViewFlags(Constants::CODE_CODEMETA_KEYS);
     }
 
     public function updatedViewFlagsSwRelease(): void
     {
-        $this->eraseDataOnViewFlags(['version', 'isPartOf', 'releaseNotes']);
+        $this->eraseDataOnViewFlags(Constants::SW_RELEASE_CODEMETA_KEYS);
 
         if(Str::contains($this->getErrorBag()->first('formData.dateModified'), 'SW Release instance')){
             $this->resetErrorBag('formData.dateModified');

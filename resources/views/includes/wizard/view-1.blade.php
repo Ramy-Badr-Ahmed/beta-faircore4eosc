@@ -26,7 +26,7 @@
             </div>
 
             <input type="text" class="input-md form-control" id="id_name" name="name" autocomplete="on"
-                   wire:target="@if($tripMode!=='defer') formData, viewFlags.swPublished, viewFlags.swRelease, viewFlags.swFileSystem
+                   wire:target="@if($tripMode!=='defer') formData, viewFlags.swPublished, viewFlags.swRelease
                                        @else generateCodeMeta @endif" wire:loading.class="noDirt"
                    wire:model.{{$tripMode}} = "{{$SWName['wireModel']}}" placeholder="{{$SWName['placeHolder']}}"/>
 
@@ -57,7 +57,7 @@
                 </a>
             </div>
             <textarea class="input-md form-control" placeholder="{{$description['placeHolder']}}" name="description" id="id_description"
-                      wire:target="@if($tripMode!=='defer') formData, viewFlags.swPublished, viewFlags.swRelease, viewFlags.swFileSystem
+                      wire:target="@if($tripMode!=='defer') formData, viewFlags.swPublished, viewFlags.swRelease
                                        @else generateCodeMeta @endif" wire:loading.class="noDirt"
                       wire:model.{{$tripMode}}="{{$description['wireModel']}}"></textarea>
         </div>
@@ -86,7 +86,7 @@
             </div>
 
             <input type="date" class="input-md form-control" id="id_dateCreated" name="dateCreated"
-                   wire:target="@if($tripMode!=='defer') formData, viewFlags.swPublished, viewFlags.swRelease, viewFlags.swFileSystem
+                   wire:target="@if($tripMode!=='defer') formData, viewFlags.swPublished, viewFlags.swRelease
                                        @else generateCodeMeta @endif" wire:loading.class="noDirt"
                    wire:model.{{$tripMode}} ="{{$dateCreated['wireModel']}}"/>
 
@@ -118,7 +118,7 @@
             </div>
 
             <input type="date" class="input-md form-control" id="id_datePublished" name="datePublished"
-                   wire:target="@if($tripMode!=='defer') formData, viewFlags.swPublished, viewFlags.swRelease, viewFlags.swFileSystem
+                   wire:target="@if($tripMode!=='defer') formData, viewFlags.swPublished, viewFlags.swRelease
                                        @else generateCodeMeta @endif" wire:loading.class="noDirt"
                    wire:model.{{$tripMode}}="{{$datePublished['wireModel']}}"/>
 
@@ -139,13 +139,13 @@
 
             <label class="radio-inline">
                 <input type="radio" name="publishedOptionsRadios" id="id_publishedRadio_1" value="1"
-                       wire:target="@if($tripMode!=='defer') formData, viewFlags.swPublished, viewFlags.swRelease, viewFlags.swFileSystem
+                       wire:target="@if($tripMode!=='defer') formData, viewFlags.swPublished, viewFlags.swRelease
                                        @else generateCodeMeta @endif" wire:loading.attr="disabled"
                        wire:model="viewFlags.swPublished" @checked($viewFlags['swPublished'])  > Yes
             </label>
             <label class="radio-inline">
                 <input type="radio" name="publishedOptionsRadios" id="id_publishedRadio_0" value="0"
-                       wire:target="@if($tripMode!=='defer') formData, viewFlags.swPublished, viewFlags.swRelease, viewFlags.swFileSystem
+                       wire:target="@if($tripMode!=='defer') formData, viewFlags.swPublished, viewFlags.swRelease
                                        @else generateCodeMeta @endif" wire:loading.attr="disabled"
                        wire:model="viewFlags.swPublished" @checked(!$viewFlags['swPublished'])>No
             </label>
@@ -177,7 +177,7 @@
             </div>
 
             <input type="text" class="input-md form-control" id="id_publisher" name="publisher"
-                   wire:target="@if($tripMode!=='defer') formData, viewFlags.swPublished, viewFlags.swRelease, viewFlags.swFileSystem
+                   wire:target="@if($tripMode!=='defer') formData, viewFlags.swPublished, viewFlags.swRelease
                                        @else generateCodeMeta @endif" wire:loading.class="noDirt"
                    wire:model.{{$tripMode}}="{{$publisher['wireModel']}}" placeholder="{{$publisher['placeHolder']}}"/>
 
@@ -211,7 +211,7 @@
             </div>
 
             <input type="text" class="input-md form-control" id="id_url" name="url"
-                   wire:target="@if($tripMode!=='defer') formData, viewFlags.swPublished, viewFlags.swRelease, viewFlags.swFileSystem
+                   wire:target="@if($tripMode!=='defer') formData, viewFlags.swPublished, viewFlags.swRelease
                                        @else generateCodeMeta @endif" wire:loading.class="noDirt"
                    wire:model.{{$tripMode}}="{{$url['wireModel']}}" placeholder="{{$url['placeHolder']}}"/>
 
@@ -244,7 +244,7 @@
             </div>
 
             <input type="text" class="input-md form-control" wire:model.debounce.200ms="{{$licenseInput['wireModel']}}" wire:keyup.enter="$emit('listEvent')"
-                   wire:target="@if($tripMode!=='defer') formData, viewFlags.swPublished, viewFlags.swRelease, viewFlags.swFileSystem @else generateCodeMeta @endif"
+                   wire:target="@if($tripMode!=='defer') formData, viewFlags.swPublished, viewFlags.swRelease @else generateCodeMeta @endif"
                    wire:loading.class="noDirt"
                    wire:dblclick="$emit('listEvent')" id="id_license" name="license" placeholder="{{$licenseInput['placeHolder']}}"/>
         </div>
@@ -264,7 +264,7 @@
             </div>
             <select class="form-control" id="id_select_license" name="select_license"
             wire:model="{{$license['wireModel']}}"
-                    wire:target="@if($tripMode!=='defer') viewFlags.swPublished, viewFlags.swRelease, viewFlags.swFileSystem
+                    wire:target="@if($tripMode!=='defer') viewFlags.swPublished, viewFlags.swRelease
                                        @else generateCodeMeta @endif" wire:loading.attr="disabled"
                     wire:change="getLicenseByIdentifier($event.target.value)" size="{{ min(count($licenses) + 1, 7) }}">
 
@@ -286,215 +286,126 @@
 
 <hr class="style1"/>
 
-<div id="div_id_encodingRadio" style="margin-bottom:25px" class="form-group clearfix">
+<div id="div_id_applicationCategory" style="margin-bottom:25px" class="form-group">
     <div class="row center-block">
-        <div class="col-md-3 like-label"
-             wire:target="extractCodeMeta, viewFlags.swFileSystem, generateCodeMeta"
-             wire:loading.class="blur">Is there FileSystem-related metadata?
-        </div>
-        <div class="col-md-9 input-group">
-
-            <label class="radio-inline">
-                <input type="radio" name="encodingOptionsRadios" id="id_encodingRadio_1" value="1"
-                       wire:target="@if($tripMode!=='defer') formData, viewFlags.swPublished, viewFlags.swRelease, viewFlags.swFileSystem
-                                       @else generateCodeMeta @endif" wire:loading.attr="disabled"
-                       wire:model="viewFlags.swFileSystem" @checked($viewFlags['swFileSystem'])> Yes
-            </label>
-            <label class="radio-inline">
-                <input type="radio" name="encodingOptionsRadios" id="id_encodingRadio_0" value="0"
-                       wire:target="@if($tripMode!=='defer') formData, viewFlags.swPublished, viewFlags.swRelease, viewFlags.swFileSystem
-                                       @else generateCodeMeta @endif" wire:loading.attr="disabled"
-                       wire:model="viewFlags.swFileSystem" @checked(!$viewFlags['swFileSystem'])>No
-            </label>
-
-        </div>
-    </div>
-</div>
-
-<div id="div_id_fileSize" style=" margin-bottom:25px" @php($hasError = (bool)$errors->has($fileSize['wireModel']))
-    @class(['form-group','fadeIn', 'hide' => !$viewFlags['swFileSystem'], 'has-error' => $hasError ])>
-    <div class="row center-block">
-        <label for="id_fileSize" class="col-md-3 control-label"
-               wire:target="extractCodeMeta,viewFlags.swFileSystem, @if($tripMode!=='defer') {{$fileSize['wireModel']}} @else generateCodeMeta @endif"
-               wire:loading.class="@if($errors->has($fileSize['wireModel'])) blur-red @else blur @endif ">File size</label>
+        <label for="id_applicationCategory" class="col-md-3 control-label"
+               wire:target="extractCodeMeta, @if($tripMode!=='defer') {{$applicationCategory['wireModel']}} @else generateCodeMeta @endif"
+               wire:loading.class="blur">Application Category</label>
         <div class="col-md-9 input-group">
             <div class=" input-group-addon border" >
-                <a tabindex="0"   role="button" data-toggle="popover" title="Info" data-html="true" data-placement="bottom"
-                   data-content="{{$fileSize['info']}}">
-                    <i class="glyphicon glyphicon-info-sign"></i></a>
+                <a tabindex="0"   role="button" data-toggle="popover" title="Info" data-html="true"
+                   data-content="{{$applicationCategory['info']}}"> <i class="glyphicon glyphicon-info-sign"></i></a>
             </div>
 
-            <div class=" input-group-addon border" wire:key="popover.{{$fileSize['codeMetaKey'].$time}}">
+            <div class=" input-group-addon border" wire:key="popover.{{$applicationCategory['codeMetaKey'].$time}}">
 
-                <a tabindex="0"   role="button" data-toggle="popover" title="{{$fileSize['codeMetaKey']}}" data-html="true"
-                   data-content="{{$fileSize['codeMetaInfo'].preg_replace('/\?/', $fileSize['expanded-JSON-LD'] , $fileSize['expanded'])
-                                    .preg_replace('/\?/', $fileSize['compacted-JSON-LD'] , $fileSize['compacted'])}}">
+                <a tabindex="0"   role="button" data-toggle="popover" title="{{$applicationCategory['codeMetaKey']}}" data-html="true"
+                   data-content="{{$applicationCategory['codeMetaInfo'].preg_replace('/\?/', $applicationCategory['expanded-JSON-LD'] , $applicationCategory['expanded'])
+                                    .preg_replace('/\?/', $applicationCategory['compacted-JSON-LD'] , $applicationCategory['compacted'])}}">
                     <i class="glyphicon thin glyphicon-console"></i>
                 </a>
             </div>
 
-            <input type="text"  class="input-md form-control" id="id_fileSize" name="fileSize"
-                   wire:target="@if($tripMode!=='defer') formData, viewFlags.swPublished, viewFlags.swRelease, viewFlags.swFileSystem
+            <input type="text"  class="input-md form-control" id="id_applicationCategory" name="applicationCategory"
+                   wire:target="@if($tripMode!=='defer') formData, viewFlags.swPublished, viewFlags.swRelease
                                     @else generateCodeMeta @endif" wire:loading.class="noDirt"
-                   wire:model.{{$tripMode}}="{{$fileSize['wireModel']}}" placeholder="{{$fileSize['placeHolder']}}"
+                   wire:model.{{$tripMode}}="{{$applicationCategory['wireModel']}}" placeholder="{{$applicationCategory['placeHolder']}}"
             />
-            <x-livewire.view-errors :wiredFormData="$fileSize['wireModel']" :crossMark="true"/>
         </div>
     </div>
-    <x-livewire.view-errors :wiredFormData="$fileSize['wireModel']"/>
 </div>
 
-<div id="div_id_fileFormat" style=" margin-bottom:25px" @php($hasError = (bool)$errors->has($fileFormat['wireModel']))
-    @class(['form-group','fadeIn', 'hide' => !$viewFlags['swFileSystem'], 'has-error' => $hasError ])>
+<div id="div_id_keywords" style="margin-bottom:25px" class="form-group">
     <div class="row center-block">
-        <label for="id_fileFormat" class="col-md-3 control-label"
-               wire:target="extractCodeMeta,viewFlags.swFileSystem, @if($tripMode!=='defer') {{$fileFormat['wireModel']}} @else generateCodeMeta @endif"
-               wire:loading.class="@if($errors->has($fileFormat['wireModel'])) blur-red @else blur @endif ">File format</label>
+        <label for="id_keywords" class="col-md-3 control-label"
+               wire:target="extractCodeMeta, @if($tripMode!=='defer') {{$keywords['wireModel']}} @else generateCodeMeta @endif"
+               wire:loading.class="blur">Keywords</label>
         <div class="col-md-9 input-group">
             <div class=" input-group-addon border" >
-                <a tabindex="0"   role="button" data-toggle="popover" title="CodeMeta Key: fileFormat" data-html="true" data-placement="bottom"
-                   data-content="{{$fileFormat['info']}}">
-                    <i class="glyphicon glyphicon-info-sign"></i></a>
+                <a tabindex="0"   role="button" data-toggle="popover" title="Info" data-html="true"
+                   data-content="{{$keywords['info']}}"> <i class="glyphicon glyphicon-info-sign"></i></a>
             </div>
 
-            <div class=" input-group-addon border" wire:key="popover.{{$fileFormat['codeMetaKey'].$time}}">
+            <div class=" input-group-addon border" wire:key="popover.{{$keywords['codeMetaKey'].$time}}">
 
-                <a tabindex="0"   role="button" data-toggle="popover" title="{{$fileFormat['codeMetaKey']}}" data-html="true"
-                   data-content="{{$fileFormat['codeMetaInfo'].preg_replace('/\?/', $fileFormat['expanded-JSON-LD'] , $fileFormat['expanded'])
-                                    .preg_replace('/\?/', $fileFormat['compacted-JSON-LD'] , $fileFormat['compacted'])}}">
+                <a tabindex="0"   role="button" data-toggle="popover" title="{{$keywords['codeMetaKey']}}" data-html="true"
+                   data-content="{{$keywords['codeMetaInfo'].preg_replace('/\?/', $keywords['expanded-JSON-LD'] , $keywords['expanded'])
+                                    .preg_replace('/\?/', $keywords['compacted-JSON-LD'] , $keywords['compacted'])}}">
                     <i class="glyphicon thin glyphicon-console"></i>
                 </a>
             </div>
 
-            <input type="text" class="input-md form-control" id="id_fileFormat" name="fileSize"
-                   wire:target="@if($tripMode!=='defer') formData, viewFlags.swPublished, viewFlags.swRelease, viewFlags.swFileSystem
+            <input type="text" class="input-md form-control" id="id_keywords" name="keywords"
+                   wire:target="@if($tripMode!=='defer') formData, viewFlags.swPublished, viewFlags.swRelease
                                     @else generateCodeMeta @endif" wire:loading.class="noDirt"
-                   wire:model.{{$tripMode}}="{{$fileFormat['wireModel']}}" placeholder="{{$fileFormat['placeHolder']}}"/>
-            <x-livewire.view-errors :wiredFormData="$fileFormat['wireModel']" :crossMark="true"/>
+                   wire:model.{{$tripMode}}="{{$keywords['wireModel']}}" placeholder="{{$keywords['placeHolder']}}"   />
         </div>
     </div>
-    <x-livewire.view-errors :wiredFormData="$fileFormat['wireModel']"/>
 </div>
 
-<div id="div_id_encoding" style=" margin-bottom:25px"  @php($hasError = (bool)$errors->has($encoding['wireModel']))
-    @class(['form-group','fadeIn', 'hide' => !$viewFlags['swFileSystem'], 'has-error' => $hasError ])>
+<div id="div_id_identifier" style="margin-bottom:25px" class="form-group @error($identifier['wireModel']) has-error @enderror">
     <div class="row center-block">
-        <label for="id_encoding" class="col-md-3 control-label"
-               wire:target="extractCodeMeta,viewFlags.swFileSystem, @if($tripMode!=='defer') {{$encoding['wireModel']}} @else generateCodeMeta @endif"
-               wire:loading.class="@if($errors->has($encoding['wireModel'])) blur-red @else blur @endif ">Encoding</label>
-        <div class="col-md-9 input-group">
+        <label for="id_identifier" class="col-md-3 control-label"
+               wire:target="extractCodeMeta, @if($tripMode!=='defer') {{$identifier['wireModel']}} @else generateCodeMeta @endif"
+               wire:loading.class="@if($errors->has($identifier['wireModel'])) blur-red @else blur @endif ">Unique Identifier</label>
+        <div class="col-md-9 input-group" >
             <div class=" input-group-addon border" >
-                <a tabindex="0"   role="button" data-toggle="popover" title="Info" data-html="true" data-placement="bottom"
-                   data-content="{{$encoding['info']}}"> <i class="glyphicon glyphicon-info-sign"></i></a>
+                <a tabindex="0"   role="button" data-toggle="popover" title="Info" data-html="true"
+                   data-content="{{$identifier['info']}}">
+                    <i class="glyphicon glyphicon-info-sign"></i>
+                </a>
             </div>
 
-            <div class=" input-group-addon border" wire:key="popover.{{$encoding['codeMetaKey'].$time}}">
+            <div class=" input-group-addon border" wire:key="popover.{{$identifier['codeMetaKey'].$time}}">
 
-                <a tabindex="0"   role="button" data-toggle="popover" title="{{$encoding['codeMetaKey']}}" data-html="true"
-                   data-content="{{$encoding['codeMetaInfo'].preg_replace('/\?/', $encoding['expanded-JSON-LD'] , $encoding['expanded'])
-                                    .preg_replace('/\?/', $encoding['compacted-JSON-LD'] , $encoding['compacted'])}}">
+                <a tabindex="0"   role="button" data-toggle="popover" title="{{$identifier['codeMetaKey']}}" data-html="true"
+                   data-content="{{$identifier['codeMetaInfo'].preg_replace('/\?/', $identifier['expanded-JSON-LD'] , $identifier['expanded'])
+                                    .preg_replace('/\?/', $identifier['compacted-JSON-LD'] , $identifier['compacted'])}}">
                     <i class="glyphicon thin glyphicon-console"></i>
                 </a>
             </div>
 
-            <input type="text" class="input-md form-control" id="id_encoding" name="encoding"
-                   wire:target="@if($tripMode!=='defer') formData, viewFlags.swPublished, viewFlags.swRelease, viewFlags.swFileSystem
+            <input type="text"  class="input-md form-control" id="id_identifier" name="identifier"
+                   wire:target="@if($tripMode!=='defer') formData, viewFlags.swPublished, viewFlags.swRelease
                                     @else generateCodeMeta @endif" wire:loading.class="noDirt"
-                   wire:model.{{$tripMode}}="{{$encoding['wireModel']}}" placeholder="{{$encoding['placeHolder']}}"
-            />
-            <x-livewire.view-errors :wiredFormData="$encoding['wireModel']" :crossMark="true"/>
+                   wire:model.{{$tripMode}}="{{$identifier['wireModel']}}" placeholder="{{$identifier['placeHolder']}}"/>
+
+            <x-livewire.view-errors :wiredFormData="$identifier['wireModel']" :crossMark="true"/>
         </div>
     </div>
-    <x-livewire.view-errors :wiredFormData="$encoding['wireModel']"/>
+    <x-livewire.view-errors :wiredFormData="$identifier['wireModel']"/>
 </div>
 
-<div id="div_id_downloadUrl" style="margin-bottom:25px" class="form-group @error($downloadUrl['wireModel']) has-error @enderror">
+<div id="div_id_referencePublication" style="margin-top: 10px; margin-bottom:25px" class="form-group @error($referencePublication['wireModel']) has-error @enderror">
     <div class="row center-block">
-        <label for="id_downloadUrl" class="col-md-3 control-label"
-               wire:target="extractCodeMeta, @if($tripMode!=='defer') {{$downloadUrl['wireModel']}} @else generateCodeMeta @endif"
-               wire:loading.class="@if($errors->has($downloadUrl['wireModel'])) blur-red @else blur @endif ">Download URL</label>
-        <div class="col-md-9 input-group">
+        <label for="id_referencePublication" class="col-md-3 control-label"
+               wire:target="extractCodeMeta, @if($tripMode!=='defer') {{$referencePublication['wireModel']}} @else generateCodeMeta @endif"
+               wire:loading.class="@if($errors->has($referencePublication['wireModel'])) blur-red @else blur @endif ">Reference Publication</label>
+        <div class="col-md-9 input-group" >
             <div class=" input-group-addon border" >
-                <a tabindex="0"   role="button" data-toggle="popover" title="Info" data-html="true" data-placement="bottom"
-                   data-content="{{$downloadUrl['info']}}"><i class="glyphicon glyphicon-info-sign"></i></a>
+                <a tabindex="0"   role="button" data-toggle="popover" title="Info" data-html="true"
+                   data-content="{{$referencePublication['info']}}"><i class="glyphicon glyphicon-info-sign"></i></a>
             </div>
 
-            <div class=" input-group-addon border" wire:key="popover.{{$downloadUrl['codeMetaKey'].$time}}">
+            <div class=" input-group-addon border" wire:key="popover.{{$referencePublication['codeMetaKey'].$time}}">
 
-                <a tabindex="0"   role="button" data-toggle="popover" title="{{$downloadUrl['codeMetaKey']}}" data-html="true"
-                   data-content="{{$downloadUrl['codeMetaInfo'].preg_replace('/\?/', $downloadUrl['expanded-JSON-LD'] , $downloadUrl['expanded'])
-                                    .preg_replace('/\?/', $downloadUrl['compacted-JSON-LD'] , $downloadUrl['compacted'])}}">
+                <a tabindex="0"   role="button" data-toggle="popover" title="{{$referencePublication['codeMetaKey']}}" data-html="true"
+                   data-content="{{$referencePublication['codeMetaInfo'].preg_replace('/\?/', $referencePublication['expanded-JSON-LD'] , $referencePublication['expanded'])
+                                    .preg_replace('/\?/', $referencePublication['compacted-JSON-LD'] , $referencePublication['compacted'])}}">
                     <i class="glyphicon thin glyphicon-console"></i>
                 </a>
             </div>
 
-            <input type="text"  class="input-md form-control" id="id_downloadUrl" name="downloadUrl"
-                   wire:target="@if($tripMode!=='defer') formData, viewFlags.swPublished, viewFlags.swRelease, viewFlags.swFileSystem
+            <textarea class="input-md form-control"  id="id_referencePublication" name="referencePublication"
+                      wire:target="@if($tripMode!=='defer') formData, viewFlags.swPublished, viewFlags.swRelease
                                     @else generateCodeMeta @endif" wire:loading.class="noDirt"
-                   wire:model.{{$tripMode}}="{{$downloadUrl['wireModel']}}" placeholder="{{$downloadUrl['placeHolder']}}"
-            />
-            <x-livewire.view-errors :wiredFormData="$downloadUrl['wireModel']" :crossMark="true"/>
+                      wire:model.{{$tripMode}}="{{$referencePublication['wireModel']}}" placeholder="{{$referencePublication['placeHolder']}}">
+            </textarea>
+
+            <x-livewire.view-errors :wiredFormData="$referencePublication['wireModel']" :crossMark="true"/>
         </div>
     </div>
-    <x-livewire.view-errors :wiredFormData="$downloadUrl['wireModel']"/>
-</div>
-
-<div id="div_id_installUrl" style="margin-bottom:25px" class="form-group @error($installUrl['wireModel']) has-error @enderror">
-    <div class="row center-block">
-        <label for="id_installUrl" class="col-md-3 control-label"
-               wire:target="extractCodeMeta, @if($tripMode!=='defer') {{$installUrl['wireModel']}} @else generateCodeMeta @endif"
-               wire:loading.class="@if($errors->has($installUrl['wireModel'])) blur-red @else blur @endif ">Install URL</label>
-        <div class="col-md-9 input-group">
-            <div class=" input-group-addon border" >
-                <a tabindex="0"   role="button" data-toggle="popover" title="Info" data-html="true" data-placement="bottom"
-                   data-content="{{$installUrl['info']}}"><i class="glyphicon glyphicon-info-sign"></i></a>
-            </div>
-            <div class=" input-group-addon border" wire:key="popover.{{$installUrl['codeMetaKey'].$time}}">
-
-                <a tabindex="0"   role="button" data-toggle="popover" title="{{$installUrl['codeMetaKey']}}" data-html="true"
-                   data-content="{{$installUrl['codeMetaInfo'].preg_replace('/\?/', $installUrl['expanded-JSON-LD'] , $installUrl['expanded'])
-                                    .preg_replace('/\?/', $installUrl['compacted-JSON-LD'] , $installUrl['compacted'])}}">
-                    <i class="glyphicon thin glyphicon-console"></i>
-                </a>
-            </div>
-
-            <input type="text"  class="input-md form-control" id="id_installUrl" name="installUrl"
-                   wire:target="@if($tripMode!=='defer') formData, viewFlags.swPublished, viewFlags.swRelease, viewFlags.swFileSystem
-                                    @else generateCodeMeta @endif" wire:loading.class="noDirt"
-                   wire:model.{{$tripMode}}="{{$installUrl['wireModel']}}" placeholder="{{$installUrl['placeHolder']}}"/>
-
-            <x-livewire.view-errors :wiredFormData="$installUrl['wireModel']" :crossMark="true"/>
-        </div>
-    </div>
-    <x-livewire.view-errors :wiredFormData="$installUrl['wireModel']"/>
-</div>
-
-<div id="div_id_buildInstructions" style="margin-bottom:25px" class="form-group @error($buildInstructions['wireModel']) has-error @enderror">
-    <div class="row center-block">
-        <label for="id_buildInstructions" class="col-md-3 control-label"
-               wire:target="extractCodeMeta, @if($tripMode!=='defer') {{$buildInstructions['wireModel']}} @else generateCodeMeta @endif"
-               wire:loading.class="@if($errors->has($buildInstructions['wireModel'])) blur-red @else blur @endif ">Build instructions</label>
-        <div class="col-md-9 input-group">
-            <div class=" input-group-addon border" >
-                <a tabindex="0"   role="button" data-toggle="popover" title="Info" data-html="true" data-placement="bottom"
-                   data-content="{{$buildInstructions['info']}}"><i class="glyphicon glyphicon-info-sign"></i></a>
-            </div>
-            <div class=" input-group-addon border" wire:key="popover.{{$buildInstructions['codeMetaKey'].$time}}">
-                <a tabindex="0"   role="button" data-toggle="popover" title="{{$buildInstructions['codeMetaKey']}}" data-html="true"
-                   data-content="{{$buildInstructions['codeMetaInfo'].preg_replace('/\?/', $buildInstructions['expanded-JSON-LD'] , $buildInstructions['expanded'])
-                                    .preg_replace('/\?/', $buildInstructions['compacted-JSON-LD'] , $buildInstructions['compacted'])}}">
-                    <i class="glyphicon thin glyphicon-console"></i>
-                </a>
-            </div>
-            <input type="text"  class="input-md form-control" id="id_buildInstructions" name="buildInstructions"
-                   wire:target="@if($tripMode!=='defer') formData, viewFlags.swPublished, viewFlags.swRelease, viewFlags.swFileSystem
-                                    @else generateCodeMeta @endif" wire:loading.class="noDirt"
-                   wire:model.{{$tripMode}}="{{$buildInstructions['wireModel']}}" placeholder="{{$buildInstructions['placeHolder']}}"   />
-
-            <x-livewire.view-errors :wiredFormData="$buildInstructions['wireModel']" :crossMark="true"/>
-        </div>
-    </div>
-    <x-livewire.view-errors :wiredFormData="$buildInstructions['wireModel']"/>
+    <x-livewire.view-errors :wiredFormData="$referencePublication['wireModel']"/>
 </div>
 
 <hr class="style1"/>
@@ -509,13 +420,13 @@
 
             <label class="radio-inline">
                 <input type="radio" name="optionsRadios" id="id_releaseRadio_1" value="1"
-                       wire:target="@if($tripMode!=='defer') formData, viewFlags.swPublished, viewFlags.swRelease, viewFlags.swFileSystem
+                       wire:target="@if($tripMode!=='defer') formData, viewFlags.swPublished, viewFlags.swRelease
                                        @else generateCodeMeta @endif" wire:loading.attr="disabled"
                         wire:model="viewFlags.swRelease" @checked($viewFlags['swRelease'])> Yes
             </label>
             <label class="radio-inline">
                 <input type="radio" name="optionsRadios" id="id_releaseRadio_0" value="0"
-                       wire:target="@if($tripMode!=='defer') formData, viewFlags.swPublished, viewFlags.swRelease, viewFlags.swFileSystem
+                       wire:target="@if($tripMode!=='defer') formData, viewFlags.swPublished, viewFlags.swRelease
                                        @else generateCodeMeta @endif" wire:loading.attr="disabled"
                        wire:model="viewFlags.swRelease" @checked(!$viewFlags['swRelease'])>No
             </label>
@@ -546,7 +457,7 @@
             </div>
 
             <input type="text"  class="input-md form-control" id="id_softwareVersion" name="softwareVersion"
-                   wire:target="@if($tripMode!=='defer') formData, viewFlags.swPublished, viewFlags.swRelease, viewFlags.swFileSystem
+                   wire:target="@if($tripMode!=='defer') formData, viewFlags.swPublished, viewFlags.swRelease
                                     @else generateCodeMeta @endif" wire:loading.class="noDirt"
                    wire:model.{{$tripMode}}="{{$softwareVersion['wireModel']}}" placeholder="{{$softwareVersion['placeHolder']}}"/>
         </div>
@@ -575,7 +486,7 @@
             </div>
 
             <input type="text"  class="input-md form-control" id="id_version" name="version"
-                   wire:target="@if($tripMode!=='defer') formData, viewFlags.swPublished, viewFlags.swRelease, viewFlags.swFileSystem
+                   wire:target="@if($tripMode!=='defer') formData, viewFlags.swPublished, viewFlags.swRelease
                                     @else generateCodeMeta @endif" wire:loading.class="noDirt"
                    wire:model.{{$tripMode}}="{{$version['wireModel']}}" placeholder="{{$version['placeHolder']}}"/>
 
@@ -606,7 +517,7 @@
             </div>
 
             <input type="text"  class="input-md form-control" id="id_hasPart" name="hasPart"
-                   wire:target="@if($tripMode!=='defer') formData, viewFlags.swPublished, viewFlags.swRelease, viewFlags.swFileSystem
+                   wire:target="@if($tripMode!=='defer') formData, viewFlags.swPublished, viewFlags.swRelease
                                     @else generateCodeMeta @endif" wire:loading.class="noDirt"
                    wire:model.{{$tripMode}}="{{$hasPart['wireModel']}}" placeholder="{{$hasPart['placeHolder']}}"/>
 
@@ -638,7 +549,7 @@
             </div>
 
             <input type="text"  class="input-md form-control" id="id_isPartOf" name="isPartOf"
-                   wire:target="@if($tripMode!=='defer') formData, viewFlags.swPublished, viewFlags.swRelease, viewFlags.swFileSystem
+                   wire:target="@if($tripMode!=='defer') formData, viewFlags.swPublished, viewFlags.swRelease
                                     @else generateCodeMeta @endif" wire:loading.class="noDirt"
                    wire:model.{{$tripMode}}="{{$isPartOf['wireModel']}}" placeholder="{{$isPartOf['placeHolder']}}"   />
 
@@ -670,7 +581,7 @@
             </div>
 
             <input type="date" class="input-md form-control" id="id_dateModified" name="dateModified"
-                   wire:target="@if($tripMode!=='defer') formData, viewFlags.swPublished, viewFlags.swRelease, viewFlags.swFileSystem
+                   wire:target="@if($tripMode!=='defer') formData, viewFlags.swPublished, viewFlags.swRelease
                                     @else generateCodeMeta @endif" wire:loading.class="noDirt"
                    wire:model.{{$tripMode}}="{{$dateModified['wireModel']}}"/>
 
@@ -702,7 +613,7 @@
             </div>
 
             <textarea class="input-md form-control" name="releaseNotes" id="id_releaseNotes"
-                      wire:target="@if($tripMode!=='defer') formData, viewFlags.swPublished, viewFlags.swRelease, viewFlags.swFileSystem
+                      wire:target="@if($tripMode!=='defer') formData, viewFlags.swPublished, viewFlags.swRelease
                                     @else generateCodeMeta @endif" wire:loading.class="noDirt"
                       wire:model.{{$tripMode}}="{{$releaseNotes['wireModel']}}" placeholder="{{$releaseNotes['placeHolder']}}">
                 </textarea>

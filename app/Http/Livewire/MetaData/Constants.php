@@ -62,6 +62,17 @@ abstract class Constants
         'referencePublication',
     ];
 
+    public const SW_PUBLISHED_CODEMETA_KEYS = [
+        'publisher',
+        'url'
+    ];
+
+    public const SW_RELEASE_CODEMETA_KEYS = [
+        'version',
+        'isPartOf',
+        'releaseNotes'
+    ];
+
     public const TABS_MAPPING = [
         'jsonActive' => ['codeMetaJSON', 'codeMetaImport'],
         'swhXMLActive'   => 'swhXML',
@@ -74,19 +85,18 @@ abstract class Constants
 
     public const CONVERSIONS_MAPPING = [
         "bibTex" => [
-            "step1" => [ 'name' ],
-            "step2" => [ 'identifier' ],
+            "step1" => [ 'name', 'identifier' ],
+            "step2" => [],
             "step3" => [ 'author.*.givenName',  'author.*.familyName' ]
         ],
         "bibLaTex" => [
-            "step1" => [ 'name', 'dateCreated', 'publisher.url', 'dateModified' ],
-            "step2" => [ 'identifier' ],
+            "step1" => [ 'name', 'dateCreated', 'publisher.url', 'identifier', 'dateModified' ],
+            "step2" => [],
             "step3" => [ 'author.*.givenName', 'author.*.familyName' ]
         ],
         "dataCite" => [
-            "step1" => [ 'name', 'datePublished', 'publisher.name' ],
+            "step1" => [ 'name', 'datePublished', 'publisher.name', 'identifier', ],
             "step2" => [
-                'identifier',
                 'funder.*.name',
                 'funder.name',
                 'funder.*.@id',

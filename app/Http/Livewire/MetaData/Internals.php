@@ -288,18 +288,15 @@ trait Internals
         if(empty($keys)) return;
 
         array_walk($keys, function($key) use(&$data){
-            if(isset($data[$key])){
-
-                if(in_array($key, Constants::TEXTAREA_ARRAYS_CODEMETA_KEYS)){
-                    $data[$key] = str_replace("\n", "," , $data[$key]);
-                }
-
-                $data[$key] = Collect(explode(',', $data[$key]))
-                    ->map(fn($val) => trim($val))
-                    ->reject(fn($val) => empty($val));
-
-                if(count($data[$key])===1) $data[$key] = $data[$key][0];
+            if(in_array($key, Constants::TEXTAREA_ARRAYS_CODEMETA_KEYS)){
+                $data[$key] = str_replace("\n", "," , $data[$key]);
             }
+
+            $data[$key] = Collect(explode(',', $data[$key]))
+                ->map(fn($val) => trim($val))
+                ->reject(fn($val) => empty($val));
+
+            if(count($data[$key])===1) $data[$key] = $data[$key][0];
         });
     }
 
