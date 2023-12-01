@@ -51,6 +51,12 @@ abstract class Constants
         'softwareRequirements'
     ];
 
+    public const BUNDLE_CODEMETA_KEYS = [
+        'downloadUrl',
+        'installUrl',
+        'buildInstructions'
+    ];
+
     public const SWH_CODEMETA_KEYS = [
         'codeRepository'
     ];

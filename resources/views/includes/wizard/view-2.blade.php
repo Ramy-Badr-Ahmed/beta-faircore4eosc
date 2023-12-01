@@ -212,11 +212,14 @@
                                     @else generateCodeMeta @endif" wire:loading.class="noDirt"
                       wire:model.{{$tripMode}}="{{$relatedLink['wireModel']}}" placeholder="{{$relatedLink['placeHolder']}}">
                 </textarea>
+            <x-livewire.view-errors :wiredFormData="$relatedLink['wireModel']" :crossMark="true"/>
         </div>
     </div>
+    <x-livewire.view-errors :wiredFormData="$relatedLink['wireModel']"/>
 </div>
 
-<div id="div_id_developmentStatus" style="margin-bottom:25px"  @class(['form-group','fadeIn', 'hide' => !$viewFlags['swRepository']])>
+<div id="div_id_developmentStatus" style="margin-bottom:25px"  @php($hasError = (bool)$errors->has($developmentStatus['wireModel']))
+    @class(['form-group','fadeIn', 'hide' => !$viewFlags['swRepository'], 'has-error' => $hasError])>
     <div class="row center-block">
         <label for="id_developmentStatus" class="col-md-3 control-label"
                wire:target="extractCodeMeta, @if($tripMode!=='defer') {{$developmentStatus['codeMetaKey']}} @else generateCodeMeta @endif"
@@ -250,8 +253,10 @@
 
                 @endforeach
             </select>
+            <x-livewire.view-errors :wiredFormData="$developmentStatus['wireModel']" :crossMark="true"/>
         </div>
     </div>
+    <x-livewire.view-errors :wiredFormData="$developmentStatus['wireModel']"/>
 </div>
 
 <hr class="style1"/>
@@ -409,7 +414,125 @@
 
 <hr class="style1"/>
 
-<div id="div_id_encodingRadio" style="margin-bottom:25px" class="form-group clearfix">
+<div id="div_id_bundleRadio" style="margin-bottom:25px" class="form-group clearfix">
+    <div class="row center-block">
+        <div class="col-md-3 like-label"
+             wire:target="extractCodeMeta, viewFlags.swBundle, generateCodeMeta"
+             wire:loading.class="blur">Is this SW instance a SW bundle as well?
+        </div>
+        <div class="col-md-9 input-group">
+
+            <label class="radio-inline">
+                <input type="radio" name="bundleOptionsRadios" id="id_bundleRadio_1" value="1"
+                       wire:target="@if($tripMode!=='defer') formData, viewFlags.swPublished, viewFlags.swRelease, viewFlags.swFileSystem
+                                       @else generateCodeMeta @endif" wire:loading.attr="disabled"
+                       wire:model="viewFlags.swBundle" @checked($viewFlags['swBundle'])> Yes
+            </label>
+            <label class="radio-inline">
+                <input type="radio" name="bundleOptionsRadios" id="id_bundleRadio_0" value="0"
+                       wire:target="@if($tripMode!=='defer') formData, viewFlags.swPublished, viewFlags.swRelease, viewFlags.swFileSystem
+                                       @else generateCodeMeta @endif" wire:loading.attr="disabled"
+                       wire:model="viewFlags.swBundle" @checked(!$viewFlags['swBundle'])>No
+            </label>
+
+        </div>
+    </div>
+</div>
+
+<div id="div_id_downloadUrl" style=" margin-bottom:25px" @php($hasError = (bool)$errors->has($downloadUrl['wireModel']))
+    @class(['form-group','fadeIn', 'hide' => !$viewFlags['swBundle'], 'has-error' => $hasError ])>
+    <div class="row center-block">
+        <label for="id_downloadUrl" class="col-md-3 control-label"
+               wire:target="extractCodeMeta, @if($tripMode!=='defer') {{$downloadUrl['wireModel']}} @else generateCodeMeta @endif"
+               wire:loading.class="@if($errors->has($downloadUrl['wireModel'])) blur-red @else blur @endif ">Download URL</label>
+        <div class="col-md-9 input-group">
+            <div class=" input-group-addon border" >
+                <a tabindex="0"   role="button" data-toggle="popover" title="Info" data-html="true" data-placement="bottom"
+                   data-content="{{$downloadUrl['info']}}"><i class="glyphicon glyphicon-info-sign"></i></a>
+            </div>
+
+            <div class=" input-group-addon border" wire:key="popover.{{$downloadUrl['codeMetaKey'].$time}}">
+
+                <a tabindex="0"   role="button" data-toggle="popover" title="{{$downloadUrl['codeMetaKey']}}" data-html="true"
+                   data-content="{{$downloadUrl['codeMetaInfo'].preg_replace('/\?/', $downloadUrl['expanded-JSON-LD'] , $downloadUrl['expanded'])
+                                    .preg_replace('/\?/', $downloadUrl['compacted-JSON-LD'] , $downloadUrl['compacted'])}}">
+                    <i class="glyphicon thin glyphicon-console"></i>
+                </a>
+            </div>
+
+            <input type="text"  class="input-md form-control" id="id_downloadUrl" name="downloadUrl"
+                   wire:target="@if($tripMode!=='defer') formData, viewFlags.swRepository, viewFlags.swCode, viewFlags.swFunders, viewFlags.swFileSystem
+                                    @else generateCodeMeta @endif" wire:loading.class="noDirt"
+                   wire:model.{{$tripMode}}="{{$downloadUrl['wireModel']}}" placeholder="{{$downloadUrl['placeHolder']}}"
+            />
+            <x-livewire.view-errors :wiredFormData="$downloadUrl['wireModel']" :crossMark="true"/>
+        </div>
+    </div>
+    <x-livewire.view-errors :wiredFormData="$downloadUrl['wireModel']"/>
+</div>
+
+<div id="div_id_installUrl" style=" margin-bottom:25px" @php($hasError = (bool)$errors->has($installUrl['wireModel']))
+    @class(['form-group','fadeIn', 'hide' => !$viewFlags['swBundle'], 'has-error' => $hasError ])>
+    <div class="row center-block">
+        <label for="id_installUrl" class="col-md-3 control-label"
+               wire:target="extractCodeMeta, @if($tripMode!=='defer') {{$installUrl['wireModel']}} @else generateCodeMeta @endif"
+               wire:loading.class="@if($errors->has($installUrl['wireModel'])) blur-red @else blur @endif ">Install URL</label>
+        <div class="col-md-9 input-group">
+            <div class=" input-group-addon border" >
+                <a tabindex="0"   role="button" data-toggle="popover" title="Info" data-html="true" data-placement="bottom"
+                   data-content="{{$installUrl['info']}}"><i class="glyphicon glyphicon-info-sign"></i></a>
+            </div>
+            <div class=" input-group-addon border" wire:key="popover.{{$installUrl['codeMetaKey'].$time}}">
+
+                <a tabindex="0"   role="button" data-toggle="popover" title="{{$installUrl['codeMetaKey']}}" data-html="true"
+                   data-content="{{$installUrl['codeMetaInfo'].preg_replace('/\?/', $installUrl['expanded-JSON-LD'] , $installUrl['expanded'])
+                                    .preg_replace('/\?/', $installUrl['compacted-JSON-LD'] , $installUrl['compacted'])}}">
+                    <i class="glyphicon thin glyphicon-console"></i>
+                </a>
+            </div>
+
+            <input type="text"  class="input-md form-control" id="id_installUrl" name="installUrl"
+                   wire:target="@if($tripMode!=='defer') formData, viewFlags.swRepository, viewFlags.swCode, viewFlags.swFunders, viewFlags.swFileSystem
+                                    @else generateCodeMeta @endif" wire:loading.class="noDirt"
+                   wire:model.{{$tripMode}}="{{$installUrl['wireModel']}}" placeholder="{{$installUrl['placeHolder']}}"/>
+
+            <x-livewire.view-errors :wiredFormData="$installUrl['wireModel']" :crossMark="true"/>
+        </div>
+    </div>
+    <x-livewire.view-errors :wiredFormData="$installUrl['wireModel']"/>
+</div>
+
+<div id="div_id_buildInstructions" style=" margin-bottom:25px" @php($hasError = (bool)$errors->has($buildInstructions['wireModel']))
+    @class(['form-group','fadeIn', 'hide' => !$viewFlags['swBundle'], 'has-error' => $hasError ])>
+    <div class="row center-block">
+        <label for="id_buildInstructions" class="col-md-3 control-label"
+               wire:target="extractCodeMeta, @if($tripMode!=='defer') {{$buildInstructions['wireModel']}} @else generateCodeMeta @endif"
+               wire:loading.class="@if($errors->has($buildInstructions['wireModel'])) blur-red @else blur @endif ">Build instructions</label>
+        <div class="col-md-9 input-group">
+            <div class=" input-group-addon border" >
+                <a tabindex="0"   role="button" data-toggle="popover" title="Info" data-html="true" data-placement="bottom"
+                   data-content="{{$buildInstructions['info']}}"><i class="glyphicon glyphicon-info-sign"></i></a>
+            </div>
+            <div class=" input-group-addon border" wire:key="popover.{{$buildInstructions['codeMetaKey'].$time}}">
+                <a tabindex="0"   role="button" data-toggle="popover" title="{{$buildInstructions['codeMetaKey']}}" data-html="true"
+                   data-content="{{$buildInstructions['codeMetaInfo'].preg_replace('/\?/', $buildInstructions['expanded-JSON-LD'] , $buildInstructions['expanded'])
+                                    .preg_replace('/\?/', $buildInstructions['compacted-JSON-LD'] , $buildInstructions['compacted'])}}">
+                    <i class="glyphicon thin glyphicon-console"></i>
+                </a>
+            </div>
+            <input type="text"  class="input-md form-control" id="id_buildInstructions" name="buildInstructions"
+                   wire:target="@if($tripMode!=='defer') formData, viewFlags.swRepository, viewFlags.swCode, viewFlags.swFunders, viewFlags.swFileSystem
+                                    @else generateCodeMeta @endif" wire:loading.class="noDirt"
+                   wire:model.{{$tripMode}}="{{$buildInstructions['wireModel']}}" placeholder="{{$buildInstructions['placeHolder']}}"   />
+
+            <x-livewire.view-errors :wiredFormData="$buildInstructions['wireModel']" :crossMark="true"/>
+        </div>
+    </div>
+    <x-livewire.view-errors :wiredFormData="$buildInstructions['wireModel']"/>
+</div>
+
+
+<div id="div_id_encodingRadio" style="margin-bottom:25px" @class(['form-group', 'clearfix', 'fadeIn', 'hide' => !$viewFlags['swBundle']])>
     <div class="row center-block">
         <div class="col-md-3 like-label"
              wire:target="extractCodeMeta, viewFlags.swFileSystem, generateCodeMeta"
@@ -419,13 +542,13 @@
 
             <label class="radio-inline">
                 <input type="radio" name="encodingOptionsRadios" id="id_encodingRadio_1" value="1"
-                       wire:target="@if($tripMode!=='defer') formData, viewFlags.swPublished, viewFlags.swRelease, viewFlags.swFileSystem
+                       wire:target="@if($tripMode!=='defer') formData, viewFlags.swRepository, viewFlags.swCode, viewFlags.swFunders, viewFlags.swFileSystem
                                        @else generateCodeMeta @endif" wire:loading.attr="disabled"
                        wire:model="viewFlags.swFileSystem" @checked($viewFlags['swFileSystem'])> Yes
             </label>
             <label class="radio-inline">
                 <input type="radio" name="encodingOptionsRadios" id="id_encodingRadio_0" value="0"
-                       wire:target="@if($tripMode!=='defer') formData, viewFlags.swPublished, viewFlags.swRelease, viewFlags.swFileSystem
+                       wire:target="@if($tripMode!=='defer') formData, viewFlags.swRepository, viewFlags.swCode, viewFlags.swFunders, viewFlags.swFileSystem
                                        @else generateCodeMeta @endif" wire:loading.attr="disabled"
                        wire:model="viewFlags.swFileSystem" @checked(!$viewFlags['swFileSystem'])>No
             </label>
@@ -435,7 +558,7 @@
 </div>
 
 <div id="div_id_fileSize" style=" margin-bottom:25px" @php($hasError = (bool)$errors->has($fileSize['wireModel']))
-    @class(['form-group','fadeIn', 'hide' => !$viewFlags['swFileSystem'], 'has-error' => $hasError ])>
+    @class(['form-group','fadeIn', 'hide' => !$viewFlags['swFileSystem'] || !$viewFlags['swBundle'], 'has-error' => $hasError ])>
     <div class="row center-block">
         <label for="id_fileSize" class="col-md-3 control-label"
                wire:target="extractCodeMeta,viewFlags.swFileSystem, @if($tripMode!=='defer') {{$fileSize['wireModel']}} @else generateCodeMeta @endif"
@@ -468,7 +591,7 @@
 </div>
 
 <div id="div_id_fileFormat" style=" margin-bottom:25px" @php($hasError = (bool)$errors->has($fileFormat['wireModel']))
-    @class(['form-group','fadeIn', 'hide' => !$viewFlags['swFileSystem'], 'has-error' => $hasError ])>
+    @class(['form-group','fadeIn', 'hide' => !$viewFlags['swFileSystem'] || !$viewFlags['swBundle'], 'has-error' => $hasError ])>
     <div class="row center-block">
         <label for="id_fileFormat" class="col-md-3 control-label"
                wire:target="extractCodeMeta,viewFlags.swFileSystem, @if($tripMode!=='defer') {{$fileFormat['wireModel']}} @else generateCodeMeta @endif"
@@ -500,7 +623,7 @@
 </div>
 
 <div id="div_id_encoding" style=" margin-bottom:25px"  @php($hasError = (bool)$errors->has($encoding['wireModel']))
-    @class(['form-group','fadeIn', 'hide' => !$viewFlags['swFileSystem'], 'has-error' => $hasError ])>
+    @class(['form-group','fadeIn', 'hide' => !$viewFlags['swFileSystem'] || !$viewFlags['swBundle'], 'has-error' => $hasError ])>
     <div class="row center-block">
         <label for="id_encoding" class="col-md-3 control-label"
                wire:target="extractCodeMeta,viewFlags.swFileSystem, @if($tripMode!=='defer') {{$encoding['wireModel']}} @else generateCodeMeta @endif"
@@ -531,94 +654,7 @@
     <x-livewire.view-errors :wiredFormData="$encoding['wireModel']"/>
 </div>
 
-<div id="div_id_downloadUrl" style="margin-bottom:25px" class="form-group @error($downloadUrl['wireModel']) has-error @enderror">
-    <div class="row center-block">
-        <label for="id_downloadUrl" class="col-md-3 control-label"
-               wire:target="extractCodeMeta, @if($tripMode!=='defer') {{$downloadUrl['wireModel']}} @else generateCodeMeta @endif"
-               wire:loading.class="@if($errors->has($downloadUrl['wireModel'])) blur-red @else blur @endif ">Download URL</label>
-        <div class="col-md-9 input-group">
-            <div class=" input-group-addon border" >
-                <a tabindex="0"   role="button" data-toggle="popover" title="Info" data-html="true" data-placement="bottom"
-                   data-content="{{$downloadUrl['info']}}"><i class="glyphicon glyphicon-info-sign"></i></a>
-            </div>
 
-            <div class=" input-group-addon border" wire:key="popover.{{$downloadUrl['codeMetaKey'].$time}}">
-
-                <a tabindex="0"   role="button" data-toggle="popover" title="{{$downloadUrl['codeMetaKey']}}" data-html="true"
-                   data-content="{{$downloadUrl['codeMetaInfo'].preg_replace('/\?/', $downloadUrl['expanded-JSON-LD'] , $downloadUrl['expanded'])
-                                    .preg_replace('/\?/', $downloadUrl['compacted-JSON-LD'] , $downloadUrl['compacted'])}}">
-                    <i class="glyphicon thin glyphicon-console"></i>
-                </a>
-            </div>
-
-            <input type="text"  class="input-md form-control" id="id_downloadUrl" name="downloadUrl"
-                   wire:target="@if($tripMode!=='defer') formData, viewFlags.swRepository, viewFlags.swCode, viewFlags.swFunders, viewFlags.swFileSystem
-                                    @else generateCodeMeta @endif" wire:loading.class="noDirt"
-                   wire:model.{{$tripMode}}="{{$downloadUrl['wireModel']}}" placeholder="{{$downloadUrl['placeHolder']}}"
-            />
-            <x-livewire.view-errors :wiredFormData="$downloadUrl['wireModel']" :crossMark="true"/>
-        </div>
-    </div>
-    <x-livewire.view-errors :wiredFormData="$downloadUrl['wireModel']"/>
-</div>
-
-<div id="div_id_installUrl" style="margin-bottom:25px" class="form-group @error($installUrl['wireModel']) has-error @enderror">
-    <div class="row center-block">
-        <label for="id_installUrl" class="col-md-3 control-label"
-               wire:target="extractCodeMeta, @if($tripMode!=='defer') {{$installUrl['wireModel']}} @else generateCodeMeta @endif"
-               wire:loading.class="@if($errors->has($installUrl['wireModel'])) blur-red @else blur @endif ">Install URL</label>
-        <div class="col-md-9 input-group">
-            <div class=" input-group-addon border" >
-                <a tabindex="0"   role="button" data-toggle="popover" title="Info" data-html="true" data-placement="bottom"
-                   data-content="{{$installUrl['info']}}"><i class="glyphicon glyphicon-info-sign"></i></a>
-            </div>
-            <div class=" input-group-addon border" wire:key="popover.{{$installUrl['codeMetaKey'].$time}}">
-
-                <a tabindex="0"   role="button" data-toggle="popover" title="{{$installUrl['codeMetaKey']}}" data-html="true"
-                   data-content="{{$installUrl['codeMetaInfo'].preg_replace('/\?/', $installUrl['expanded-JSON-LD'] , $installUrl['expanded'])
-                                    .preg_replace('/\?/', $installUrl['compacted-JSON-LD'] , $installUrl['compacted'])}}">
-                    <i class="glyphicon thin glyphicon-console"></i>
-                </a>
-            </div>
-
-            <input type="text"  class="input-md form-control" id="id_installUrl" name="installUrl"
-                   wire:target="@if($tripMode!=='defer') formData, viewFlags.swRepository, viewFlags.swCode, viewFlags.swFunders, viewFlags.swFileSystem
-                                    @else generateCodeMeta @endif" wire:loading.class="noDirt"
-                   wire:model.{{$tripMode}}="{{$installUrl['wireModel']}}" placeholder="{{$installUrl['placeHolder']}}"/>
-
-            <x-livewire.view-errors :wiredFormData="$installUrl['wireModel']" :crossMark="true"/>
-        </div>
-    </div>
-    <x-livewire.view-errors :wiredFormData="$installUrl['wireModel']"/>
-</div>
-
-<div id="div_id_buildInstructions" style="margin-bottom:25px" class="form-group @error($buildInstructions['wireModel']) has-error @enderror">
-    <div class="row center-block">
-        <label for="id_buildInstructions" class="col-md-3 control-label"
-               wire:target="extractCodeMeta, @if($tripMode!=='defer') {{$buildInstructions['wireModel']}} @else generateCodeMeta @endif"
-               wire:loading.class="@if($errors->has($buildInstructions['wireModel'])) blur-red @else blur @endif ">Build instructions</label>
-        <div class="col-md-9 input-group">
-            <div class=" input-group-addon border" >
-                <a tabindex="0"   role="button" data-toggle="popover" title="Info" data-html="true" data-placement="bottom"
-                   data-content="{{$buildInstructions['info']}}"><i class="glyphicon glyphicon-info-sign"></i></a>
-            </div>
-            <div class=" input-group-addon border" wire:key="popover.{{$buildInstructions['codeMetaKey'].$time}}">
-                <a tabindex="0"   role="button" data-toggle="popover" title="{{$buildInstructions['codeMetaKey']}}" data-html="true"
-                   data-content="{{$buildInstructions['codeMetaInfo'].preg_replace('/\?/', $buildInstructions['expanded-JSON-LD'] , $buildInstructions['expanded'])
-                                    .preg_replace('/\?/', $buildInstructions['compacted-JSON-LD'] , $buildInstructions['compacted'])}}">
-                    <i class="glyphicon thin glyphicon-console"></i>
-                </a>
-            </div>
-            <input type="text"  class="input-md form-control" id="id_buildInstructions" name="buildInstructions"
-                   wire:target="@if($tripMode!=='defer') formData, viewFlags.swRepository, viewFlags.swCode, viewFlags.swFunders, viewFlags.swFileSystem
-                                    @else generateCodeMeta @endif" wire:loading.class="noDirt"
-                   wire:model.{{$tripMode}}="{{$buildInstructions['wireModel']}}" placeholder="{{$buildInstructions['placeHolder']}}"   />
-
-            <x-livewire.view-errors :wiredFormData="$buildInstructions['wireModel']" :crossMark="true"/>
-        </div>
-    </div>
-    <x-livewire.view-errors :wiredFormData="$buildInstructions['wireModel']"/>
-</div>
 
 <hr class="style1"/>
 

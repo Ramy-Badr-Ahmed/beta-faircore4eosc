@@ -480,6 +480,9 @@ trait Internals
                 if(in_array($codeMetaKey, Constants::SWH_CODEMETA_KEYS)){
                     $this->isKnown = $this->isKnown2SWH($codeMetaValue);
                 }
+                if(in_array($codeMetaKey, Constants::BUNDLE_CODEMETA_KEYS)){
+                    $this->viewFlags['swBundle'] = true;
+                }
                 if(in_array($codeMetaKey, Constants::FILESYSTEM_CODEMETA_KEYS)){
                     $this->viewFlags['swFileSystem'] = true;
                 }

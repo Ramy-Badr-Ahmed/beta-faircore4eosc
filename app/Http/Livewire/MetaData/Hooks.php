@@ -171,6 +171,11 @@ trait Hooks
         $this->eraseDataOnViewFlags(Constants::CODE_CODEMETA_KEYS);
     }
 
+    public function updatedViewFlagsSwBundle(): void
+    {
+        $this->eraseDataOnViewFlags(array_merge(Constants::BUNDLE_CODEMETA_KEYS, Constants::FILESYSTEM_CODEMETA_KEYS));
+    }
+
     public function updatedViewFlagsSwRelease(): void
     {
         $this->eraseDataOnViewFlags(Constants::SW_RELEASE_CODEMETA_KEYS);
