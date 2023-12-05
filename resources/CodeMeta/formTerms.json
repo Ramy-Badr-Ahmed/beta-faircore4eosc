@@ -154,6 +154,17 @@
         "placeHolder" : "https://..",
         "wireModel" : "formData.buildInstructions"
     },
+    "softwareHelp" : {
+        "codeMetaKey" : "CodeMeta Key: softwareHelp",
+        "codeMetaInfo": "<strong>Parent Type</strong><pre>schema:SoftwareApplication</pre><strong>Description</strong><pre class='pre-scrollable description-width'>Software application help.</pre><strong>Type</strong><pre>CreativeWork</pre><strong>This codeMeta Field</strong><pre>URL</pre>",
+        "expanded-JSON-LD": "<pre class='pre-scrollable'>{\n  \"schema.org/softwareHelp\": [\n    {\n      \"@value\": \"value\"\n    }\n  ]\n}</pre>",
+        "compacted-JSON-LD": "<pre class='pre-scrollable'>{\n  \"schema.org/softwareHelp\": \"value\"\n}</pre>",
+        "expanded":  "<div class=\"vertical-stack\"><span id=\"collapsible-btn1\" ><strong>Expanded</strong> <code>JSON-LD</code> <span class=\"glyphicon glyphicon-retweet\" aria-hidden=\"true\"></span></span><div id=\"CodeRep1\" class=\"collapse in\">?</div></div>",
+        "compacted": "<div class=\"vertical-stack\"><span id=\"collapsible-btn2\" ><strong>Compacted</strong> <code>JSON-LD</code> <span class=\"glyphicon glyphicon-retweet\" aria-hidden=\"true\"></span></span><div id=\"CodeRep2\" class=\"collapse\">?</div></div>",
+        "info": "Please provide a SW help link for your application, if any.",
+        "placeHolder" : "https://..",
+        "wireModel" : "formData.softwareHelp"
+    },
     "softwareVersion" : {
         "codeMetaKey" : "CodeMeta Key: softwareVersion",
         "codeMetaInfo": "<strong>Parent Type</strong><pre>schema:SoftwareApplication</pre><strong>Description</strong><pre class='pre-scrollable description-width'>Version of the software instance</pre><strong>Type</strong><pre>Text</pre><strong>This codeMeta Field</strong><pre>String</pre>",
@@ -255,13 +266,13 @@
     },
     "relatedLink" : {
         "codeMetaKey" : "CodeMeta Key: relatedLink",
-        "codeMetaInfo": "<strong>Parent Type</strong><pre>schema:Thing</pre><strong>Description</strong><pre class='pre-scrollable description-width'>A link related to this object, e.g. related web pages</pre><strong>Type</strong><pre>URL</pre><strong>This codeMeta Field</strong><pre>String || Array</pre>",
+        "codeMetaInfo": "<strong>Parent Type</strong><pre>schema:Thing</pre><strong>Description</strong><pre class='pre-scrollable description-width'>A link related to this object, e.g. related web pages</pre><strong>Type</strong><pre>URL</pre><strong>This codeMeta Field</strong><pre>Array || String</pre>",
         "expanded-JSON-LD": "<pre class='pre-scrollable'>{\n  \"schema.org/relatedLink\": [\n    {\n      \"@id\": \"value\"\n    }\n    &vellip;\n  ]\n}</pre>",
-        "compacted-JSON-LD": "<pre class='pre-scrollable'>{\n  \"schema.org/relatedLink\": [\n    {\n      \"@id\": \"value\"\n    }\n    &vellip;\n  ]\n}</pre>",
+        "compacted-JSON-LD": "<pre class='pre-scrollable'>{\n  \"schema.org/relatedLink\": {\n    \"@id\": \"value\"\n  }\n}</pre>",
         "expanded":  "<div class=\"vertical-stack\"><span id=\"collapsible-btn1\" ><strong>Expanded</strong> <code>JSON-LD</code> <span class=\"glyphicon glyphicon-retweet\" aria-hidden=\"true\"></span></span><div id=\"RelLin1\" class=\"collapse in\">?</div></div>",
         "compacted": "<div class=\"vertical-stack\"><span id=\"collapsible-btn2\" ><strong>Compacted</strong> <code>JSON-LD</code> <span class=\"glyphicon glyphicon-retweet\" aria-hidden=\"true\"></span></span><div id=\"RelLin2\" class=\"collapse\">?</div></div>",
         "info": "Please provide any related pages to your application.<br><br>Several links can be separated by a new line each.",
-        "placeHolder" : "Links here: https://.., ...",
+        "placeHolder" : "https://..\nhttps://...",
         "wireModel" : "formData.relatedLink"
     },
     "programmingLanguage" : {
@@ -308,6 +319,39 @@
         "placeHolder" : "Node.js 14.18.0, Python 3.7, ...",
         "wireModel" : "formData.softwareRequirements"
     },
+    "processorRequirements" : {
+        "codeMetaKey" : "CodeMeta Key: processorRequirements",
+        "codeMetaInfo": "<strong>Parent Type</strong><pre>schema:SoftwareApplication</pre><strong>Description</strong><pre class='pre-scrollable description-width'>Processor architecture required to run the application (e.g. IA64).</pre><strong>Type</strong><pre>Text</pre><strong>This codeMeta Field</strong><pre>Array || String</pre>",
+        "expanded-JSON-LD": "<pre class='pre-scrollable'>{\n  \"schema.org/processorRequirements\": [\n    {\n      \"@value\": \"value\"\n    }\n    &vellip;\n  ]\n}</pre>",
+        "compacted-JSON-LD": "<pre class='pre-scrollable'>{\n  \"schema.org/processorRequirements\": \"value\"\n}</pre>",
+        "expanded":  "<div class=\"vertical-stack\"><span id=\"collapsible-btn1\" ><strong>Expanded</strong> <code>JSON-LD</code> <span class=\"glyphicon glyphicon-retweet\" aria-hidden=\"true\"></span></span><div id=\"SWProse1\" class=\"collapse in\">?</div></div>",
+        "compacted": "<div class=\"vertical-stack\"><span id=\"collapsible-btn2\" ><strong>Compacted</strong> <code>JSON-LD</code> <span class=\"glyphicon glyphicon-retweet\" aria-hidden=\"true\"></span></span><div id=\"SWProse2\" class=\"collapse\">?</div></div>",
+        "info": "Please state the required processor requirement for your application.<br><br>Several entries can be written in a comma-seperated list.",
+        "placeHolder" : "i386, x86-64, SPARC, MIPS, RISC-V, SoC ...",
+        "wireModel" : "formData.processorRequirements"
+    },
+    "memoryRequirements" : {
+        "codeMetaKey" : "CodeMeta Key: memoryRequirements",
+        "codeMetaInfo": "<strong>Parent Type</strong><pre>schema:SoftwareApplication</pre><strong>Description</strong><pre class='pre-scrollable description-width'>Minimum memory requirements.</pre><strong>Type</strong><pre>Text or URL</pre><strong>This codeMeta Field</strong><pre>Array || String</pre>",
+        "expanded-JSON-LD": "<pre class='pre-scrollable'>{\n  \"schema.org/memoryRequirements\": [\n    {\n      \"@id\": \"value\"\n    }\n    &vellip;\n  ]\n}</pre>",
+        "compacted-JSON-LD": "<pre class='pre-scrollable'>{\n  \"schema.org/memoryRequirements\": {\n    \"@id\": \"value\"\n  }\n}</pre>",
+        "expanded":  "<div class=\"vertical-stack\"><span id=\"collapsible-btn1\" ><strong>Expanded</strong> <code>JSON-LD</code> <span class=\"glyphicon glyphicon-retweet\" aria-hidden=\"true\"></span></span><div id=\"SWMem1\" class=\"collapse in\">?</div></div>",
+        "compacted": "<div class=\"vertical-stack\"><span id=\"collapsible-btn2\" ><strong>Compacted</strong> <code>JSON-LD</code> <span class=\"glyphicon glyphicon-retweet\" aria-hidden=\"true\"></span></span><div id=\"SWMem2\" class=\"collapse\">?</div></div>",
+        "info": "Please state the required minimum RAM size for your application.<br><br>Several entries can be written in a comma-seperated list.",
+        "placeHolder" : "4GB",
+        "wireModel" : "formData.memoryRequirements"
+    },
+    "storageRequirements" : {
+        "codeMetaKey" : "CodeMeta Key: storageRequirements",
+        "codeMetaInfo": "<strong>Parent Type</strong><pre>schema:SoftwareApplication</pre><strong>Description</strong><pre class='pre-scrollable description-width'>Storage requirements (free space required).</pre><strong>Type</strong><pre>Text or URL</pre><strong>This codeMeta Field</strong><pre>Array || String</pre>",
+        "expanded-JSON-LD": "<pre class='pre-scrollable'>{\n  \"schema.org/storageRequirements\": [\n    {\n      \"@id\": \"value\"\n    }\n    &vellip;\n  ]\n}</pre>",
+        "compacted-JSON-LD": "<pre class='pre-scrollable'>{\n  \"schema.org/storageRequirements\": {\n    \"@id\": \"value\"\n  }\n}</pre>",
+        "expanded":  "<div class=\"vertical-stack\"><span id=\"collapsible-btn1\" ><strong>Expanded</strong> <code>JSON-LD</code> <span class=\"glyphicon glyphicon-retweet\" aria-hidden=\"true\"></span></span><div id=\"SWSto1\" class=\"collapse in\">?</div></div>",
+        "compacted": "<div class=\"vertical-stack\"><span id=\"collapsible-btn2\" ><strong>Compacted</strong> <code>JSON-LD</code> <span class=\"glyphicon glyphicon-retweet\" aria-hidden=\"true\"></span></span><div id=\"SWSto2\" class=\"collapse\">?</div></div>",
+        "info": "Please state the required minimum disk-space for your application.<br><br>Several entries can be written in a comma-seperated list.",
+        "placeHolder" : "12GB",
+        "wireModel" : "formData.storageRequirements"
+    },
     "applicationCategory" : {
         "codeMetaKey" : "CodeMeta Key: applicationCategory",
         "codeMetaInfo": "<strong>Parent Type</strong><pre>schema:SoftwareApplication</pre><strong>Description</strong><pre class='pre-scrollable description-width'>Type of software application, e.g. ‘Game, Multimedia’</pre><strong>Type</strong><pre>Text or URL</pre><strong>This codeMeta Field</strong><pre>Array || String</pre>",
@@ -327,7 +371,7 @@
         "expanded":  "<div class=\"vertical-stack\"><span id=\"collapsible-btn1\" ><strong>Expanded</strong> <code>JSON-LD</code> <span class=\"glyphicon glyphicon-retweet\" aria-hidden=\"true\"></span></span><div id=\"Keyw1\" class=\"collapse in\">?</div></div>",
         "compacted": "<div class=\"vertical-stack\"><span id=\"collapsible-btn2\" ><strong>Compacted</strong> <code>JSON-LD</code> <span class=\"glyphicon glyphicon-retweet\" aria-hidden=\"true\"></span></span><div id=\"Keyw2\" class=\"collapse\">?</div></div>",
         "info": "Please state the relative keyword(s) attributed to your SW application.<br><br>Several entries can be written in a comma-seperated list.",
-        "placeHolder" : "Acoustics, Andromeda, ...",
+        "placeHolder" : "Tensors Computation, Galaxies: Stellar Content, ...",
         "wireModel" : "formData.keywords"
     },
     "developmentStatus" : {
@@ -348,18 +392,18 @@
         "expanded":  "<div class=\"vertical-stack\"><span id=\"collapsible-btn1\" ><strong>Expanded</strong> <code>JSON-LD</code> <span class=\"glyphicon glyphicon-retweet\" aria-hidden=\"true\"></span></span><div id=\"Iden1\" class=\"collapse in\">?</div></div>",
         "compacted": "<div class=\"vertical-stack\"><span id=\"collapsible-btn2\" ><strong>Compacted</strong> <code>JSON-LD</code> <span class=\"glyphicon glyphicon-retweet\" aria-hidden=\"true\"></span></span><div id=\"Iden2\" class=\"collapse\">?</div></div>",
         "info": "Please provide an identifier for your SW application, if any.<br><br>Examples: doi, full link of a SWH resolver etc.",
-        "placeHolder" : "DOI, SWHID Resolver etc.",
+        "placeHolder" : "DOI or SWHID Resolver",
         "wireModel" : "formData.identifier"
     },
     "referencePublication" : {
         "codeMetaKey" : "CodeMeta Key: referencePublication",
-        "codeMetaInfo": "<strong>Parent Type</strong><pre>codemeta:SoftwareSourceCode</pre><strong>Description</strong><pre class='pre-scrollable description-width'>An academic publication related to the software.</pre><strong>Type</strong><pre>ScholarlyArticle</pre><strong>This codeMeta Field</strong><pre>URL</pre>",
-        "expanded-JSON-LD": "<pre class='pre-scrollable'>{\n  \"codemeta.github.io/terms/referencePublication\": [\n    {\n      \"@id\": \"value\"\n    }\n  ]\n}</pre>",
+        "codeMetaInfo": "<strong>Parent Type</strong><pre>codemeta:SoftwareSourceCode</pre><strong>Description</strong><pre class='pre-scrollable description-width'>An academic publication related to the software.</pre><strong>Type</strong><pre>ScholarlyArticle</pre><strong>This codeMeta Field</strong><pre>Array || String</pre>",
+        "expanded-JSON-LD": "<pre class='pre-scrollable'>{\n  \"codemeta.github.io/terms/referencePublication\": [\n    {\n      \"@id\": \"value\"\n    }\n    &vellip;\n  ]\n}</pre>",
         "compacted-JSON-LD": "<pre class='pre-scrollable'>{\n  \"codemeta.github.io/terms/referencePublication\": {\n    \"@id\": \"value\"\n  }\n}</pre>",
         "expanded":  "<div class=\"vertical-stack\"><span id=\"collapsible-btn1\" ><strong>Expanded</strong> <code>JSON-LD</code> <span class=\"glyphicon glyphicon-retweet\" aria-hidden=\"true\"></span></span><div id=\"RefPub1\" class=\"collapse in\">?</div></div>",
         "compacted": "<div class=\"vertical-stack\"><span id=\"collapsible-btn2\" ><strong>Compacted</strong> <code>JSON-LD</code> <span class=\"glyphicon glyphicon-retweet\" aria-hidden=\"true\"></span></span><div id=\"RefPub2\" class=\"collapse\">?</div></div>",
-        "info": "Please provide a link for an academic publication referencing your software application, if any.",
-        "placeHolder" : "https://doi.org/...",
+        "info": "Please provide any links for academic publications referencing your software application, if any.<br><br>Several links can be separated by a new line each.",
+        "placeHolder" : "https://.., \nhttps://...",
         "wireModel" : "formData.referencePublication"
     },
     "funding" : {

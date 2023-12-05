@@ -133,7 +133,7 @@
     <div class="row center-block">
         <div class="col-md-3 like-label"
              wire:target="extractCodeMeta, viewFlags.swPublished, generateCodeMeta"
-             wire:loading.class="blur">Is this SW instance published?
+             wire:loading.class="blur">Is this SW instance scholarly-published?
         </div>
         <div class="col-md-9 input-group">
 
@@ -286,6 +286,39 @@
 
 <hr class="style1"/>
 
+<div id="div_id_identifier" style="margin-bottom:25px" class="form-group @error($identifier['wireModel']) has-error @enderror">
+    <div class="row center-block">
+        <label for="id_identifier" class="col-md-3 control-label"
+               wire:target="extractCodeMeta, @if($tripMode!=='defer') {{$identifier['wireModel']}} @else generateCodeMeta @endif"
+               wire:loading.class="@if($errors->has($identifier['wireModel'])) blur-red @else blur @endif ">Unique Identifier</label>
+        <div class="col-md-9 input-group" >
+            <div class=" input-group-addon border" >
+                <a tabindex="0"   role="button" data-toggle="popover" title="Info" data-html="true"
+                   data-content="{{$identifier['info']}}">
+                    <i class="glyphicon glyphicon-info-sign"></i>
+                </a>
+            </div>
+
+            <div class=" input-group-addon border" wire:key="popover.{{$identifier['codeMetaKey'].$time}}">
+
+                <a tabindex="0"   role="button" data-toggle="popover" title="{{$identifier['codeMetaKey']}}" data-html="true"
+                   data-content="{{$identifier['codeMetaInfo'].preg_replace('/\?/', $identifier['expanded-JSON-LD'] , $identifier['expanded'])
+                                    .preg_replace('/\?/', $identifier['compacted-JSON-LD'] , $identifier['compacted'])}}">
+                    <i class="glyphicon thin glyphicon-console"></i>
+                </a>
+            </div>
+
+            <input type="text"  class="input-md form-control" id="id_identifier" name="identifier"
+                   wire:target="@if($tripMode!=='defer') formData, viewFlags.swPublished, viewFlags.swRelease
+                                    @else generateCodeMeta @endif" wire:loading.class="noDirt"
+                   wire:model.{{$tripMode}}="{{$identifier['wireModel']}}" placeholder="{{$identifier['placeHolder']}}"/>
+
+            <x-livewire.view-errors :wiredFormData="$identifier['wireModel']" :crossMark="true"/>
+        </div>
+    </div>
+    <x-livewire.view-errors :wiredFormData="$identifier['wireModel']"/>
+</div>
+
 <div id="div_id_applicationCategory" style="margin-bottom:25px" class="form-group">
     <div class="row center-block">
         <label for="id_applicationCategory" class="col-md-3 control-label"
@@ -341,39 +374,6 @@
                    wire:model.{{$tripMode}}="{{$keywords['wireModel']}}" placeholder="{{$keywords['placeHolder']}}"   />
         </div>
     </div>
-</div>
-
-<div id="div_id_identifier" style="margin-bottom:25px" class="form-group @error($identifier['wireModel']) has-error @enderror">
-    <div class="row center-block">
-        <label for="id_identifier" class="col-md-3 control-label"
-               wire:target="extractCodeMeta, @if($tripMode!=='defer') {{$identifier['wireModel']}} @else generateCodeMeta @endif"
-               wire:loading.class="@if($errors->has($identifier['wireModel'])) blur-red @else blur @endif ">Unique Identifier</label>
-        <div class="col-md-9 input-group" >
-            <div class=" input-group-addon border" >
-                <a tabindex="0"   role="button" data-toggle="popover" title="Info" data-html="true"
-                   data-content="{{$identifier['info']}}">
-                    <i class="glyphicon glyphicon-info-sign"></i>
-                </a>
-            </div>
-
-            <div class=" input-group-addon border" wire:key="popover.{{$identifier['codeMetaKey'].$time}}">
-
-                <a tabindex="0"   role="button" data-toggle="popover" title="{{$identifier['codeMetaKey']}}" data-html="true"
-                   data-content="{{$identifier['codeMetaInfo'].preg_replace('/\?/', $identifier['expanded-JSON-LD'] , $identifier['expanded'])
-                                    .preg_replace('/\?/', $identifier['compacted-JSON-LD'] , $identifier['compacted'])}}">
-                    <i class="glyphicon thin glyphicon-console"></i>
-                </a>
-            </div>
-
-            <input type="text"  class="input-md form-control" id="id_identifier" name="identifier"
-                   wire:target="@if($tripMode!=='defer') formData, viewFlags.swPublished, viewFlags.swRelease
-                                    @else generateCodeMeta @endif" wire:loading.class="noDirt"
-                   wire:model.{{$tripMode}}="{{$identifier['wireModel']}}" placeholder="{{$identifier['placeHolder']}}"/>
-
-            <x-livewire.view-errors :wiredFormData="$identifier['wireModel']" :crossMark="true"/>
-        </div>
-    </div>
-    <x-livewire.view-errors :wiredFormData="$identifier['wireModel']"/>
 </div>
 
 <div id="div_id_referencePublication" style="margin-top: 10px; margin-bottom:25px" class="form-group @error($referencePublication['wireModel']) has-error @enderror">

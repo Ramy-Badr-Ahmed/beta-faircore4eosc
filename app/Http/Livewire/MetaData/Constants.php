@@ -25,16 +25,13 @@ abstract class Constants
         'runtimePlatform',
         'operatingSystem',
         'softwareRequirements',
+        'memoryRequirements',
+        'processorRequirements',
+        'storageRequirements',
         'relatedLink',
         'referencePublication',
         'keywords',
         'applicationCategory'
-    ];
-
-    public const FILESYSTEM_CODEMETA_KEYS = [
-        'fileSize',
-        'fileFormat',
-        'encoding'
     ];
 
     public const REPOSITORY_CODEMETA_KEYS = [
@@ -51,10 +48,23 @@ abstract class Constants
         'softwareRequirements'
     ];
 
+    public const PERFORMANCE_CODEMETA_KEYS = [
+        'memoryRequirements',
+        'processorRequirements',
+        'storageRequirements',
+    ];
+
     public const BUNDLE_CODEMETA_KEYS = [
         'downloadUrl',
         'installUrl',
-        'buildInstructions'
+        'buildInstructions',
+        'softwareHelp'
+    ];
+
+    public const FILESYSTEM_CODEMETA_KEYS = [
+        'fileSize',
+        'fileFormat',
+        'encoding'
     ];
 
     public const SWH_CODEMETA_KEYS = [

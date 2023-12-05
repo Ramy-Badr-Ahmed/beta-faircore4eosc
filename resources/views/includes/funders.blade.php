@@ -32,7 +32,7 @@
                     </div>
 
                     <input type="text" class="input-md form-control" id="id_funder{{ $thisFunder }}_funding" name="funder{{ $thisFunder }}_funding"
-                           wire:target="@if($tripMode!=='defer') formData, viewFlags.swRepository, viewFlags.swCode, viewFlags.swFunders, viewFlags.swFileSystem
+                           wire:target="@if($tripMode!=='defer') formData, viewFlags.swRepository, viewFlags.swBundle, viewFlags.swCode, viewFlags.swFunders, viewFlags.swFileSystem, viewFlags.swRequirements
                                         @else generateCodeMeta @endif" wire:loading.class="noDirt"
                            wire:model.{{$loopTripMode}}="{{$wireFunder.$funding['inWireModel']}}" placeholder="{{$funding['placeHolder']}}"
                     />
@@ -66,7 +66,7 @@
                     </div>
 
                     <input type="text" class="input-md form-control" id="id_funder{{ $thisFunder }}_funder" name="funder{{ $thisFunder }}_funder"
-                           wire:target="@if($tripMode!=='defer') formData, viewFlags.swRepository, viewFlags.swCode, viewFlags.swFunders, viewFlags.swFileSystem
+                           wire:target="@if($tripMode!=='defer') formData, viewFlags.swRepository, viewFlags.swBundle, viewFlags.swCode, viewFlags.swFunders, viewFlags.swFileSystem, viewFlags.swRequirements
                                         @else generateCodeMeta @endif" wire:loading.class="noDirt"
                            wire:model.{{$loopTripMode}}="{{$wireFunder.$funder['inWireModel']}}" placeholder="{{$funder['placeHolder']}}"/>
 
@@ -104,7 +104,7 @@
                         </a>
                     </div>
                     <input type="text"  class="input-md form-control" id="id_funder{{ $thisFunder }}_@id" name="funder{{ $thisFunder }}_@id"
-                           wire:target="@if($tripMode!=='defer') formData, viewFlags.swRepository, viewFlags.swCode, viewFlags.swFunders, viewFlags.swFileSystem
+                           wire:target="@if($tripMode!=='defer') formData, viewFlags.swRepository, viewFlags.swBundle, viewFlags.swCode, viewFlags.swFunders, viewFlags.swFileSystem, viewFlags.swRequirements
                                         @else generateCodeMeta @endif" wire:loading.class="noDirt"
                            wire:model.{{$loopTripMode}}="{{$wireFunder.$funderID["inWireModel"]}}" placeholder="{{$funderID['placeHolder']}}"/>
 

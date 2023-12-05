@@ -156,26 +156,6 @@ trait Hooks
         $this->eraseDataOnViewFlags(Constants::SW_PUBLISHED_CODEMETA_KEYS);
     }
 
-    public function updatedViewFlagsSwFileSystem(): void
-    {
-        $this->eraseDataOnViewFlags(Constants::FILESYSTEM_CODEMETA_KEYS);
-    }
-
-    public function updatedViewFlagsSwRepository(): void
-    {
-        $this->eraseDataOnViewFlags(Constants::REPOSITORY_CODEMETA_KEYS);
-    }
-
-    public function updatedViewFlagsSwCode(): void
-    {
-        $this->eraseDataOnViewFlags(Constants::CODE_CODEMETA_KEYS);
-    }
-
-    public function updatedViewFlagsSwBundle(): void
-    {
-        $this->eraseDataOnViewFlags(array_merge(Constants::BUNDLE_CODEMETA_KEYS, Constants::FILESYSTEM_CODEMETA_KEYS));
-    }
-
     public function updatedViewFlagsSwRelease(): void
     {
         $this->eraseDataOnViewFlags(Constants::SW_RELEASE_CODEMETA_KEYS);
@@ -183,6 +163,29 @@ trait Hooks
         if(Str::contains($this->getErrorBag()->first('formData.dateModified'), 'SW Release instance')){
             $this->resetErrorBag('formData.dateModified');
         }
+    }
+
+    public function updatedViewFlagsSwRepository(): void
+    {
+        $this->eraseDataOnViewFlags(Constants::REPOSITORY_CODEMETA_KEYS);
+    }
+    public function updatedViewFlagsSwBundle(): void
+    {
+        $this->eraseDataOnViewFlags(array_merge(Constants::BUNDLE_CODEMETA_KEYS, Constants::FILESYSTEM_CODEMETA_KEYS));
+    }
+
+    public function updatedViewFlagsSwFileSystem(): void
+    {
+        $this->eraseDataOnViewFlags(Constants::FILESYSTEM_CODEMETA_KEYS);
+    }
+
+    public function updatedViewFlagsSwCode(): void
+    {
+        $this->eraseDataOnViewFlags(array_merge(Constants::CODE_CODEMETA_KEYS, Constants::PERFORMANCE_CODEMETA_KEYS));
+    }
+    public function updatedViewFlagsSwRequirements(): void
+    {
+        $this->eraseDataOnViewFlags(Constants::PERFORMANCE_CODEMETA_KEYS);
     }
 
     public function updatedViewFlagsSwFunders(): void

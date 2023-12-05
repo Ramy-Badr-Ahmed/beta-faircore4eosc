@@ -492,6 +492,9 @@ trait Internals
                 if(in_array($codeMetaKey, Constants::CODE_CODEMETA_KEYS)){
                     $this->viewFlags['swCode'] = true;
                 }
+                if(in_array($codeMetaKey, Constants::PERFORMANCE_CODEMETA_KEYS)){
+                    $this->viewFlags['swRequirements'] = true;
+                }
                 $this->formData[$codeMetaKey] = is_array($codeMetaValue)
                     ? implode(", ", $codeMetaValue)
                     : $codeMetaValue;

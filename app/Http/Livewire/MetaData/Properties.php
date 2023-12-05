@@ -36,6 +36,7 @@ trait Properties
         'swRepository' => false,
         'swCode'=> false,
         'swBundle' => false,
+        'swRequirements' => false,
         'jsonPanel' => true,
         'jsonActive' => true,
         'jsonReadOnly' => true,
