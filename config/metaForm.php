@@ -49,10 +49,6 @@ return [
                     'formData.installUrl' => 'url|required_with:formData.buildInstructions',
                     'formData.buildInstructions' => 'url|nullable',
                     'formData.softwareHelp' => 'url|nullable',
-                    'formData.funder.*.funding' => 'string|nullable',
-                    'formData.funder.*.funder' => 'string|required_with:formData.funder.*.@id,formData.funder.*.funding',
-                    'formData.funder.*.@id' => 'url|required_with:formData.funder.*.funder,formData.funder.*.funding',
-
                 ],
             "step3" =>
                 [
@@ -73,6 +69,10 @@ return [
                     'formData.maintainer.*.email' => 'email|nullable|required_with:formData.maintainer.*.affiliation',
                     'formData.maintainer.*.@id' => 'url|nullable',
                     'formData.maintainer.*.affiliation' => 'string|nullable',
+
+                    'formData.funder.*.funding' => 'string|nullable',
+                    'formData.funder.*.funder' => 'string|required_with:formData.funder.*.@id,formData.funder.*.funding',
+                    'formData.funder.*.@id' => 'url|required_with:formData.funder.*.funder,formData.funder.*.funding',
                     ],
             "right-panel" =>
                 [
@@ -94,9 +94,7 @@ return [
                     'formData.contIntegration' => 'url|nullable',
                     'formData.issueTracker' => 'url|nullable',
                     'formData.identifier' => 'url|nullable',
-                    'formData.referencePublication' => 'url|nullable',
-                    'formData.funder.*.funder' => 'string|required_with:formData.funder.*.@id,formData.funder.*.funding',
-                    'formData.funder.*.@id' => 'url|nullable',
+                    //'formData.referencePublication' => 'url|nullable',
                 ],
                 "step3" => [
                     'formData.author.*.givenName' => 'string|required',
@@ -106,6 +104,8 @@ return [
                     'formData.contributor.*.@id' => 'url|nullable',
                     'formData.maintainer.*.email' => 'email|nullable',
                     'formData.maintainer.*.@id' => 'url|nullable',
+                    'formData.funder.*.funder' => 'string|required_with:formData.funder.*.@id,formData.funder.*.funding',
+                    'formData.funder.*.@id' => 'url|nullable',
                 ],
             ]
         ],

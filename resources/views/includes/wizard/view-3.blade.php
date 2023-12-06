@@ -8,5 +8,9 @@
 
 @include('includes.persons', [ 'personType' => "maintainer", 'personNumber' => $maintainerNumber, 'wirePerson' => "formData.maintainer."])
 
+<hr class="style1"/>
+
+@include('includes.funders')
+
 <hr class="final">
 

@@ -39,7 +39,7 @@
                                    ])
         @style([ "color: snow" => $viewFlags["panel1Success"] ?? false ])
         wire:click="$set('viewPanel', 1)">1</a>
-        <p>Step 1</p>
+        <p @style(['font-weight: bold'=> $viewPanel === 1])>Step 1<br><span style="font-size: 14px; font-family: Consolas, sans-serif">{{$panelNames[1]}}</span></p>
     </div>
     <div class="stepwizard-step">
         <a type="button" @class( [ "btn", "btn-circle", "btn-success" => $viewFlags["panel2Success"] ?? false,
@@ -49,7 +49,7 @@
                            ])
         @style([ "color: snow" => $viewFlags["panel2Success"] ?? false ])
         wire:click="$set('viewPanel', 2)">2</a>
-        <p>Step 2</p>
+        <p @style(['font-weight: bold'=> $viewPanel === 2])>Step 2<br><span style="font-size: 14px; font-family: Consolas, sans-serif">{{$panelNames[2]}}</span></p>
     </div>
     <div class="stepwizard-step">
         <a type="button" @class( [ "btn", "btn-circle", "btn-success" => $viewFlags["panel3Success"] ?? false,
@@ -59,6 +59,6 @@
                            ])
         @style([ "color: snow" => $viewFlags["panel3Success"] ?? false ])
         wire:click="$set('viewPanel', 3)">3</a>
-        <p>Step 3</p>
+        <p @style(['font-weight: bold'=> $viewPanel === 3])>Step 3<br><span style="font-size: 14px; font-family: Consolas, sans-serif">{{$panelNames[3]}}</span></p>
     </div>
 </div>

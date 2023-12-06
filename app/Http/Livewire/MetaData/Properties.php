@@ -13,7 +13,7 @@ trait Properties
     public array $panelNames = [
         1 => 'SW Preliminary MetaData',
         2 => 'Codebase & SW Discoverability',
-        3 => 'Personage MetaData',
+        3 => 'Personage & Funder MetaData',
     ];
     public array $vocabularyRead = [];
     public array $formTerms = [];
@@ -30,7 +30,7 @@ trait Properties
         'readOnceError' => false,
         'tripMode' => 'defer',
         'swRelease' => false,
-        'swPublished' => false, // true
+        'swPublished' => false,
         'swFileSystem' => false,
         'swFunders' => false,
         'swRepository' => false,

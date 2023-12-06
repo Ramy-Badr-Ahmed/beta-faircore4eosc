@@ -80,7 +80,7 @@
         "compacted-JSON-LD": "<pre class='pre-scrollable'>{\n  \"schema.org/license\": {\n    \"@id\": \"value\"\n  }\n}</pre>",
         "expanded":  "<div class=\"vertical-stack\"><span id=\"collapsible-btn1\" ><strong>Expanded</strong> <code>JSON-LD</code> <span class=\"glyphicon glyphicon-retweet\" aria-hidden=\"true\"></span></span><div id=\"Lice1\" class=\"collapse in\">?</div></div>",
         "compacted": "<div class=\"vertical-stack\"><span id=\"collapsible-btn2\" ><strong>Compacted</strong> <code>JSON-LD</code> <span class=\"glyphicon glyphicon-retweet\" aria-hidden=\"true\"></span></span><div id=\"Lice2\" class=\"collapse\">?</div></div>",
-        "info": "<span>The list is taken from <a href='https://spdx.org/license-list' target='_blank' rel='noopener noreferrer'>SPDX licence list</a></span><br><br>To show the full SPDX list, please either press Enter in or double click this input field; otherwise start typing to filter it out.",
+        "info": "<span>The list is taken from <a href='https://spdx.org/license-list' target='_blank' rel='noopener noreferrer'>SPDX licence list</a></span><br><br>To show the full SPDX list, please double click this input field; otherwise start typing to filter it out.",
         "placeHolder" : "Spdx License List",
         "wireModel" : "formData.licenseInput"
     },

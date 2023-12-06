@@ -62,6 +62,39 @@
     <x-livewire.view-errors :wiredFormData="$codeRepository['wireModel']"/>
 </div>
 
+<div id="div_id_identifier" style="margin-bottom:25px" class="form-group @error($identifier['wireModel']) has-error @enderror">
+    <div class="row center-block">
+        <label for="id_identifier" class="col-md-3 control-label"
+               wire:target="extractCodeMeta, @if($tripMode!=='defer') {{$identifier['wireModel']}} @else generateCodeMeta @endif"
+               wire:loading.class="@if($errors->has($identifier['wireModel'])) blur-red @else blur @endif ">Unique Identifier</label>
+        <div class="col-md-9 input-group" >
+            <div class=" input-group-addon border" >
+                <a tabindex="0"   role="button" data-toggle="popover" title="Info" data-html="true"
+                   data-content="{{$identifier['info']}}">
+                    <i class="glyphicon glyphicon-info-sign"></i>
+                </a>
+            </div>
+
+            <div class=" input-group-addon border" wire:key="popover.{{$identifier['codeMetaKey'].$time}}">
+
+                <a tabindex="0"   role="button" data-toggle="popover" title="{{$identifier['codeMetaKey']}}" data-html="true"
+                   data-content="{{$identifier['codeMetaInfo'].preg_replace('/\?/', $identifier['expanded-JSON-LD'] , $identifier['expanded'])
+                                    .preg_replace('/\?/', $identifier['compacted-JSON-LD'] , $identifier['compacted'])}}">
+                    <i class="glyphicon thin glyphicon-console"></i>
+                </a>
+            </div>
+
+            <input type="text"  class="input-md form-control" id="id_identifier" name="identifier"
+                   wire:target="@if($tripMode!=='defer') formData, viewFlags.swPublished, viewFlags.swRelease
+                                    @else generateCodeMeta @endif" wire:loading.class="noDirt"
+                   wire:model.{{$tripMode}}="{{$identifier['wireModel']}}" placeholder="{{$identifier['placeHolder']}}"/>
+
+            <x-livewire.view-errors :wiredFormData="$identifier['wireModel']" :crossMark="true"/>
+        </div>
+    </div>
+    <x-livewire.view-errors :wiredFormData="$identifier['wireModel']"/>
+</div>
+
 <div id="div_id_repoRadio" style="margin-bottom:25px" class="form-group clearfix">
     <div class="row center-block">
         <div class="col-md-3 like-label"
@@ -253,6 +286,10 @@
 
                 @endforeach
             </select>
+            <div class="input-group-addon">
+                <a tabindex="0" role="button"
+                   wire:click="$emit('clearOut', '{{explode('.', $developmentStatus['wireModel'])[1]}}')"><i class="glyphicon glyphicon-erase"></i></a>
+            </div>
             <x-livewire.view-errors :wiredFormData="$developmentStatus['wireModel']" :crossMark="true"/>
         </div>
     </div>
@@ -808,35 +845,5 @@
     </div>
     <x-livewire.view-errors :wiredFormData="$storageRequirements['wireModel']"/>
 </div>
-
-<hr class="style1"/>
-
-<div id="div_id_fundersRadio" style="margin-bottom:25px;" class="form-group clearfix">
-    <div class="row center-block">
-        <label for="id_fundersRadio" class="col-md-3 control-label"
-               wire:target="extractCodeMeta, viewFlags.swFunders, generateCodeMeta"
-               wire:loading.class="blur">Is this SW instance multiply-funded?</label>
-        <div class="col-md-9 input-group">
-
-            <label class="radio-inline">
-                <input type="radio" name="fundersOptionsRadios" id="id_fundersRadio_1" value="1"
-                       wire:target="@if($tripMode!=='defer') formData, viewFlags.swRepository, viewFlags.swBundle, viewFlags.swCode, viewFlags.swFunders, viewFlags.swFileSystem, viewFlags.swRequirements
-                                        @else generateCodeMeta @endif" wire:loading.attr="disabled"
-                       wire:model="viewFlags.swFunders"
-                       @if($funderNumber===1) wire:click="$set('funderNumber', {{$funderNumber+1}})" @endif @checked($viewFlags['swFunders'])> Yes
-            </label>
-            <label class="radio-inline">
-                <input type="radio" name="fundersOptionsRadios" id="id_fundersRadio_0" value="0"
-                       wire:target="@if($tripMode!=='defer') formData, viewFlags.swRepository, viewFlags.swBundle, viewFlags.swCode, viewFlags.swFunders, viewFlags.swFileSystem, viewFlags.swRequirements
-                                        @else generateCodeMeta @endif" wire:loading.attr="disabled"
-                       wire:model="viewFlags.swFunders"
-                       wire:click ="$set('funderNumber', 1)"  @checked(!$viewFlags['swFunders'])>No
-            </label>
-
-        </div>
-    </div>
-</div>
-
-@include('includes.funders')
 
 

@@ -101,30 +101,29 @@ abstract class Constants
 
     public const CONVERSIONS_MAPPING = [
         "bibTex" => [
-            "step1" => [ 'name', 'identifier' ],
-            "step2" => [],
+            "step1" => [ 'name' ],
+            "step2" => ['identifier'],
             "step3" => [ 'author.*.givenName',  'author.*.familyName' ]
         ],
         "bibLaTex" => [
-            "step1" => [ 'name', 'dateCreated', 'publisher.url', 'identifier', 'dateModified' ],
-            "step2" => [],
+            "step1" => [ 'name', 'dateCreated', 'publisher.url', 'dateModified' ],
+            "step2" => ['identifier'],
             "step3" => [ 'author.*.givenName', 'author.*.familyName' ]
         ],
         "dataCite" => [
-            "step1" => [ 'name', 'datePublished', 'publisher.name', 'identifier', ],
-            "step2" => [
-                'funder.*.name',
-                'funder.name',
-                'funder.*.@id',
-                'funder.@id'
-            ],
+            "step1" => [ 'name', 'datePublished', 'publisher.name'],
+            "step2" => ['identifier'],
             "step3" => [
                 'author.*.givenName',
                 'author.*.familyName',
                 'contributor.*.givenName',
                 'contributor.*.familyName',
                 'contributor.givenName',
-                'contributor.familyName'
+                'contributor.familyName',
+                'funder.*.name',
+                'funder.name',
+                'funder.*.@id',
+                'funder.@id'
             ]
         ],
         "swhXML" => [

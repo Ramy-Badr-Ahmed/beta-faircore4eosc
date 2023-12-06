@@ -1,5 +1,31 @@
 @php($loopTripMode = $tripMode !== 'defer' ? 'lazy' : $tripMode)
 
+<div id="div_id_fundersRadio" style="margin-bottom:25px;" class="form-group clearfix">
+    <div class="row center-block">
+        <label for="id_fundersRadio" class="col-md-3 control-label"
+               wire:target="extractCodeMeta, viewFlags.swFunders, generateCodeMeta"
+               wire:loading.class="blur">Is this SW instance multiply-funded?</label>
+        <div class="col-md-9 input-group">
+
+            <label class="radio-inline">
+                <input type="radio" name="fundersOptionsRadios" id="id_fundersRadio_1" value="1"
+                       wire:target="@if($tripMode!=='defer') formData, viewFlags.swRepository, viewFlags.swBundle, viewFlags.swCode, viewFlags.swFunders, viewFlags.swFileSystem, viewFlags.swRequirements
+                                        @else generateCodeMeta @endif" wire:loading.attr="disabled"
+                       wire:model="viewFlags.swFunders"
+                       @if($funderNumber===1) wire:click="$set('funderNumber', {{$funderNumber+1}})" @endif @checked($viewFlags['swFunders'])> Yes
+            </label>
+            <label class="radio-inline">
+                <input type="radio" name="fundersOptionsRadios" id="id_fundersRadio_0" value="0"
+                       wire:target="@if($tripMode!=='defer') formData, viewFlags.swRepository, viewFlags.swBundle, viewFlags.swCode, viewFlags.swFunders, viewFlags.swFileSystem, viewFlags.swRequirements
+                                        @else generateCodeMeta @endif" wire:loading.attr="disabled"
+                       wire:model="viewFlags.swFunders"
+                       wire:click ="$set('funderNumber', 1)"  @checked(!$viewFlags['swFunders'])>No
+            </label>
+
+        </div>
+    </div>
+</div>
+
 @for ($thisFunder = 0; $thisFunder < $funderNumber; $thisFunder++)
 
     @php($wireFunder = "formData.funder.".$thisFunder)

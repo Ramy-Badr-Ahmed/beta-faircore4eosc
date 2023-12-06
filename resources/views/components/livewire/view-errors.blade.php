@@ -3,7 +3,8 @@
     @error($wiredFormData)
         <span class="glyphicon glyphicon-remove form-control-feedback " aria-hidden="true"
                 @style(["margin-right: 24px" => str_contains($wiredFormData, 'date'),
-                        "margin-right: 12px" => str_contains($wiredFormData, 'license') || str_contains($wiredFormData, 'development')])>
+                        "margin-right: 12px" => str_contains($wiredFormData, 'license'),
+                        "margin-right: 50px" => str_contains($wiredFormData, 'development')])>
 
         </span>
     @enderror

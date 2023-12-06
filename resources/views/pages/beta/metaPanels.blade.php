@@ -158,7 +158,7 @@
 
                     showDropDown: function (){
                         window.addEventListener('showDropdown', (event) =>{
-                            $('#div_id_select_license').toggleClass('show').addClass('fadeIn');
+                            $('#div_id_select_license').addClass((event.detail.view ?? 'show') + ' fadeIn');
                         });
                     },
 

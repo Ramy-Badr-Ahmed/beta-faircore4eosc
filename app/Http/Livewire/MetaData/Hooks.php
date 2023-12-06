@@ -59,6 +59,7 @@ trait Hooks
                 return $val[1];
             });
             $this->formData['author'] = array([]);
+            session()->remove('schemeValidationErrors');
 
         } catch (FileNotFoundException | JsonException $e) {
             $this->viewFlags['readOnceError'] = true;
@@ -210,6 +211,8 @@ trait Hooks
 
         if(empty($this->licenses)){
             unset($this->formData['licenseInput'], $this->formData['license']);
+            $this->dispatchBrowserEvent('showDropdown', ['view' => 'hide']);
+            return;
         }
         $this->dispatchBrowserEvent('showDropdown');
     }

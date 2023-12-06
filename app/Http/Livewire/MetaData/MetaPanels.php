@@ -23,13 +23,14 @@ use UnhandledMatchError;
 
 class MetaPanels extends Component
 {
-    use Properties, Hooks, Internals, Conversions;
+    use Properties, Hooks, Internals, Listeners, Conversions;
 
     protected $listeners = [
         'listEvent' => 'fillList',
         'fromJS' => 'activateImport',
         'decreasePerson',
         'tripMode' => 'setTripModeFromJS',
+        'clearOut' => 'eraseField'
     ];
 
     /**
@@ -42,26 +43,6 @@ class MetaPanels extends Component
         $this->reset('sessionValidationErrors');
 
         throw ValidationException::withMessages($sessionErrors);
-    }
-
-    public function fillList(): void
-    {
-        if(!isset($this->formData['licenseInput'])){
-            $this->licenses = Arr::map(self::$spdx->getLicenses(), function($val){
-                return $val[1];
-            });
-        }
-        $this->dispatchBrowserEvent('showDropdown');
-    }
-
-    public function activateImport(bool $value): void
-    {
-        $this->viewFlags['jsonReadOnly'] = $value;
-    }
-
-    public function setTripModeFromJS(string $mode): void
-    {
-        $this->viewFlags['tripMode'] = $mode;
     }
 
     public function activatePill(string $navPill): void
@@ -278,12 +259,6 @@ class MetaPanels extends Component
             $this->formData['author'] = Array([]);
         }
         $this->emit('removePerson', $property, $idx + 1, $this->authorNumber);
-    }
-
-    public function decreasePerson(string $person): void
-    {
-        $person = $person.'Number';
-        $this->{$person}--;
     }
 
     public function removeNonAuthor(string $property, int $idx): void
