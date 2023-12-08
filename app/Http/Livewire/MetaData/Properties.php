@@ -80,4 +80,8 @@ trait Properties
 
     public ?bool $isKnown = Null;
     public ?bool $archivalRunning = Null;
+    public ?string $idType = null;
+
+    public ?int $idStatusCode = Null;
+    public array $visitData = [];
 }

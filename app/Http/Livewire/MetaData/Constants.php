@@ -67,9 +67,17 @@ abstract class Constants
         'encoding'
     ];
 
-    public const SWH_CODEMETA_KEYS = [
+    public const SWH_REPOSITORY_CODEMETA_KEY = [
         'codeRepository'
     ];
+
+    public const SWH_IDENTIFIER_CODEMETA_KEY = [
+        'identifier'
+    ];
+
+    public const SWH_HOST_RESOLVE = "https://archive.softwareheritage.org/api/1/resolve/";
+
+    public const SWH_HOST = 'archive.softwareheritage.org';
 
     public const RELEASE_CODEMETA_KEY = 'version';
 
@@ -87,6 +95,13 @@ abstract class Constants
         'version',
         'isPartOf',
         'releaseNotes'
+    ];
+
+    public const SWH_VISIT_INFO_KEYS = [
+        'origin',
+        'date',
+        'status',
+        'snapshot'
     ];
 
     public const TABS_MAPPING = [

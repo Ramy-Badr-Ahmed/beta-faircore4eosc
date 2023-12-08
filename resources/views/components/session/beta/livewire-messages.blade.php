@@ -152,7 +152,7 @@
     </div>
 @endif
 
-@if (session()->has('Unsupported'))  {{--toastWarning--}}
+@if (session()->has('Unsupported') || session()->has('incompleteConversion'))  {{--toastWarning--}}
 
 <div wire:key="session.{{$time}}" id="id-to-close" class="toast__containerFromRight" style="right: 200px;top: 70px;">
     <div class="toast__cell">
@@ -165,8 +165,12 @@
                 </svg>
             </div>
             <div class="toast__content">
-                <p class="toast__type">Unsupported</p>
-                <p class="toast__message">{!! session('Unsupported') !!}</p>
+                @if(session()->has('Unsupported'))
+                    <p class="toast__type">Unsupported</p>
+                @else
+                    <p class="toast__type">Scheme Missing Fields</p>
+                @endif
+                <p class="toast__message">{!! session('Unsupported') ?? session('incompleteConversion') !!}</p>
             </div>
             <div class="toast__close">
                 <svg version="1.1" xmlns="https://www.w3.org/2000/svg" viewBox="0 0 15.642 15.642" width="14" height="14" xmlns:xlink="https://www.w3.org/1999/xlink" enable-background="new 0 0 15.642 15.642">

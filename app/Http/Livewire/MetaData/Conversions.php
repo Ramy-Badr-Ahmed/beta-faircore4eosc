@@ -115,7 +115,9 @@ trait Conversions
             session()->put('schemeValidationErrors', $translatedErrors);
 
             if(!self::hasStepError($e->validator->errors()->keys(), $format)){
+                $this->allowAllSteps();
                 $this->approveCurrentStep();
+                session()->flash('incompleteConversion', "Please navigate to other steps.");
                 return Null;
             }
             $this->viewFlags['panel'.$this->viewPanel.'Failed'] = true;   // todo: deny respectively

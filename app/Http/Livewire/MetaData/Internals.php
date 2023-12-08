@@ -3,8 +3,11 @@
 namespace App\Http\Livewire\MetaData;
 
 use App\Modules\SwhApi\SwhOrigins;
+use App\Modules\SwhApi\SwhVisits;
+use App\Modules\SwhApi\SyncHTTP;
 use DOMException;
 use ErrorException;
+use GuzzleHttp\Exception\ClientException;
 use Illuminate\Support\Arr;
 use Illuminate\Support\MessageBag;
 use Illuminate\Support\Str;
@@ -58,6 +61,13 @@ trait Internals
     private function allowNextStep() : void
     {
         $this->viewFlags['panel'.($this->viewPanel+1).'Allowed'] = true;
+    }
+
+    private function allowAllSteps(): void
+    {
+        foreach (range(1, 3) as $view){
+            unset($this->viewFlags['panel'.$view.'Failed'], $this->viewFlags['panel'.$view.'Success']);
+        }
     }
 
     private function resetTrailingStep() : void
@@ -400,9 +410,37 @@ trait Internals
 
     private function isKnown2SWH(?string $data = null): bool
     {
-        $swh = new SwhOrigins($data ?? $this->formData['codeRepository']);
+        $swhOrigin = new SwhOrigins($data ?? $this->formData['codeRepository']);
 
-        return is_bool($swh->originExists());
+        return is_bool($swhOrigin->originExists());
+    }
+
+    private function getLatestVisitInfo(?string $data = null): array
+    {
+        $swhVisit = new SwhVisits($data ?? $this->formData['codeRepository']);
+
+        $visitInfo = $swhVisit->getVisit('latest', requireSnapshot: true);
+
+        return $visitInfo instanceof Throwable
+            ? []
+            : Arr::only($visitInfo, Constants::SWH_VISIT_INFO_KEYS);
+    }
+
+    private function checkSwhStatusCode(?string $identifier = null): ?int
+    {
+        if(preg_match('/(?<=https:\/\/archive\.softwareheritage\.org\/).*$/', $identifier ?? $this->formData['identifier'], $m)){
+            $swh = new SyncHTTP();
+
+            try{
+                return Str::contains($m[0], 'swh:1:')
+                    ? $swh->invokeHTTP('HEAD', Constants::SWH_HOST_RESOLVE.$m[0], timeout: 10, connectTimeout: 5, sleepMS: 1000)->status()
+                    : $swh->invokeHTTP('HEAD', $identifier ?? $this->formData['identifier'], timeout: 10, connectTimeout: 5, sleepMS: 1000)->status();
+
+            }catch (ClientException $e){
+                return $e->getCode();
+            }
+        }
+        return null;
     }
 
     /**
@@ -477,8 +515,18 @@ trait Internals
                 if($codeMetaKey === Constants::RELEASE_CODEMETA_KEY){
                     $this->viewFlags['swRelease'] = true;
                 }
-                if(in_array($codeMetaKey, Constants::SWH_CODEMETA_KEYS)){
+                if(in_array($codeMetaKey, Constants::SWH_REPOSITORY_CODEMETA_KEY)){
                     $this->isKnown = $this->isKnown2SWH($codeMetaValue);
+                    if($this->isKnown){
+                        $this->visitData = $this->getLatestVisitInfo($codeMetaValue);
+                    }
+                }
+                if(in_array($codeMetaKey, Constants::SWH_IDENTIFIER_CODEMETA_KEY)){
+                    if(Str::contains( $codeMetaValue, Constants::SWH_HOST)){
+                        $this->idType = 'SWHID';
+                        $this->idStatusCode = $this->checkSwhStatusCode($codeMetaValue);
+                    }
+                    else $this->idType = 'DOI';
                 }
                 if(in_array($codeMetaKey, Constants::BUNDLE_CODEMETA_KEYS)){
                     $this->viewFlags['swBundle'] = true;

@@ -263,13 +263,33 @@ trait Hooks
      */
     public function updatedFormDataCodeRepository(): void
     {
-
         $this->reset('isKnown', 'archivalRunning');
 
         $this->validateOnly('formData.codeRepository', $this->rules['step2']);
 
         $this->checkRepoWithSwh();
 
+        if($this->isKnown){
+            $this->visitData = $this->getLatestVisitInfo();
+        }
+    }
+
+    /**
+     * @throws ValidationException
+     */
+    public function updatedFormDataIdentifier(): void
+    {
+        $this->reset('idStatusCode');
+
+        $this->validateOnly('formData.identifier', $this->rules['step2']);
+
+        $this->idStatusCode = $this->checkSwhStatusCode();
+    }
+
+    public function updatedIdType(): void
+    {
+        $this->reset('idStatusCode');
+        $this->eraseDataOnViewFlags(Constants::SWH_IDENTIFIER_CODEMETA_KEY);
     }
 
 }

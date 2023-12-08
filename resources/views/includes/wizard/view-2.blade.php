@@ -39,7 +39,18 @@
                 <i class="glyphicon glyphicon-search text-info"></i>
             </div>
             <div class="flex-Error-msg">
-                <span class="-msg">Known to Software Heritage: <i class="hidden" wire:target="{{$codeRepository['wireModel']}}" wire:loading.class.remove="hidden">Checking ...</i><i wire:target="{{$codeRepository['wireModel']}}" wire:loading.class.add="hidden">{{var_export($isKnown, true)}}</i></span>
+                <span class="-msg">Known to Software Heritage: <i class="hidden" wire:target="{{$codeRepository['wireModel']}}, checkRepoWithSwh" wire:loading.class.remove="hidden">Checking ...</i><i wire:target="{{$codeRepository['wireModel']}},checkRepoWithSwh " wire:loading.class.add="hidden">{{var_export($isKnown, true)}}</i></span>
+
+                @if($isKnown)
+                    <a tabindex="0" role="button" data-toggle="popover" data-placement="bottom" title="{{$swhVisit['visitTitle']}}" data-html="true"
+                       data-content="{{ preg_replace_array('/\?/', $visitData, $swhVisit['visitData'])}}">
+                        <i class="glyphicon thin glyphicon-zoom-in"></i>
+                    </a>
+                    <button @class(["btn", "btn-xs", "btn-info", "-btn", "-btn-effect", "hide" => $archivalRunning === true]) style="margin-left: 10px"
+                            wire:click.prevent="archiveNow()" wire:loading.attr="disabled">
+                        <span class="glyphicon glyphicon-repeat" aria-hidden="true" style="padding-right: 5px"></span>Re-Archive!
+                    </button>
+                @endif
 
                 <button @class(["btn", "btn-xs", "btn-info", "-btn", "-btn-effect", "hide" => $isKnown === true || !isset($isKnown) || $archivalRunning === true])
                     wire:click.prevent="archiveNow()" wire:loading.attr="disabled">
@@ -47,14 +58,15 @@
                 </button>
 
                 <button @class(["btn", "btn-xs", "btn-info", "-btn", "-btn-effect", "hide" => !isset($archivalRunning)])
-                        wire:click.prevent="checkRepoWithSwh()" wire:loading.attr="disabled">
+                        wire:click.prevent="checkRepoWithSwh()" wire:loading.attr="disabled" style="margin-left: 10px">
                     <span class="glyphicon glyphicon-repeat" aria-hidden="true" style="padding-right: 5px"></span>Check
                 </button>
 
-                <a href="{{route('tree-view')}}" target='_blank' @class(["hide" => !isset($archivalRunning)])>
-                    <span style="font-family: Consolas, sans-serif">Archival progress</span>
+                <a href="{{route('tree-view')}}" target='_blank' @class(["hide" => !isset($archivalRunning)]) style="margin-left: 8px">
+                    <span style="font-family: Consolas, sans-serif">Progress</span>
                     <span class="glyphicon glyphicon-new-window" aria-hidden="true" style="margin: auto 5px;font-size: 14px"></span>
                 </a>
+
             </div>
         </div>
     @endif
@@ -62,11 +74,37 @@
     <x-livewire.view-errors :wiredFormData="$codeRepository['wireModel']"/>
 </div>
 
+<div id="div_id_identifierRadio" style="margin-bottom:25px" class="form-group clearfix">
+    <div class="row center-block">
+        <div class="col-md-3 like-label"
+             wire:target="extractCodeMeta, idType, generateCodeMeta"
+             wire:loading.class="blur">Identifier Type
+        </div>
+        <div class="col-md-9 input-group">
+
+            <label class="radio-inline">
+                <input type="radio" name="identifierOptionsRadios" id="id_identifierRadio_DOI" value="DOI"
+                       wire:target="@if($tripMode!=='defer') formData, viewFlags.swRepository, viewFlags.swBundle, viewFlags.swCode, viewFlags.swFunders, viewFlags.swFileSystem, viewFlags.swRequirements, idType
+                                       @else generateCodeMeta @endif" wire:loading.attr="disabled"
+                       wire:model="idType">DOI
+            </label>
+            <label class="radio-inline">
+                <input type="radio" name="identifierOptionsRadios" id="id_identifierRadio_SWHID" value="SWHID"
+                       wire:target="@if($tripMode!=='defer') formData, viewFlags.swRepository, viewFlags.swBundle, viewFlags.swCode, viewFlags.swFunders, viewFlags.swFileSystem, viewFlags.swRequirements, idType
+                                       @else generateCodeMeta @endif" wire:loading.attr="disabled"
+                       wire:model="idType">SWHID
+            </label>
+
+        </div>
+    </div>
+</div>
+
+
 <div id="div_id_identifier" style="margin-bottom:25px" class="form-group @error($identifier['wireModel']) has-error @enderror">
     <div class="row center-block">
         <label for="id_identifier" class="col-md-3 control-label"
-               wire:target="extractCodeMeta, @if($tripMode!=='defer') {{$identifier['wireModel']}} @else generateCodeMeta @endif"
-               wire:loading.class="@if($errors->has($identifier['wireModel'])) blur-red @else blur @endif ">Unique Identifier</label>
+               wire:target="extractCodeMeta, idType, @if($tripMode!=='defer') {{$identifier['wireModel']}} @else generateCodeMeta @endif"
+               wire:loading.class="@if($errors->has($identifier['wireModel'])) blur-red @else blur @endif ">Unique Identifier<br>{{$idType}}</label>
         <div class="col-md-9 input-group" >
             <div class=" input-group-addon border" >
                 <a tabindex="0"   role="button" data-toggle="popover" title="Info" data-html="true"
@@ -87,11 +125,32 @@
             <input type="text"  class="input-md form-control" id="id_identifier" name="identifier"
                    wire:target="@if($tripMode!=='defer') formData, viewFlags.swPublished, viewFlags.swRelease
                                     @else generateCodeMeta @endif" wire:loading.class="noDirt"
-                   wire:model.{{$tripMode}}="{{$identifier['wireModel']}}" placeholder="{{$identifier['placeHolder']}}"/>
+                   wire:model.lazy="{{$identifier['wireModel']}}"
+                   placeholder="@switch($idType) @case('DOI') {{$identifier['placeHolderDOI']}} @break @case('SWHID') {{$identifier['placeHolderSWHID']}} @break @default {{$identifier['placeHolder']}}
+                                @endswitch"
+                   @disabled($idType === null)/>
 
             <x-livewire.view-errors :wiredFormData="$identifier['wireModel']" :crossMark="true"/>
         </div>
     </div>
+
+    @if(!$errors->has($identifier['wireModel']) && $idType === 'SWHID')
+        <div class="flex-container fadeInUp" style="border:none; margin-top: 15px;">
+            <div class="flex-Error-bell">
+                <i class="glyphicon glyphicon-search text-info"></i>
+            </div>
+            <div class="flex-Error-msg">
+                <span class="-msg">Software Heritage DAG Node (status code): <i class="hidden" wire:target="{{$identifier['wireModel']}}, checkIdentifierWithSwh" wire:loading.class.remove="hidden">Checking ...</i><i wire:target="{{$identifier['wireModel']}}, checkIdentifierWithSwh " wire:loading.class.add="hidden">{{var_export($idStatusCode, true)}}@switch($idStatusCode) @case(200) — Found @break @case(400) — Invalid @break @case(404) — Not Found @break @endswitch</i></span>
+
+                <button @class(["btn", "btn-xs", "btn-info", "-btn", "-btn-effect", "hide" => $idStatusCode === 200 || !isset($idStatusCode)])
+                        wire:click.prevent="checkIdentifierWithSwh()" wire:loading.attr="disabled" wire:target="{{$identifier['wireModel']}}, checkIdentifierWithSwh">
+                    <span class="glyphicon glyphicon-repeat" aria-hidden="true" style="padding-right: 5px"></span>Check
+                </button>
+
+            </div>
+        </div>
+    @endif
+
     <x-livewire.view-errors :wiredFormData="$identifier['wireModel']"/>
 </div>
 
@@ -105,7 +164,7 @@
 
             <label class="radio-inline">
                 <input type="radio" name="repoOptionsRadios" id="id_repoRadio_1" value="1"
-                       wire:target="@if($tripMode!=='defer') formData, viewFlags.swRepository, viewFlags.swCode, viewFlags.swFunders, viewFlags.swFileSystem, viewFlags.swRequirements
+                       wire:target="@if($tripMode!=='defer') formData, viewFlags.swRepository, viewFlags.swBundle, viewFlags.swCode, viewFlags.swFunders, viewFlags.swFileSystem, viewFlags.swRequirements
                                        @else generateCodeMeta @endif" wire:loading.attr="disabled"
                        wire:model="viewFlags.swRepository" @checked($viewFlags['swRepository'])  > Yes
             </label>

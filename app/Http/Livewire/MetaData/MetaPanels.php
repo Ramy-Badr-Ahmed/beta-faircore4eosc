@@ -308,6 +308,7 @@ class MetaPanels extends Component
      */
     public function archiveNow(): void
     {
+        $this->validateOnly('formData.codeRepository', $this->rules['step2']);
         try{
             $depositArchival = new Archive($this->formData['codeRepository']);
             $saveResponse = $depositArchival->save2Swh();
@@ -331,6 +332,11 @@ class MetaPanels extends Component
     public function checkRepoWithSwh(): void
     {
         $this->isKnown = $this->isKnown2SWH();
+    }
+
+    public function checkIdentifierWithSwh(): void
+    {
+        $this->idStatusCode = $this->checkSwhStatusCode();
     }
 
     #[NoReturn] public static function dumpDie(): void
