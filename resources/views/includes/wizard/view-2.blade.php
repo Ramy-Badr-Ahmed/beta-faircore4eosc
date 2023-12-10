@@ -76,9 +76,10 @@
 
 <div id="div_id_identifierRadio" style="margin-bottom:25px" class="form-group clearfix">
     <div class="row center-block">
-        <div class="col-md-3 like-label"
+        @php($hasError = $errors->has($identifier['wireModel']))
+        <div class="col-md-3 like-label @if($hasError && str_contains($errors->get($identifier['wireModel'])[0], 'incompatible')) text-danger @endif"
              wire:target="extractCodeMeta, idType, generateCodeMeta"
-             wire:loading.class="blur">Identifier Type
+             wire:loading.class="@if($errors->has($identifier['wireModel'])) blur-red @else blur @endif" >Identifier Type
         </div>
         <div class="col-md-9 input-group">
 
@@ -92,7 +93,7 @@
                 <input type="radio" name="identifierOptionsRadios" id="id_identifierRadio_SWHID" value="SWHID"
                        wire:target="@if($tripMode!=='defer') formData, viewFlags.swRepository, viewFlags.swBundle, viewFlags.swCode, viewFlags.swFunders, viewFlags.swFileSystem, viewFlags.swRequirements, idType
                                        @else generateCodeMeta @endif" wire:loading.attr="disabled"
-                       wire:model="idType">SWHID
+                       wire:model="idType">SWHID Resolver
             </label>
 
         </div>
