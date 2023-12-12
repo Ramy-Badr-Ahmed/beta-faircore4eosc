@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\MetaData;
 
 use App\Modules\MetaData\Conversion;
+use App\Rules\CodeMetaIdentifier;
 use Composer\Spdx\SpdxLicenses;
 use DOMException;
 use ErrorException;
@@ -18,9 +19,9 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use JsonException;
-use Livewire\Livewire;
 use RuntimeException;
 use Throwable;
+use Illuminate\Support\Facades\Validator;
 
 trait Hooks
 {
@@ -59,7 +60,7 @@ trait Hooks
                 return $val[1];
             });
             $this->formData['author'] = array([]);
-            session()->remove('schemeValidationErrors');
+            session()->forget(['schemeValidationErrors', 'validationErrors']);
 
         } catch (FileNotFoundException | JsonException $e) {
             $this->viewFlags['readOnceError'] = true;
@@ -170,9 +171,11 @@ trait Hooks
     {
         $this->eraseDataOnViewFlags(Constants::REPOSITORY_CODEMETA_KEYS);
     }
+
     public function updatedViewFlagsSwBundle(): void
     {
         $this->eraseDataOnViewFlags(array_merge(Constants::BUNDLE_CODEMETA_KEYS, Constants::FILESYSTEM_CODEMETA_KEYS));
+        $this->viewFlags['swFileSystem'] = false;
     }
 
     public function updatedViewFlagsSwFileSystem(): void
@@ -183,7 +186,9 @@ trait Hooks
     public function updatedViewFlagsSwCode(): void
     {
         $this->eraseDataOnViewFlags(array_merge(Constants::CODE_CODEMETA_KEYS, Constants::PERFORMANCE_CODEMETA_KEYS));
+        $this->viewFlags['swRequirements'] = false;
     }
+
     public function updatedViewFlagsSwRequirements(): void
     {
         $this->eraseDataOnViewFlags(Constants::PERFORMANCE_CODEMETA_KEYS);
@@ -276,12 +281,21 @@ trait Hooks
 
     /**
      * @throws ValidationException
+     * @throws \Exception
      */
     public function updatedFormDataIdentifier(): void
     {
         $this->reset('idStatusCode');
+        $this->resetValidation('formData.identifier');
 
         $this->validateOnly('formData.identifier', $this->rules['step2']);
+
+        $validator = Validator::make(['identifier' => $this->formData['identifier']],
+            ['identifier' => new CodeMetaIdentifier($this->idType)], attributes: ['identifier' => 'This Identifier']);
+
+        if($validator->fails()){
+            throw ValidationException::withMessages(['formData.identifier' => implode('', $validator->errors()->get('identifier'))]);
+        }
 
         $this->idStatusCode = $this->checkSwhStatusCode();
     }

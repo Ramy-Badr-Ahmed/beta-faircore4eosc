@@ -271,7 +271,7 @@
         "compacted-JSON-LD": "<pre class='pre-scrollable'>{\n  \"schema.org/relatedLink\": {\n    \"@id\": \"value\"\n  }\n}</pre>",
         "expanded":  "<div class=\"vertical-stack\"><span id=\"collapsible-btn1\" ><strong>Expanded</strong> <code>JSON-LD</code> <span class=\"glyphicon glyphicon-retweet\" aria-hidden=\"true\"></span></span><div id=\"RelLin1\" class=\"collapse in\">?</div></div>",
         "compacted": "<div class=\"vertical-stack\"><span id=\"collapsible-btn2\" ><strong>Compacted</strong> <code>JSON-LD</code> <span class=\"glyphicon glyphicon-retweet\" aria-hidden=\"true\"></span></span><div id=\"RelLin2\" class=\"collapse\">?</div></div>",
-        "info": "Please provide any related pages to your application.<br><br>Several links can be separated by a new line each.",
+        "info": "Please provide any related pages to your application.<br><br>Several links can be separated by a new line each.<br><br>Available CodeMeta Generation style: <code>Manual|Sequential|Periodic</code>",
         "placeHolder" : "https://..\nhttps://...",
         "wireModel" : "formData.relatedLink"
     },
@@ -404,7 +404,7 @@
         "compacted-JSON-LD": "<pre class='pre-scrollable'>{\n  \"codemeta.github.io/terms/referencePublication\": {\n    \"@id\": \"value\"\n  }\n}</pre>",
         "expanded":  "<div class=\"vertical-stack\"><span id=\"collapsible-btn1\" ><strong>Expanded</strong> <code>JSON-LD</code> <span class=\"glyphicon glyphicon-retweet\" aria-hidden=\"true\"></span></span><div id=\"RefPub1\" class=\"collapse in\">?</div></div>",
         "compacted": "<div class=\"vertical-stack\"><span id=\"collapsible-btn2\" ><strong>Compacted</strong> <code>JSON-LD</code> <span class=\"glyphicon glyphicon-retweet\" aria-hidden=\"true\"></span></span><div id=\"RefPub2\" class=\"collapse\">?</div></div>",
-        "info": "Please provide any links for academic publications referencing your software application, if any.<br><br>Several links can be separated by a new line each.",
+        "info": "Please provide any links for academic publications referencing your software application, if any.<br><br>Several links can be separated by a new line each.<br><br>Available CodeMeta Generation style: <code>Manual|Sequential|Periodic</code>",
         "placeHolder" : "https://.., \nhttps://...",
         "wireModel" : "formData.referencePublication"
     },
@@ -415,7 +415,7 @@
         "compacted-JSON-LD": "(appended to <code>codeMeta key: funder</code>)<pre class='pre-scrollable'>{\n  \"schema.org/funder\": {\n    \"@id\": \"value\",\n    \"@type\": \"schema.org/Organization\",\n    \"schema.org/name\": \"value\",\n    <strong>\"codemeta.github.io/terms/funding\": \"value\"</strong>\n  }\n}</pre>",
         "expanded":  "<div class=\"vertical-stack\"><span id=\"collapsible-btn1\" ><strong>Expanded</strong> <code>JSON-LD</code> <span class=\"glyphicon glyphicon-retweet\" aria-hidden=\"true\"></span></span><div id=\"Funding1\" class=\"collapse in\">?</div></div>",
         "compacted": "<div class=\"vertical-stack\"><span id=\"collapsible-btn2\" ><strong>Compacted</strong> <code>JSON-LD</code> <span class=\"glyphicon glyphicon-retweet\" aria-hidden=\"true\"></span></span><div id=\"Funding2\" class=\"collapse\">?</div></div>",
-        "info": "Please provide the exact funding information supporting your SW application.<br><br>Example: Deutsche Forschungsgemeinschaft (DFG) - Project number 262443618<br><br>Several entries can be written in a comma-seperated list.<br><br>Available CodeMeta Generation style: <code>Manual|Sequential|Periodic</code>",
+        "info": "Please provide the exact funding information supporting your SW application.<br><br>Example: Deutsche Forschungsgemeinschaft (DFG) - Project number 262443618<br><br>Available CodeMeta Generation style: <code>Manual|Sequential|Periodic</code>",
         "placeHolder" : "EU-Grant-#, DFG-#...",
         "wireModel" : "formData.funding",
         "inWireModel" : ".funding"
@@ -427,7 +427,7 @@
         "compacted-JSON-LD": "<pre class='pre-scrollable'>{\n  \"schema.org/funder\": {\n    \"@id\": \"value\",\n    \"@type\": \"schema.org/Organization\",\n    \"schema.org/name\": \"value\",\n    \"codemeta.github.io/terms/funding\": \"value\"\n  }\n}</pre>",
         "expanded":  "<div class=\"vertical-stack\"><span id=\"collapsible-btn1\" ><strong>Expanded</strong> <code>JSON-LD</code> <span class=\"glyphicon glyphicon-retweet\" aria-hidden=\"true\"></span></span><div id=\"Funder1\" class=\"collapse in\">?</div></div>",
         "compacted": "<div class=\"vertical-stack\"><span id=\"collapsible-btn2\" ><strong>Compacted</strong> <code>JSON-LD</code> <span class=\"glyphicon glyphicon-retweet\" aria-hidden=\"true\"></span></span><div id=\"Funder2\" class=\"collapse\">?</div></div>",
-        "info": "Please provide the organization sponsoring your SW application.<br><br>Several entries can be written in a comma-seperated list.<br><br>Available CodeMeta Generation style: <code>Manual|Sequential|Periodic</code>",
+        "info": "Please provide the organization sponsoring your SW application.<br><br>Available CodeMeta Generation style: <code>Manual|Sequential|Periodic</code>",
         "placeHolder" : "University, Institute, ...",
         "wireModel" : "formData.funder",
         "inWireModel" : ".funder"
@@ -526,5 +526,13 @@
     "swhVisit" : {
         "visitTitle" : "Latest SWH Visit Info",
         "visitData": "<strong>Origin</strong><pre>?</pre><strong>Date</strong><pre>?</pre><strong>Status</strong><pre>?</pre><strong>Snapshot</strong><pre>?</pre>"
+    },
+    "swRadio" : {
+        "published" : "<code>Yes</code>: if this SW has been published in association with a scholarly publication.",
+        "repository" : "<code>Yes</code>: if this repository holds additional data associated with its development progress.",
+        "bundle" : "<code>Yes</code>: if this SW is additionally available as an installable/buildable software.",
+        "fileSystem" : "<code>Yes</code>: if this SW holds additional data associated to its installation on disks.",
+        "code" : "<code>Yes</code>: if this SW holds additional data associated to its coding functionality.",
+        "performance" : "<code>Yes</code>: if this SW holds additional data associated to its performance requirements."
     }
 }

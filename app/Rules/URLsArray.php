@@ -10,10 +10,9 @@ use Illuminate\Validation\Validator;
 
 class URLsArray implements ValidationRule, ValidatorAwareRule
 {
-
     protected Validator $validator;
-
     protected array $failedURLs = [];
+    protected array $failedMsgs = [];
 
     /**
      * Run the validation rule.
@@ -33,8 +32,11 @@ class URLsArray implements ValidationRule, ValidatorAwareRule
 
             if (!filter_var($url, FILTER_VALIDATE_URL)) {
                 $this->failedURLs[] = $url;
-                $this->validator->errors()->add($attribute, "URL entry # ".($idx+1)." is a non-valid URL");
+                $this->failedMsgs [] = "Entry # ".($idx+1)." is a non-valid URL";
             }
+        }
+        if(!empty($this->failedMsgs)){
+            $this->validator->errors()->add($attribute, implode('--', $this->failedMsgs ));
         }
     }
 

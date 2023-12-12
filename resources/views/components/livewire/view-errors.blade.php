@@ -3,23 +3,41 @@
     @error($wiredFormData)
         <span class="glyphicon glyphicon-remove form-control-feedback " aria-hidden="true"
                 @style(["margin-right: 24px" => str_contains($wiredFormData, 'date'),
-                        "margin-right: 12px" => str_contains($wiredFormData, 'license'),
+                        "margin-right: 12px" => str_contains($wiredFormData, 'license') || str_contains($wiredFormData, 'referencePublication') || str_contains($wiredFormData, 'relatedLink'),
                         "margin-right: 50px" => str_contains($wiredFormData, 'development')])>
 
         </span>
     @enderror
 @else
     @if(!isset($errorArray))
-        @error($wiredFormData)
-        <div class="flex-container fadeInUp" style="border:none; margin-top: 15px;">
-            <div class="flex-Error-bell">
-                <i class="glyphicon glyphicon-bell bell text-danger"></i>
+        @if(isset($errorURLArray))
+            @error($wiredFormData)
+            @php($messageSeperated = explode("--", $message))
+            <div class="flex-container fadeInUp" style="border:none; margin-top: 15px;">
+                <div class="flex-Error-bell">
+                    <i class="glyphicon glyphicon-bell bell text-danger"></i>
+                </div>
+                <div class="flex-Error-msg">
+                    @for ($i = 0; $i < count($messageSeperated); $i++)
+                        <span class="-error-msg">{{ $messageSeperated[$i] }}</span><br>
+                    @endfor
+                </div>
             </div>
-            <div class="flex-Error-msg">
-                <span class="-error-msg">{{ $message }}</span>
+            @enderror
+
+        @else
+            @error($wiredFormData)
+            <div class="flex-container fadeInUp" style="border:none; margin-top: 15px;">
+                <div class="flex-Error-bell">
+                    <i class="glyphicon glyphicon-bell bell text-danger"></i>
+                </div>
+                <div class="flex-Error-msg">
+                    <span class="-error-msg">{{ $message }}</span>
+                </div>
             </div>
-        </div>
-        @enderror
+            @enderror
+        @endif
+
     @endif
 
 @endisset

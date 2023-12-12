@@ -255,7 +255,7 @@ trait Internals
                 :'formData.'.$val;
         });
         return Arr::where($this->rules['step'.$this->viewPanel], function($rule, $key) use($formKeys){
-            return in_array($key, $formKeys) || Str::contains($rule, "required_with") || Str::contains($key, ".*.");
+            return in_array($key, $formKeys) || Str::contains($key, ".*.") || is_string($rule) && Str::contains($rule, "required_with");
         });
     }
 

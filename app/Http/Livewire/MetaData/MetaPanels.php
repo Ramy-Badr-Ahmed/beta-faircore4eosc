@@ -332,6 +332,7 @@ class MetaPanels extends Component
     public function checkRepoWithSwh(): void
     {
         $this->isKnown = $this->isKnown2SWH();
+        $this->visitData = $this->getLatestVisitInfo();
     }
 
     public function checkIdentifierWithSwh(): void

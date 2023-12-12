@@ -1,5 +1,7 @@
 <?php
 
+use App\Rules\URLsArray;
+
 return [
         "rules" => [
             "step1"=>
@@ -14,7 +16,7 @@ return [
                     'formData.publisher' => 'string|required_with:formData.url|required_if:viewFlags.swPublished,true',
                     'formData.url' => 'url|required_with:formData.publisher',
                     'formData.license' => 'required_with:formData.licenseInput',
-                    //'formData.referencePublication' => 'url|nullable', // todo
+                    'formData.referencePublication' => new URLsArray(),
                     'formData.isPartOf' => 'url|required_if:viewFlags.swRelease,true',
                     'formData.hasPart'  => 'url|nullable',
                     'formData.version' => 'string|required_if:viewFlags.swRelease,true',
@@ -23,7 +25,7 @@ return [
             "step2" =>
                 [
                     'formData.codeRepository' => 'url|required',
-                    'formData.identifier' => 'url|regex:/(?<=https:\/\/archive\.softwareheritage\.org\/).*$/i|required_if:idType,SWHID|exclude_if:idType,SWHID|regex:/https?:\/\/dx\.doi\.org\/[a-zA-Z0-9.\/-]+/i|required_if:idType,DOI',
+                    'formData.identifier' => 'url',
                     'viewFlags.swRepository' => 'boolean',
                     'viewFlags.swCode' => 'boolean',
                     'viewFlags.swBundle' => 'boolean',
@@ -32,7 +34,7 @@ return [
                     'formData.contIntegration' => 'url|nullable',
                     'formData.issueTracker' => 'url|nullable',
                     'formData.readme' => 'url|required_if:viewFlags.swRepository,true',
-                    //'formData.relatedLinks' => 'url|nullable', // todo
+                    'formData.relatedLink' => new URLsArray(),
                     'formData.developmentStatus' => 'required_if:viewFlags.swRepository,true',
                     'formData.programmingLanguage' => 'min:1|required',
                     'formData.operatingSystem' => 'exclude_if:getJSONValidation,true|required_with:formData.runtimePlatform',
@@ -81,19 +83,19 @@ return [
                 "step1" => [
                     'formData.publisher' => 'string|required_with:formData.url',
                     'formData.url' => 'url|nullable',
-                    'formData.downloadUrl' => 'url|nullable',
-                    'formData.installUrl' => 'url|nullable',
-                    'formData.buildInstructions' => 'url|nullable',
+                    'formData.referencePublication' => new URLsArray(),
                     'formData.isPartOf' => 'url|nullable',
                     'formData.hasPart'  => 'url|nullable',
-                    'formData.readme' => 'url|nullable',
                 ],
                 "step2" => [
                     'formData.codeRepository' => 'url|nullable',
+                    'formData.readme' => 'url|nullable',
                     'formData.contIntegration' => 'url|nullable',
                     'formData.issueTracker' => 'url|nullable',
                     'formData.identifier' => 'url|nullable',
-                    //'formData.referencePublication' => 'url|nullable',
+                    'formData.downloadUrl' => 'url|nullable',
+                    'formData.installUrl' => 'url|nullable',
+                    'formData.buildInstructions' => 'url|nullable',
                 ],
                 "step3" => [
                     'formData.author.*.givenName' => 'string|required',
@@ -146,7 +148,6 @@ return [
             'formData.operatingSystem' => ':attribute must be provided if Runtime Platform is',
             'formData.runtimePlatform.required_if' => 'Missing :attribute with chosen Code-related metaData',
             'formData.identifier.url' => 'Please provide a valid URL',
-            'formData.identifier.regex' => ':attribute is incompatible with the selected Identifier Type',
             'formData.referencePublication.url' => 'Please provide a valid URL',
             'formData.funder.*.funder.required_with' => ":attribute cannot be empty with non-empty URI/Funding",
             'formData.funder.*.@id.required_with' => ":attribute cannot be empty with non-empty Funder/Funding",
@@ -210,7 +211,6 @@ return [
             'formData.installUrl' => 'Install Link',
             'formData.readme' => 'ReadMe Link',
             'formData.downloadUrl' => 'Download Link',
-            'formData.identifier' => 'This Identifier',
             'formData.developmentStatus' => 'Development Status',
             'formData.runtimePlatform' => 'Runtime Platform',
             'formData.isPartOf' => 'Parent CreativeWork',

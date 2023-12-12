@@ -131,9 +131,12 @@
 
 <div id="div_id_publishedRadio" style="margin-bottom:25px" class="form-group clearfix">
     <div class="row center-block">
-        <div class="col-md-3 like-label"
-             wire:target="extractCodeMeta, viewFlags.swPublished, generateCodeMeta"
-             wire:loading.class="blur">Is this SW instance scholarly-published?
+        <div class="col-md-3 like-label" wire:target="extractCodeMeta, viewFlags.swPublished, generateCodeMeta"
+             wire:loading.class="blur" wire:key="popover.swPublishedRadio.{{$time}}">
+            <a tabindex="0"   role="button" data-toggle="popover" title="Info" data-html="true" data-placement="bottom"
+               data-content="{{$swRadio['published']}}"><i class="glyphicon glyphicon-info-sign" style="margin-right: 5px"></i>
+            </a>
+            Is this SW instance scholarly-published?
         </div>
         <div class="col-md-9 input-group">
 
@@ -367,16 +370,19 @@
                 </a>
             </div>
 
+            @php($referencePublicationTripMode = $tripMode !== 'defer' ? 'lazy' : $tripMode)
+
             <textarea class="input-md form-control"  id="id_referencePublication" name="referencePublication"
                       wire:target="@if($tripMode!=='defer') formData, viewFlags.swPublished, viewFlags.swRelease
                                     @else generateCodeMeta @endif" wire:loading.class="noDirt"
-                      wire:model.{{$tripMode}}="{{$referencePublication['wireModel']}}" placeholder="{{$referencePublication['placeHolder']}}">
+                      wire:model.{{$referencePublicationTripMode}}="{{$referencePublication['wireModel']}}"
+                      placeholder="{{$referencePublication['placeHolder']}}">
             </textarea>
 
             <x-livewire.view-errors :wiredFormData="$referencePublication['wireModel']" :crossMark="true"/>
         </div>
     </div>
-    <x-livewire.view-errors :wiredFormData="$referencePublication['wireModel']"/>
+    <x-livewire.view-errors :wiredFormData="$referencePublication['wireModel']" :errorURLArray="true"/>
 </div>
 
 <hr class="style1"/>

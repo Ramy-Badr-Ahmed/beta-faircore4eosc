@@ -43,8 +43,8 @@
 
                 @if($isKnown)
                     <a tabindex="0" role="button" data-toggle="popover" data-placement="bottom" title="{{$swhVisit['visitTitle']}}" data-html="true"
-                       data-content="{{ preg_replace_array('/\?/', $visitData, $swhVisit['visitData'])}}">
-                        <i class="glyphicon thin glyphicon-zoom-in"></i>
+                       wire:key="popoverInfo.{{$codeRepository['codeMetaKey'].$time}}" data-content="{{ preg_replace_array('/\?/', $visitData, $swhVisit['visitData'])}}">
+                        <i class="glyphicon thin glyphicon-zoom-in"></i><i class="glyphicon thin glyphicon-info-sign"></i>
                     </a>
                     <button @class(["btn", "btn-xs", "btn-info", "-btn", "-btn-effect", "hide" => $archivalRunning === true]) style="margin-left: 10px"
                             wire:click.prevent="archiveNow()" wire:loading.attr="disabled">
@@ -62,7 +62,7 @@
                     <span class="glyphicon glyphicon-repeat" aria-hidden="true" style="padding-right: 5px"></span>Check
                 </button>
 
-                <a href="{{route('tree-view')}}" target='_blank' @class(["hide" => !isset($archivalRunning)]) style="margin-left: 8px">
+                <a href="{{route('on-the-fly-view')}}" target='_blank' @class(["hide" => !isset($archivalRunning)]) style="margin-left: 8px">
                     <span style="font-family: Consolas, sans-serif">Progress</span>
                     <span class="glyphicon glyphicon-new-window" aria-hidden="true" style="margin: auto 5px;font-size: 14px"></span>
                 </a>
@@ -76,26 +76,28 @@
 
 <div id="div_id_identifierRadio" style="margin-bottom:25px" class="form-group clearfix">
     <div class="row center-block">
-        @php($hasError = $errors->has($identifier['wireModel']))
-        <div class="col-md-3 like-label @if($hasError && str_contains($errors->get($identifier['wireModel'])[0], 'incompatible')) text-danger @endif"
+        @php
+            $hasError = $errors->has($identifier['wireModel']);
+            $hasIdError = $hasError && str_contains($errors->get($identifier['wireModel'])[0], 'incompatible');
+        @endphp
+        <div class="col-md-3 like-label @if($hasIdError) text-danger @endif"
              wire:target="extractCodeMeta, idType, generateCodeMeta"
              wire:loading.class="@if($errors->has($identifier['wireModel'])) blur-red @else blur @endif" >Identifier Type
         </div>
         <div class="col-md-9 input-group">
 
-            <label class="radio-inline">
+            <label @class(['radio-inline', 'text-danger' => $hasIdError && $idType === 'DOI']) >
                 <input type="radio" name="identifierOptionsRadios" id="id_identifierRadio_DOI" value="DOI"
                        wire:target="@if($tripMode!=='defer') formData, viewFlags.swRepository, viewFlags.swBundle, viewFlags.swCode, viewFlags.swFunders, viewFlags.swFileSystem, viewFlags.swRequirements, idType
                                        @else generateCodeMeta @endif" wire:loading.attr="disabled"
                        wire:model="idType">DOI
             </label>
-            <label class="radio-inline">
+            <label @class(['radio-inline', 'text-danger' => $hasIdError && $idType === 'SWHID'])>
                 <input type="radio" name="identifierOptionsRadios" id="id_identifierRadio_SWHID" value="SWHID"
                        wire:target="@if($tripMode!=='defer') formData, viewFlags.swRepository, viewFlags.swBundle, viewFlags.swCode, viewFlags.swFunders, viewFlags.swFileSystem, viewFlags.swRequirements, idType
                                        @else generateCodeMeta @endif" wire:loading.attr="disabled"
                        wire:model="idType">SWHID Resolver
             </label>
-
         </div>
     </div>
 </div>
@@ -157,11 +159,14 @@
 
 <div id="div_id_repoRadio" style="margin-bottom:25px" class="form-group clearfix">
     <div class="row center-block">
-        <div class="col-md-3 like-label"
+        <div class="col-md-4 like-label"
              wire:target="extractCodeMeta, viewFlags.swRepository, generateCodeMeta"
-             wire:loading.class="blur">Are there Repository-related MetaData?
+             wire:loading.class="blur" wire:key="popover.swRepositoryRadio.{{$time}}">
+            <a tabindex="0"   role="button" data-toggle="popover" title="Info" data-html="true" data-placement="bottom"
+               data-content="{{$swRadio['repository']}}"><i class="glyphicon glyphicon-info-sign" style="margin-right: 5px"></i>
+            </a>Are there Repository-related MetaData?
         </div>
-        <div class="col-md-9 input-group">
+        <div class="col-md-8 input-group">
 
             <label class="radio-inline">
                 <input type="radio" name="repoOptionsRadios" id="id_repoRadio_1" value="1"
@@ -300,15 +305,18 @@
                 </a>
             </div>
 
+            @php($relatedLinkTripMode = $tripMode !== 'defer' ? 'lazy' : $tripMode)
+
             <textarea class="input-md form-control"  name="relatedLink" id="id_relatedLink"
                       wire:target="@if($tripMode!=='defer') formData, viewFlags.swRepository, viewFlags.swBundle, viewFlags.swCode, viewFlags.swFunders, viewFlags.swFileSystem, viewFlags.swRequirements
                                     @else generateCodeMeta @endif" wire:loading.class="noDirt"
-                      wire:model.{{$tripMode}}="{{$relatedLink['wireModel']}}" placeholder="{{$relatedLink['placeHolder']}}">
+                      wire:model.{{$relatedLinkTripMode}}="{{$relatedLink['wireModel']}}"
+                      placeholder="{{$relatedLink['placeHolder']}}">
                 </textarea>
             <x-livewire.view-errors :wiredFormData="$relatedLink['wireModel']" :crossMark="true"/>
         </div>
     </div>
-    <x-livewire.view-errors :wiredFormData="$relatedLink['wireModel']"/>
+    <x-livewire.view-errors :wiredFormData="$relatedLink['wireModel']" :errorURLArray="true"/>
 </div>
 
 <div id="div_id_developmentStatus" style="margin-bottom:25px"  @php($hasError = (bool)$errors->has($developmentStatus['wireModel']))
@@ -360,11 +368,14 @@
 
 <div id="div_id_bundleRadio" style="margin-bottom:25px" class="form-group clearfix">
     <div class="row center-block">
-        <div class="col-md-3 like-label"
+        <div class="col-md-4 like-label"
              wire:target="extractCodeMeta, viewFlags.swBundle, generateCodeMeta"
-             wire:loading.class="blur">Is this SW instance a SW bundle as well?
+             wire:loading.class="blur" wire:key="popover.swBundleRadio.{{$time}}">
+            <a tabindex="0"   role="button" data-toggle="popover" title="Info" data-html="true" data-placement="bottom"
+               data-content="{{$swRadio['bundle']}}"><i class="glyphicon glyphicon-info-sign" style="margin-right: 5px"></i>
+            </a>Is this SW instance a SW bundle as well?
         </div>
-        <div class="col-md-9 input-group">
+        <div class="col-md-8 input-group">
 
             <label class="radio-inline">
                 <input type="radio" name="bundleOptionsRadios" id="id_bundleRadio_1" value="1"
@@ -507,11 +518,14 @@
 
 <div id="div_id_encodingRadio" style="margin-bottom:25px" @class(['form-group', 'clearfix', 'fadeIn', 'hide' => !$viewFlags['swBundle']])>
     <div class="row center-block">
-        <div class="col-md-3 like-label"
+        <div class="col-md-4 like-label"
              wire:target="extractCodeMeta, viewFlags.swFileSystem, viewFlags.swBundle, generateCodeMeta"
-             wire:loading.class="blur">Are there FileSystem-related metadata?
+             wire:loading.class="blur" wire:key="popover.swFileSystemRadio.{{$time}}">
+            <a tabindex="0"   role="button" data-toggle="popover" title="Info" data-html="true" data-placement="bottom"
+               data-content="{{$swRadio['fileSystem']}}"><i class="glyphicon glyphicon-info-sign" style="margin-right: 5px"></i>
+            </a>Are there FileSystem-related metadata?
         </div>
-        <div class="col-md-9 input-group">
+        <div class="col-md-8 input-group">
 
             <label class="radio-inline">
                 <input type="radio" name="encodingOptionsRadios" id="id_encodingRadio_1" value="1"
@@ -665,11 +679,14 @@
 
 <div id="div_id_codeRadio" style="margin-bottom:25px" class="form-group clearfix">
     <div class="row center-block">
-        <div class="col-md-3 like-label"
+        <div class="col-md-4 like-label"
              wire:target="extractCodeMeta, viewFlags.swCode, generateCodeMeta"
-             wire:loading.class="blur">Are there Code-related MetaData?
+             wire:loading.class="blur" wire:key="popover.swCodeRadio.{{$time}}">
+            <a tabindex="0"   role="button" data-toggle="popover" title="Info" data-html="true" data-placement="bottom"
+               data-content="{{$swRadio['code']}}"><i class="glyphicon glyphicon-info-sign" style="margin-right: 5px"></i>
+            </a>Are there Code-related MetaData?
         </div>
-        <div class="col-md-9 input-group">
+        <div class="col-md-8 input-group">
 
             <label class="radio-inline">
                 <input type="radio" name="codeOptionsRadios" id="id_repoRadio_1" value="1"
@@ -786,11 +803,14 @@
 
 <div id="div_id_requirementsRadio" style="margin-bottom:25px" @class(['form-group', 'clearfix', 'fadeIn', 'hide' => !$viewFlags['swCode']])>
     <div class="row center-block">
-        <div class="col-md-3 like-label"
+        <div class="col-md-4 like-label"
              wire:target="extractCodeMeta, viewFlags.swRequirements, viewFlags.swCode, generateCodeMeta"
-             wire:loading.class="blur">Are there Performance-related metadata?
+             wire:loading.class="blur" wire:key="popover.swPerformanceRadio.{{$time}}">
+            <a tabindex="0"   role="button" data-toggle="popover" title="Info" data-html="true" data-placement="bottom"
+               data-content="{{$swRadio['performance']}}"><i class="glyphicon glyphicon-info-sign" style="margin-right: 5px"></i>
+            </a>Are there Performance-related metadata?
         </div>
-        <div class="col-md-9 input-group">
+        <div class="col-md-8 input-group">
 
             <label class="radio-inline">
                 <input type="radio" name="requirementsOptionsRadios" id="id_requirementsRadio_1" value="1"
