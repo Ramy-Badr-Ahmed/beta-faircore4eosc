@@ -238,7 +238,7 @@
         "compacted-JSON-LD": "<pre class='pre-scrollable'>{\n  \"schema.org/codeRepository\": {\n    \"@id\": \"value\"\n  }\n}</pre>",
         "expanded":  "<div class=\"vertical-stack\"><span id=\"collapsible-btn1\" ><strong>Expanded</strong> <code>JSON-LD</code> <span class=\"glyphicon glyphicon-retweet\" aria-hidden=\"true\"></span></span><div id=\"CodeRep1\" class=\"collapse in\">?</div></div>",
         "compacted": "<div class=\"vertical-stack\"><span id=\"collapsible-btn2\" ><strong>Compacted</strong> <code>JSON-LD</code> <span class=\"glyphicon glyphicon-retweet\" aria-hidden=\"true\"></span></span><div id=\"CodeRep2\" class=\"collapse\">?</div></div>",
-        "info": "Please provide a repository link for your application, if any.<br><br>Examples: Github, Gitlab, BitBucket, etc.",
+        "info": "Please provide a repository link for your application.<br><br>Examples: GitHub, Gitlab, BitBucket, etc.<br><br>Notes:<ul><li>The Archive feature for this field currently supports: GitHub/GitLab/BitBucket repositories.</li><li>Checking existence in SWH should be on base-repository URLs.</li></ul>",
         "placeHolder" : "https://..",
         "wireModel" : "formData.codeRepository"
     },
@@ -391,7 +391,7 @@
         "compacted-JSON-LD": "<pre class='pre-scrollable'>{\n  \"schema.org/identifier\": {\n    \"@id\": \"value\"\n  }\n}</pre>",
         "expanded":  "<div class=\"vertical-stack\"><span id=\"collapsible-btn1\" ><strong>Expanded</strong> <code>JSON-LD</code> <span class=\"glyphicon glyphicon-retweet\" aria-hidden=\"true\"></span></span><div id=\"Iden1\" class=\"collapse in\">?</div></div>",
         "compacted": "<div class=\"vertical-stack\"><span id=\"collapsible-btn2\" ><strong>Compacted</strong> <code>JSON-LD</code> <span class=\"glyphicon glyphicon-retweet\" aria-hidden=\"true\"></span></span><div id=\"Iden2\" class=\"collapse\">?</div></div>",
-        "info": "Please provide an identifier for your SW application, if any.<br><br>Examples: doi, full link of a SWH resolver etc.",
+        "info": "Please provide an identifier for your SW application.<br><br>Choices:<ul><li>DOI: If this SW is scholarly published.</li><li>Software Heritage resolver: Full SWH resolver link (preferably with a Directory Contextual SWHID).</li></ul>",
         "placeHolder" : "DOI or SWHID Resolver",
         "placeHolderDOI" : "https://doi.org/..",
         "placeHolderSWHID" : "https://archive.softwareheritage.org/swh:1:..",
@@ -529,10 +529,12 @@
     },
     "swRadio" : {
         "published" : "<code>Yes</code>: if this SW has been published in association with a scholarly publication.",
+        "release" : "<code>Yes</code>: if this SW describes a special/remarkable milestone of its encapsulating SW framework.",
         "repository" : "<code>Yes</code>: if this repository holds additional data associated with its development progress.",
         "bundle" : "<code>Yes</code>: if this SW is additionally available as an installable/buildable software.",
         "fileSystem" : "<code>Yes</code>: if this SW holds additional data associated to its installation on disks.",
         "code" : "<code>Yes</code>: if this SW holds additional data associated to its coding functionality.",
-        "performance" : "<code>Yes</code>: if this SW holds additional data associated to its performance requirements."
+        "performance" : "<code>Yes</code>: if this SW holds additional data associated to its performance requirements.",
+        "funder" : "<code>Yes</code>: if this SW has been funded by several sources to its current stage. Ex: Authors' different funding bodies."
     }
 }

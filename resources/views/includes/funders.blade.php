@@ -4,7 +4,10 @@
     <div class="row center-block">
         <label for="id_fundersRadio" class="col-md-3 control-label"
                wire:target="extractCodeMeta, viewFlags.swFunders, generateCodeMeta"
-               wire:loading.class="blur">Is this SW instance multiply-funded?</label>
+               wire:loading.class="blur" wire:key="popover.swFunderRadio.{{$time}}">
+            <a tabindex="0"   role="button" data-toggle="popover" title="Info" data-html="true" data-placement="bottom"
+               data-content="{{$swRadio['funder']}}"><i class="glyphicon glyphicon-info-sign" style="margin-right: 5px"></i>
+            </a>Is this SW instance multiply-funded?</label>
         <div class="col-md-9 input-group">
 
             <label class="radio-inline">

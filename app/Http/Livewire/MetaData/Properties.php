@@ -84,4 +84,5 @@ trait Properties
 
     public ?int $idStatusCode = Null;
     public array $visitData = [];
+    public bool $fetchRequested = false;
 }

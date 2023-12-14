@@ -421,8 +421,10 @@ trait Internals
 
         $visitInfo = $swhVisit->getVisit('latest', requireSnapshot: true);
 
+        /** @var array|throwable $visitInfo */
+
         return $visitInfo instanceof Throwable
-            ? []
+            ? collect($swhVisit->getVisit('latest'))->only(Constants::SWH_VISIT_INFO_KEYS)->map(fn($val) => $val ?? 'NULL')->toArray()
             : Arr::only($visitInfo, Constants::SWH_VISIT_INFO_KEYS);
     }
 

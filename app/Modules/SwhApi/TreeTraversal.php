@@ -29,7 +29,7 @@ abstract class TreeTraversal
      * @return stdClass|Throwable
      * @throws Exception
      */
-    public static function traverseFromSnp(SwhCoreID $snapshot, array &$urlQueues): stdClass|Throwable
+    public static function traverseFromSnp(SwhCoreID $snapshot, array &$urlQueues = []): stdClass|Throwable
     {
         $revisionID = self::obtainRevID($snapshot, $urlQueues['branchName'] ?? Null);
 

@@ -5,6 +5,9 @@ namespace App\Http\Livewire\MetaData;
 use App\Models\SoftwareHeritageRequest;
 use App\Models\SwMetaForm;
 use App\Modules\SwhApi\Archive;
+use App\Modules\SwhApi\Formatting;
+use App\Modules\SwhApi\SwhCoreID;
+use App\Modules\SwhApi\TreeTraversal;
 use DOMException;
 use ErrorException;
 use Exception;
@@ -30,7 +33,8 @@ class MetaPanels extends Component
         'fromJS' => 'activateImport',
         'decreasePerson',
         'tripMode' => 'setTripModeFromJS',
-        'clearOut' => 'eraseField'
+        'clearOut' => 'eraseField',
+        'preventReload'
     ];
 
     /**
@@ -338,6 +342,30 @@ class MetaPanels extends Component
     public function checkIdentifierWithSwh(): void
     {
         $this->idStatusCode = $this->checkSwhStatusCode();
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function fetchLatestSWHID(): void
+    {
+        if(! (isset($this->formData['codeRepository']) && isset($this->visitData['snapshot'] ))){
+            return;
+        }
+        $snpID = new SwhCoreID(Formatting::formatSwhIDs(Formatting::SWH_SNAPSHOT, $this->visitData['snapshot']));
+
+        $swhNodes = TreeTraversal::traverseFromSnp($snpID);
+
+        if( $swhNodes instanceof Throwable){
+            throw ValidationException::withMessages(['formData.identifier' => 'Internal API Error - Please report.']);
+        }
+
+        $contexts = Formatting::getContexts($swhNodes, $this->formData['codeRepository']);
+
+        $this->formData['identifier'] = Constants::SWH_FULL_HOST.$contexts['Directory-Context'];
+        //$this->checkIdentifierWithSwh();
+        $this->fetchRequested = true;
+
     }
 
     #[NoReturn] public static function dumpDie(): void

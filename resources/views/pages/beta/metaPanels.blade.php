@@ -313,6 +313,7 @@
                         this.scrollTo();
                         this.removePerson();
                         this.tripModeFromBlade();
+                        this.closePopovers();
                     },
 
                     playCheck: function(){
@@ -412,6 +413,11 @@
                                 })
                         })
                     },
+                    closePopovers: function(){
+                        Livewire.on('clearPops', function(){
+                            //todo
+                        });
+                    }
                 },
 
                 Hooks: {

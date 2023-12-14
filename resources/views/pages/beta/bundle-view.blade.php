@@ -1,6 +1,6 @@
 @extends('layouts.single-column-page')
 
-<x-beta.navigation-bar :isArchiveActive="true"
+<x-beta.navigation-bar :isArchiveActive="true" :view="'Bundle'"
                        :mtime="(new DateTime('Europe/Berlin'))->setTimeStamp(File::lastModified(base_path('resources/views/pages/beta/bundle-view.blade.php')))->format('d/M/y @H:i')"/>
 
 @section('headline', 'Software Heritage API Archival Requests')

@@ -53,4 +53,9 @@ trait Listeners
         $this->{$person}--;
     }
 
+    public function preventReload(): void
+    {
+       $this->emit('clearPops');
+    }
+
 }

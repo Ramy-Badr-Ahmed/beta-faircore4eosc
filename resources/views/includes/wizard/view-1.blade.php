@@ -391,7 +391,10 @@
     <div class="row center-block">
         <div class="col-md-3 like-label"
              wire:target="extractCodeMeta, viewFlags.swRelease, generateCodeMeta"
-             wire:loading.class="blur">Is this instance a Software Release?
+             wire:loading.class="blur" wire:key="popover.swReleaseRadio.{{$time}}">
+            <a tabindex="0"   role="button" data-toggle="popover" title="Info" data-html="true" data-placement="bottom"
+               data-content="{{$swRadio['release']}}"><i class="glyphicon glyphicon-info-sign" style="margin-right: 5px"></i>
+            </a>Is this instance a Software Release?
         </div>
         <div class="col-md-9 input-group">
 

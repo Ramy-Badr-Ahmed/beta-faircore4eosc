@@ -125,16 +125,16 @@
                 @endif
             </div>
 
-            <x-livewire.right-panel-tab-content :tapFor="'swhXML'" :isActivated="$viewFlags['swhXMLActive'] === true" :isDisabled="!(isset($codeMetaJSON)|isset($codeMetaImport))"
+            <x-livewire.right-panel-tab-content :tapFor="'swhXML'" :isActivated="$viewFlags['swhXMLActive'] === true" :isDisabled="true/*!(isset($codeMetaJSON)|isset($codeMetaImport))*/"
                                                 :tripMode="$viewFlags['tripMode']" :textAreaInput="$swhXML"/>
 
-            <x-livewire.right-panel-tab-content :tapFor="'bibTex'" :isActivated="$viewFlags['bibTexActive'] === true" :isDisabled="!(isset($codeMetaJSON)|isset($codeMetaImport))"
+            <x-livewire.right-panel-tab-content :tapFor="'bibTex'" :isActivated="$viewFlags['bibTexActive'] === true" :isDisabled="false/*!(isset($codeMetaJSON)|isset($codeMetaImport))*/"
                                                 :tripMode="$viewFlags['tripMode']" :textAreaInput="$bibTex"/>
 
-            <x-livewire.right-panel-tab-content :tapFor="'bibLaTex'" :isActivated="$viewFlags['bibLaTexActive'] === true" :isDisabled="!(isset($codeMetaJSON)|isset($codeMetaImport))"
+            <x-livewire.right-panel-tab-content :tapFor="'bibLaTex'" :isActivated="$viewFlags['bibLaTexActive'] === true" :isDisabled="false/*!(isset($codeMetaJSON)|isset($codeMetaImport))*/"
                                                 :tripMode="$viewFlags['tripMode']" :textAreaInput="$bibLaTex"/>
 
-            <x-livewire.right-panel-tab-content :tapFor="'dataCite'" :isActivated="$viewFlags['dataCiteActive'] === true" :isDisabled="!(isset($codeMetaJSON)|isset($codeMetaImport))"
+            <x-livewire.right-panel-tab-content :tapFor="'dataCite'" :isActivated="$viewFlags['dataCiteActive'] === true" :isDisabled="false/*!(isset($codeMetaJSON)|isset($codeMetaImport))*/"
                                                 :tripMode="$viewFlags['tripMode']" :textAreaInput="$dataCite"/>
 
             <x-livewire.right-panel-tab-content :tapFor="'github'" :isActivated="$viewFlags['githubActive'] === true" :isDisabled="true"

@@ -18,7 +18,7 @@
                             </a>
                         </li>
                         <li role="presentation" @class(['dropdown', 'active' => $isArchiveActive ?? false])>
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Archive-Reference<span class="caret"></span></a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">@isset($isArchiveActive)<span style="font-size: small">Archive-Reference/{{$view}}</span>@else Archive-Reference @endif<span class="caret"></span></a>
                             <ul class="dropdown-menu" aria-labelledby="Archive-Reference">
                                 <li role="presentation"><a href={{route('tree-view')}}>Tree View</a></li>
                                 <li role="separator" class="divider"></li>
@@ -71,7 +71,7 @@
 
             <div class="col-md-3 -header-banner-helper" style="margin-top: 11px; border: none; text-align: right">
                 @if(Auth::check() && Auth::user()->email_verified_at)
-                    <span class="logo-text" style="color: #a14e1a">β: Page Last Modified: <span style="font-weight: bold">{{ $mtime }}</span></span>
+                    <span class="logo-text" style="color: #a14e1a">β-Page Last Modified: <span style="font-weight: bold">{{ $mtime }}</span></span>
                 @endif
 
             </div>

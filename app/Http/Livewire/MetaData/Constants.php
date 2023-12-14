@@ -78,6 +78,7 @@ abstract class Constants
     public const SWH_HOST_RESOLVE = "https://archive.softwareheritage.org/api/1/resolve/";
 
     public const SWH_HOST = 'archive.softwareheritage.org';
+    public const SWH_FULL_HOST = 'https://archive.softwareheritage.org/';
 
     public const RELEASE_CODEMETA_KEY = 'version';
 

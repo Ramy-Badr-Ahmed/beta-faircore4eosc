@@ -5,8 +5,7 @@
                         'btn-primary -btn-effect-deposit'
                             => $tapFor === "swhXML"
                             ])
-            wire:loading.class="hidden" wire:target="convertTo, depositMetaData2Swh"
-            @if($tapFor === 'swhXML') disabled @endif   {{--todo: remove disabled when deposit ready--}}
+            wire:loading.class="hidden" wire:target="convertTo, depositMetaData2Swh" @disabled($isDisabled)
 
             wire:click="@if($tapFor === "swhXML") depositMetaData2Swh() @else convertTo('{{$tapFor}}') @endif" >
 

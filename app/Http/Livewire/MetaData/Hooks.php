@@ -268,15 +268,16 @@ trait Hooks
      */
     public function updatedFormDataCodeRepository(): void
     {
-        $this->reset('isKnown', 'archivalRunning');
+        $this->reset('isKnown', 'archivalRunning', 'visitData');
+
+        if($this->idType === 'SWHID') unset($this->formData['identifier'], $this->idStatusCode);
 
         $this->validateOnly('formData.codeRepository', $this->rules['step2']);
 
         $this->checkRepoWithSwh();
 
-        if($this->isKnown){
-            $this->visitData = $this->getLatestVisitInfo();
-        }
+        if($this->isKnown) $this->visitData = $this->getLatestVisitInfo();
+
     }
 
     /**
@@ -285,7 +286,7 @@ trait Hooks
      */
     public function updatedFormDataIdentifier(): void
     {
-        $this->reset('idStatusCode');
+        $this->reset('idStatusCode', 'fetchRequested');
         $this->resetValidation('formData.identifier');
 
         $this->validateOnly('formData.identifier', $this->rules['step2']);
@@ -302,7 +303,7 @@ trait Hooks
 
     public function updatedIdType(): void
     {
-        $this->reset('idStatusCode');
+        $this->reset('idStatusCode', 'fetchRequested');
         $this->eraseDataOnViewFlags(Constants::SWH_IDENTIFIER_CODEMETA_KEY);
     }
 

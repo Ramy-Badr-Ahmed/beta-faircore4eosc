@@ -39,7 +39,7 @@
                     </div>
                 </div>
                 <div class="panel-body container-fluid">
-                    <form>
+                    <form wire:submit.prevent="preventReload">
 
                         @csrf
 

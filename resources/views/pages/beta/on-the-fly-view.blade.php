@@ -1,6 +1,6 @@
 @extends('layouts.single-column-page')
 
-<x-beta.navigation-bar :isArchiveActive="true"
+<x-beta.navigation-bar :isArchiveActive="true" :view="'On-the-fly'"
                        :mtime="(new DateTime('Europe/Berlin'))->setTimeStamp(File::lastModified(base_path('resources/views/pages/beta/on-the-fly-view.blade.php')))->format('d/M/y @H:i')"/>
 
 @section('headline', 'SWH API Requests Status in DB')
@@ -259,9 +259,10 @@
                             return;
                         }
 
-                        const contextData = cell.getRow().getData()['contextualSwhIds'];
+                        const swhRoot = 'https://archive.softwareheritage.org/',
+                            contextData = cell.getRow().getData()['contextualSwhIds'];
 
-                        view.copyToClipboard(contextData['Directory-Context'] ?? contextData['Content-Context']);
+                        view.copyToClipboard(swhRoot+(contextData['Directory-Context'] ?? contextData['Content-Context']));
 
                         cell.setValue('Copied!');
 
@@ -521,13 +522,13 @@
                                     },
                                     resizable: true, maxWidth: 140, tooltip: false
                                 },
-                                { title: 'SWHIDs', field: 'swhid', headerHozAlign:'center', formatter: 'html', width: 150, frozen: true,
+                                { title: 'SWHIDs<br>(In Resolvers)', field: 'swhid', headerHozAlign:'center', formatter: 'html', width: 150, frozen: true,
                                     cellClick: view.ajaxTabulator.swhIdCellClicked,
-                                    headerPopup:"<span style='font-size:1.0em; color: #2578ab; font-weight: bold; font-family: Consolas, sans-serif;'>SWH Core IDs & SWH Contextual IDs</span>",
+                                    headerPopup:"<span style='font-size:1.0em; color: #2578ab; font-weight: bold; font-family: Consolas, sans-serif;'>SWH Directory/Content Contextual IDs<br><br>Copiable directly</span>",
                                 },
                                 { title: 'LaTeX', field: 'btn-latex', headerHozAlign:'center', hozAlign: 'center', width: 120,
                                     resizable: true, frozen: true, formatter: 'html', cellClick: view.ajaxTabulator.latexCellClicked,
-                                    headerPopup:"<span style='font-size:1.0em; color: #2578ab; font-weight: bold; font-family: Consolas, sans-serif;'>SWH Contextual IDs Referencing</span>"
+                                    headerPopup:"<span style='font-size:1.0em; color: #2578ab; font-weight: bold; font-family: Consolas, sans-serif;'>SWH Contextual IDs Referencing<br><br>Copiable directly</span>"
                                 },
                                 { title: 'Flag', field: 'isValid', visible: false },
                             ],

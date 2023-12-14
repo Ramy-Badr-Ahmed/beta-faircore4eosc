@@ -4,7 +4,7 @@
     <div class="row center-block">
 
         <label for="id_codeRepository" class="col-md-3 control-label"
-               wire:target="extractCodeMeta, @if($tripMode!=='defer') {{$codeRepository['wireModel']}} @else generateCodeMeta @endif"
+               wire:target="extractCodeMeta, fetchLatestSWHID, @if($tripMode!=='defer') {{$codeRepository['wireModel']}} @else generateCodeMeta @endif"
                wire:loading.class="@if($errors->has($codeRepository['wireModel'])) blur-red @else blur @endif ">Code Repository
             <span style="color: #ab0f0f" class="glyphicon glyphicon-asterisk small"></span>
         </label>
@@ -43,22 +43,24 @@
 
                 @if($isKnown)
                     <a tabindex="0" role="button" data-toggle="popover" data-placement="bottom" title="{{$swhVisit['visitTitle']}}" data-html="true"
+                       wire:target="checkRepoWithSwh" wire:loading.class="hidden"
                        wire:key="popoverInfo.{{$codeRepository['codeMetaKey'].$time}}" data-content="{{ preg_replace_array('/\?/', $visitData, $swhVisit['visitData'])}}">
                         <i class="glyphicon thin glyphicon-zoom-in"></i><i class="glyphicon thin glyphicon-info-sign"></i>
                     </a>
-                    <button @class(["btn", "btn-xs", "btn-info", "-btn", "-btn-effect", "hide" => $archivalRunning === true]) style="margin-left: 10px"
-                            wire:click.prevent="archiveNow()" wire:loading.attr="disabled">
+                    <button @class(["btn", "btn-xs", "btn-info", "-btn", "-btn-effect", "hide" => $archivalRunning === true]) style="margin-left: 10px" wire:target="{{$codeRepository['wireModel']}}, archiveNow"
+                            wire:click.prevent="archiveNow()" wire:loading.attr="disabled" @disabled(!$isKnown || $visitData['status'] === 'not_found')>
                         <span class="glyphicon glyphicon-repeat" aria-hidden="true" style="padding-right: 5px"></span>Re-Archive!
                     </button>
                 @endif
 
                 <button @class(["btn", "btn-xs", "btn-info", "-btn", "-btn-effect", "hide" => $isKnown === true || !isset($isKnown) || $archivalRunning === true])
-                    wire:click.prevent="archiveNow()" wire:loading.attr="disabled">
+                    wire:click.prevent="archiveNow()" wire:target="{{$codeRepository['wireModel']}}, archiveNow" wire:loading.attr="disabled"
+                    @disabled($isKnown === true || !isset($isKnown) || $archivalRunning === true)>
                         <span class="glyphicon glyphicon-flag" aria-hidden="true" style="padding-right: 5px"></span>Archive it!
                 </button>
 
-                <button @class(["btn", "btn-xs", "btn-info", "-btn", "-btn-effect", "hide" => !isset($archivalRunning)])
-                        wire:click.prevent="checkRepoWithSwh()" wire:loading.attr="disabled" style="margin-left: 10px">
+                <button @class(["btn", "btn-xs", "btn-info", "-btn -btn-effect btn-primary -btn-effect-deposit", "hide" => !isset($archivalRunning)])
+                        wire:click.prefetch.prevent="checkRepoWithSwh()" wire:loading.attr="disabled" style="margin-left: 10px">
                     <span class="glyphicon glyphicon-repeat" aria-hidden="true" style="padding-right: 5px"></span>Check
                 </button>
 
@@ -81,7 +83,7 @@
             $hasIdError = $hasError && str_contains($errors->get($identifier['wireModel'])[0], 'incompatible');
         @endphp
         <div class="col-md-3 like-label @if($hasIdError) text-danger @endif"
-             wire:target="extractCodeMeta, idType, generateCodeMeta"
+             wire:target="extractCodeMeta, idType, generateCodeMeta, fetchLatestSWHID"
              wire:loading.class="@if($errors->has($identifier['wireModel'])) blur-red @else blur @endif" >Identifier Type
         </div>
         <div class="col-md-9 input-group">
@@ -98,15 +100,20 @@
                                        @else generateCodeMeta @endif" wire:loading.attr="disabled"
                        wire:model="idType">SWHID Resolver
             </label>
+            <button @class(["btn", "btn-xs", "btn-info", "-btn", "-btn-effect", "btn-primary -btn-effect-deposit", "hide" => !($isKnown && $visitData['status'] === 'full' && $idType === 'SWHID')])
+                    wire:click.prefetch.prevent="fetchLatestSWHID()" wire:target="fetchLatestSWHID" wire:loading.class="hidden" style="margin-left: 10px">
+                <span class="glyphicon glyphicon-magnet" aria-hidden="true" style="padding-right: 5px"></span>Fetch to Identifier
+            </button>
+            <span class="hidden transit-message" wire:target="fetchLatestSWHID" wire:loading.class.remove="hidden" style="margin-left: 10px">Fetching ..</span>
         </div>
     </div>
 </div>
 
 
-<div id="div_id_identifier" style="margin-bottom:25px" class="form-group @error($identifier['wireModel']) has-error @enderror">
+<div id="div_id_identifier" style="margin-bottom:25px" class="form-group has-feedback @error($identifier['wireModel']) has-error @enderror">
     <div class="row center-block">
         <label for="id_identifier" class="col-md-3 control-label"
-               wire:target="extractCodeMeta, idType, @if($tripMode!=='defer') {{$identifier['wireModel']}} @else generateCodeMeta @endif"
+               wire:target="extractCodeMeta, idType, fetchLatestSWHID, @if($tripMode!=='defer') {{$identifier['wireModel']}} @else generateCodeMeta @endif"
                wire:loading.class="@if($errors->has($identifier['wireModel'])) blur-red @else blur @endif ">Unique Identifier<br>{{$idType}}</label>
         <div class="col-md-9 input-group" >
             <div class=" input-group-addon border" >
@@ -138,7 +145,7 @@
     </div>
 
     @if(!$errors->has($identifier['wireModel']) && $idType === 'SWHID')
-        <div class="flex-container fadeInUp" style="border:none; margin-top: 15px;">
+        <div @class(["flex-container fadeInUp", "hide" => $fetchRequested ]) style="border:none; margin-top: 15px;" {{--wire:target="fetchLatestSWHID" wire:loading.class="hidden"--}}>
             <div class="flex-Error-bell">
                 <i class="glyphicon glyphicon-search text-info"></i>
             </div>
