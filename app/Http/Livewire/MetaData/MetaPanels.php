@@ -352,6 +352,9 @@ class MetaPanels extends Component
         if(! (isset($this->formData['codeRepository']) && isset($this->visitData['snapshot'] ))){
             return;
         }
+        
+        $this->resetValidation('formData.identifier');
+
         $snpID = new SwhCoreID(Formatting::formatSwhIDs(Formatting::SWH_SNAPSHOT, $this->visitData['snapshot']));
 
         $swhNodes = TreeTraversal::traverseFromSnp($snpID);
@@ -363,7 +366,6 @@ class MetaPanels extends Component
         $contexts = Formatting::getContexts($swhNodes, $this->formData['codeRepository']);
 
         $this->formData['identifier'] = Constants::SWH_FULL_HOST.$contexts['Directory-Context'];
-        //$this->checkIdentifierWithSwh();
         $this->fetchRequested = true;
 
     }
