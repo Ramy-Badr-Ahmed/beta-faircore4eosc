@@ -352,7 +352,7 @@ class MetaPanels extends Component
         if(! (isset($this->formData['codeRepository']) && isset($this->visitData['snapshot'] ))){
             return;
         }
-        
+
         $this->resetValidation('formData.identifier');
 
         $snpID = new SwhCoreID(Formatting::formatSwhIDs(Formatting::SWH_SNAPSHOT, $this->visitData['snapshot']));
@@ -370,7 +370,8 @@ class MetaPanels extends Component
 
     }
 
-    #[NoReturn] public static function dumpDie(): void
+    #[NoReturn]
+    public static function dumpDie(): void
     {
         echo '<pre>'.print_r("<b>Security Warning</b>: Tampering detected.\n
                   One of the following [name, id, data] has been tampered with (or corrupted) between requests.\n

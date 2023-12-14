@@ -332,9 +332,9 @@ Instantiate a visit object for the desired repository URL:
 ```
 
 - Show all visits by a specific SWH `visit status` only.
-
-  > [!NOTE]
+  
   > This method follows pagination internally depending on the Link Header.
+  
 
 | `Class` Method                                   | Method Arguments                                                                                                                                        | Method `$options` (defaults)                                                                          | Returns                                                                             | `SWH` Endpoint                                                                                                         | `HTTP` Method |
 |--------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------|---------------|
@@ -1074,9 +1074,9 @@ Abstract class usage:
 
 - Resolve a `directory` node to its direct edge (`dir/cnt`) given a specific name for the directory/content. `Null` is returned if target edge doesn't exist.
 
-| `Class static` Method                     | Method Arguments                                                                                                               | Returns                                                                                 | `SWH` Endpoint                                                                                                                | `HTTP` Method |
-|-------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------|---------------|
-| `getNextNodeFromDir($dirID, $seekEdgeTarget)` | - `<string> $dirID:`<ul><li>`40-hex-chars`</li><li>`full SWHID`</li></ul><br/>- `<string> $seekEdgeTarget:`<br/> `file/subdirectory name` | - `SwhCoreID`<br/>-`Null`<br/>- `Throwable: RequestException \| TypeError \| Exception` | [`directory`](https://docs.softwareheritage.org/devel/swh-web/uri-scheme-api.html#get--api-1-directory-(sha1_git)-[(path)-])  | GET           |
+| `Class static` Method                         | Method Arguments                                                                                                                          | Returns                                                                                 | `SWH` Endpoint                                                                                                               | `HTTP` Method |
+|-----------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------|---------------|
+| `getNextNodeFromDir($dirID, $seekEdgeTarget)` | - `<string> $dirID:`<ul><li>`40-hex-chars`</li><li>`full SWHID`</li></ul><br/>- `<string> $seekEdgeTarget:`<br/> `file/subdirectory name` | - `SwhCoreID`<br/>-`Null`<br/>- `Throwable: RequestException \| TypeError \| Exception` | [`directory`](https://docs.softwareheritage.org/devel/swh-web/uri-scheme-api.html#get--api-1-directory-(sha1_git)-[(path)-]) | GET           |
 
 > Seek 'setup.py' file given a SWHID of its parent directory
 
@@ -1210,11 +1210,11 @@ Abstract class usage:
     > 
     > This method amends automatically the `branchName` key if part of the `branch` name is appended to the `path` key instead. i.e. the path queue pushes entries to the branch queue on demand.
 
-| `Class static` Method                   | Method Arguments                                                                                                                                                                                                                   | Returns                                                                             | `SWH` Endpoint                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                | `HTTP` Method |
-|-----------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------|
-| `traverserFromSnp($snpID, $nodeQueues)` | -`<SWHCoreID>: $snpID: full SWHID (new SWHCoreID($snpID))`<br/> - `<array>: nodeQueues: array of two Queues`<ul><li>`$nodeQueues['branchName']: queue of branch names`</li><li>`nodeQueues['path']: queue of path nodes`</li></ul> | - `stdClass (object)`<br/>- `Throwable: RequestException \| TypeError \| Exception` | - [`snapshot`](https://docs.softwareheritage.org/devel/swh-web/uri-scheme-api.html#get--api-1-snapshot-(snapshot_id)-)<br/>- [`revision`](https://docs.softwareheritage.org/devel/swh-web/uri-scheme-api.html#get--api-1-revision-(sha1_git)-directory-[(path)-]) <br/> - [`release`](https://docs.softwareheritage.org/devel/swh-web/uri-scheme-api.html#get--api-1-release-(sha1_git)-)<br/>- [`directory`](https://docs.softwareheritage.org/devel/swh-web/uri-scheme-api.html#get--api-1-directory-(sha1_git)-[(path)-]) <br/> - [`content`](https://docs.softwareheritage.org/devel/swh-web/uri-scheme-api.html#get--api-1-content-known-(sha1)[,(sha1),%20...,(sha1)]-) | GET           |
+| `Class static` Method                     | Method Arguments                                                                                                                                                                                                                   | Returns                                                                             | `SWH` Endpoint                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                | `HTTP` Method |
+|-------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------|
+| `traverserFromSnp($snpID[, $nodeQueues])` | -`<SWHCoreID>: $snpID: full SWHID (new SWHCoreID($snpID))`<br/> - `<array>: nodeQueues: array of two Queues`<ul><li>`$nodeQueues['branchName']: queue of branch names`</li><li>`nodeQueues['path']: queue of path nodes`</li></ul> | - `stdClass (object)`<br/>- `Throwable: RequestException \| TypeError \| Exception` | - [`snapshot`](https://docs.softwareheritage.org/devel/swh-web/uri-scheme-api.html#get--api-1-snapshot-(snapshot_id)-)<br/>- [`revision`](https://docs.softwareheritage.org/devel/swh-web/uri-scheme-api.html#get--api-1-revision-(sha1_git)-directory-[(path)-]) <br/> - [`release`](https://docs.softwareheritage.org/devel/swh-web/uri-scheme-api.html#get--api-1-release-(sha1_git)-)<br/>- [`directory`](https://docs.softwareheritage.org/devel/swh-web/uri-scheme-api.html#get--api-1-directory-(sha1_git)-[(path)-]) <br/> - [`content`](https://docs.softwareheritage.org/devel/swh-web/uri-scheme-api.html#get--api-1-content-known-(sha1)[,(sha1),%20...,(sha1)]-) | GET           |
 
-> Define method arguments:
+> Define method arguments (node names to traverse to):
 
 ```php
 > use Ds\Queue;
@@ -1225,7 +1225,7 @@ Abstract class usage:
     +"snp": "swh:1:snp:d45df836d3d2793ffceac488140f56d8719875ac",
   }
 
-    // define branch name (if in doubt, place any trailing entry to the path queue)
+    // define branch queue (if in doubt, place any trailing entry to the path queue)
 
 > $nodeQueues['branchName'] = new Queue(['5th-branch', 'maths', 'dev'])     
 = Ds\Queue {#6945
@@ -1259,6 +1259,18 @@ Abstract class usage:
     +"snp": "swh:1:snp:d45df836d3d2793ffceac488140f56d8719875ac",
     +"rev": "swh:1:rev:6b3f8635f87b9cca6bd3bad660da973ab8790094",
     +"cnt": "swh:1:cnt:5de355c5291614aa07120e4e77aa928c6168e8ce",
+  }
+```
+
+> Traverse from the `snpashot` node to the defaults (default branch, its root directory)
+
+```php
+> TreeTraversal::traverseFromSnp($snpID)        // drop out the nodeQueues argument
+
+= {#6981
+    +"snp": "swh:1:snp:d45df836d3d2793ffceac488140f56d8719875ac",
+    +"rev": "swh:1:rev:0b719b2b5a93c2c06335e6afc6c8af145aa6444d",
+    +"dir": "swh:1:dir:9b82760ee153c3374d4fc88b3ede355e039452ee",
   }
 ```
 
