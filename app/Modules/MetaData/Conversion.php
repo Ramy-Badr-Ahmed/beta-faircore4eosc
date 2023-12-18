@@ -270,8 +270,15 @@ class Conversion
                         return $authorArray['familyName'].", ".$authorArray['givenName']; })),
                     'affiliations' => Arr::pluck($codeMetaValue, 'affiliation.name')
                 ],
-                'name', 'description', 'softwareVersion', 'identifier',
+                'name', 'description', 'softwareVersion',
                 'version', 'releaseNotes', 'isPartOf'  => $codeMetaValue,
+
+                'identifier' => Arr::mapWithKeys([$codeMetaValue], function ($val){
+                    return [
+                        'idType' => self::isDOI($val) ? 'doi' : (self::isSwhResolver($val) ? 'swhid' : Null),
+                        'identifier' => $val
+                    ];
+                }),
 
                 'downloadUrl', 'url', 'codeRepository', 'readme', 'buildInstructions', 'license' => "\url{{$codeMetaValue}}",
                 'publisher' => Arr::except($codeMetaValue, ["@type"]),
@@ -290,6 +297,10 @@ class Conversion
             "url" => $convertedCodeMeta['publisher']['url'],
 
             "publisher" => $convertedCodeMeta['publisher']['name'] ?? null,
+
+            "doi" => $convertedCodeMeta['identifier']['idType'] === 'doi' ? "\url{{$convertedCodeMeta['identifier']['identifier']}}" : Null,
+
+            "swhid" => $convertedCodeMeta['identifier']['idType'] === 'swhid' ? "\url{{$convertedCodeMeta['identifier']['identifier']}}" : Null,
 
             "institution" => call_user_func(function ($affiliations){
 
@@ -310,7 +321,7 @@ class Conversion
 
             "urldate" => isset($convertedCodeMeta['datePublished']) ? $convertedCodeMeta['datePublished']["full"] : null,
 
-            "bibLaTexKey" => Str::slug($this->codeMetaData['name'], "-").  "__".$convertedCodeMeta['identifier']
+            "bibLaTexKey" => Str::slug($this->codeMetaData['name'], "-").  "__".$convertedCodeMeta['identifier']['identifier']
         ]));
 
         return array_merge([
@@ -480,6 +491,16 @@ class Conversion
             return Str::of($url)->match('/\/'.$licenseArray[0].'.html/i')->value();
         }));
         return empty($license) ? 'NULL' : $license[0].": ".$license[1];
+    }
+
+    private function isDOI(string $url): bool
+    {
+        return preg_match('/https?:\/\/(dx\.)?doi\.org\/[a-zA-Z0-9.\/-]+/i', $url);
+    }
+
+    private function isSwhResolver(string $url): bool
+    {
+        return preg_match('/(?<=https:\/\/archive\.softwareheritage\.org\/).*$/i', $url);
     }
 
 }

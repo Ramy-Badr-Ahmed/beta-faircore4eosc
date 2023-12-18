@@ -3,13 +3,18 @@
 
     <div class="row center-block">
 
-        <label for="id_codeRepository" class="col-md-3 control-label"
+        @php
+            $hasError = $errors->has($identifier['wireModel']);
+            $hasOriginError = $hasError && str_contains($errors->get($identifier['wireModel'])[0], 'Origin Qualifier');
+        @endphp
+
+        <label for="id_codeRepository" class="col-md-3 control-label @if($hasOriginError) text-danger @endif"
                wire:target="extractCodeMeta, fetchLatestSWHID, @if($tripMode!=='defer') {{$codeRepository['wireModel']}} @else generateCodeMeta @endif"
                wire:loading.class="@if($errors->has($codeRepository['wireModel'])) blur-red @else blur @endif ">Code Repository
             <span style="color: #ab0f0f" class="glyphicon glyphicon-asterisk small"></span>
         </label>
 
-        <div class="col-md-9 input-group">
+        <div class="col-md-9 input-group @if($hasOriginError) has-error @endif">
             <div class=" input-group-addon border" >
                 <a tabindex="0"   role="button" data-toggle="popover" title="Info" data-html="true"
                    data-content="{{$codeRepository['info']}}"><i class="glyphicon glyphicon-info-sign "></i></a>

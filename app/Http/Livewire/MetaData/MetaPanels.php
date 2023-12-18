@@ -117,7 +117,7 @@ class MetaPanels extends Component
         $codeMeta->add2DB($this->codeMetaJSON);
 
         return redirect(route('lw-meta-form'))
-            ->with('success-animation-codeMeta', 'CodeMeta.json has been saved!');
+            ->with('success-animation-codeMeta', 'CodeMeta.json has been saved in DB!');
     }
 
 

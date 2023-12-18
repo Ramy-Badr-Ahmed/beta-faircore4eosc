@@ -292,7 +292,7 @@ trait Hooks
         $this->validateOnly('formData.identifier', $this->rules['step2']);
 
         $validator = Validator::make(['identifier' => $this->formData['identifier']],
-            ['identifier' => new CodeMetaIdentifier($this->idType)], attributes: ['identifier' => 'This Identifier']);
+            ['identifier' => new CodeMetaIdentifier($this->idType, $this->formData['codeRepository'] ?? Null)], attributes: ['identifier' => 'This Identifier']);
 
         if($validator->fails()){
             throw ValidationException::withMessages(['formData.identifier' => implode('', $validator->errors()->get('identifier'))]);

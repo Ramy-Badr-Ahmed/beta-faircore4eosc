@@ -16,17 +16,22 @@ class CodeMetaIdentifier implements ValidationRule, ValidatorAwareRule
 
     protected const SWHID = 'SWHID';
     public string $idType;
+    public string $repositoryURL;
 
 
     /**
      * @throws Exception
      */
-    public function __construct(string $idType)
+    public function __construct(string $idType, ?string $repositoryURL = Null)
     {
         if(!in_array($idType, [self::SWHID, self::DOI])){
             throw new Exception('Non-supported identifier!');
         }
         $this->idType = strtoupper($idType);
+
+        if(isset($repositoryURL)){
+            $this->repositoryURL = $repositoryURL;
+        }
     }
 
     /**
@@ -43,6 +48,8 @@ class CodeMetaIdentifier implements ValidationRule, ValidatorAwareRule
         if(!$isMatching){
             $fail(':attribute is incompatible with the selected Identifier Type: '.$this->idType);
         }
+
+        if($this->idType === self::SWHID && isset($this->repositoryURL)) $this->validateOriginQualifier($value, $fail);
     }
 
     /**
@@ -55,4 +62,17 @@ class CodeMetaIdentifier implements ValidationRule, ValidatorAwareRule
 
         return $this;
     }
+
+
+    public function validateOriginQualifier(string $identifierURL, Closure $fail): void
+    {
+        $url = parse_url($identifierURL);
+
+        $searchIn = $url['query'] ?? $url['path'];
+
+        if(preg_match('/(?:origin|origin_url)=([^;&]+)/', $searchIn, $m) && $m[1] !== $this->repositoryURL){
+            $fail(':attribute has non-matching SWH Origin Qualifier w.r.t Code Repository');
+        }
+    }
+
 }

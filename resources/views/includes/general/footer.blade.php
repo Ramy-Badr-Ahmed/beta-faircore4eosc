@@ -25,7 +25,7 @@
             <span id="github" style="margin-right: 13px">
                 <img src="{{url('/images/github.svg')}}" width="16px" height="15px" style="margin-top: -2px;margin-right: 6px;" alt="github-logo" title="github">
                 <a href="https://github.com/dagstuhl-publishing/beta-faircore4eosc" target='_blank' rel='noopener noreferrer'>
-                    Github
+                    GitHub
                 </a>
             </span>
             <span id="imprint" style="margin-right: 13px">
