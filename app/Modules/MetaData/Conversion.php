@@ -8,8 +8,11 @@
 
 namespace App\Modules\MetaData;
 
+use App\Http\Livewire\MetaData\Constants;
+use App\Modules\SwhApi\SyncHTTP;
 use Composer\Spdx\SpdxLicenses;
 use ErrorException;
+use GuzzleHttp\Exception\ClientException;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
@@ -274,9 +277,12 @@ class Conversion
                 'version', 'releaseNotes', 'isPartOf'  => $codeMetaValue,
 
                 'identifier' => Arr::mapWithKeys([$codeMetaValue], function ($val){
+                    $isDoi = self::isDOI($val);
                     return [
-                        'idType' => self::isDOI($val) ? 'doi' : (self::isSwhResolver($val) ? 'swhid' : Null),
-                        'identifier' => $val
+                        'idType' => $isDoi ? 'doi' : (self::isSwhResolver($val) ? 'swhid' : Null),
+                        'identifier' => $isDoi
+                            ? preg_replace('/^\/|\/$/', '', parse_url($val)['path'])
+                            : Str::of($val)->match('/(?<=https:\/\/archive\.softwareheritage\.org\/).*$/i')->value()
                     ];
                 }),
 
@@ -300,7 +306,7 @@ class Conversion
 
             "doi" => $convertedCodeMeta['identifier']['idType'] === 'doi' ? "\url{{$convertedCodeMeta['identifier']['identifier']}}" : Null,
 
-            "swhid" => $convertedCodeMeta['identifier']['idType'] === 'swhid' ? "\url{{$convertedCodeMeta['identifier']['identifier']}}" : Null,
+            "swhid" => $convertedCodeMeta['identifier']['idType'] === 'swhid' ? $convertedCodeMeta['identifier']['identifier'] : Null,
 
             "institution" => call_user_func(function ($affiliations){
 
@@ -500,7 +506,11 @@ class Conversion
 
     private function isSwhResolver(string $url): bool
     {
-        return preg_match('/(?<=https:\/\/archive\.softwareheritage\.org\/).*$/i', $url);
+        $isMatching = preg_match('/(?<=https:\/\/archive\.softwareheritage\.org\/).*$/', $url, $m);
+        if($isMatching){
+            return Str::contains($m[0], 'swh:1:');
+        }
+        return false;
     }
 
 }
