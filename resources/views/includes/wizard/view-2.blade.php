@@ -118,7 +118,7 @@
 <div id="div_id_identifier" style="margin-bottom:25px" class="form-group has-feedback @error($identifier['wireModel']) has-error @enderror">
     <div class="row center-block">
         <label for="id_identifier" class="col-md-3 control-label"
-               wire:target="extractCodeMeta, idType, fetchLatestSWHID, @if($tripMode!=='defer') {{$identifier['wireModel']}} @else generateCodeMeta @endif"
+               wire:target="extractCodeMeta, idType, fetchLatestSWHID, {{$identifier['wireModel']}}, @if($tripMode==='defer') generateCodeMeta @endif"
                wire:loading.class="@if($errors->has($identifier['wireModel'])) blur-red @else blur @endif ">Unique Identifier<br>{{$idType}}</label>
         <div class="col-md-9 input-group" >
             <div class=" input-group-addon border" >

@@ -428,18 +428,28 @@ trait Internals
             : Arr::only($visitInfo, Constants::SWH_VISIT_INFO_KEYS);
     }
 
-    private function checkSwhStatusCode(?string $identifier = null): ?int
+    private function checkSwhStatusCode(?string $identifier = null): ?array
     {
         if(preg_match('/(?<=https:\/\/archive\.softwareheritage\.org\/).*$/', $identifier ?? $this->formData['identifier'], $m)){
             $swh = new SyncHTTP();
 
             try{
-                return Str::contains($m[0], 'swh:1:')
-                    ? $swh->invokeHTTP('HEAD', Constants::SWH_HOST_RESOLVE.$m[0], timeout: 10, connectTimeout: 5, sleepMS: 1000)->status()
-                    : $swh->invokeHTTP('HEAD', $identifier ?? $this->formData['identifier'], timeout: 10, connectTimeout: 5, sleepMS: 1000)->status();
+                if(Str::contains($m[0], 'swh:1:')){
+                    return [
+                        $identifier ?? $this->formData['identifier'],
+                        $swh->invokeHTTP('HEAD', Constants::SWH_HOST_RESOLVE.$m[0], timeout: 10, connectTimeout: 5, sleepMS: 1000)->status()
+                    ];
+                }
+
+                $callNonSwhResolver = $swh->invokeHTTP('GET', $identifier ?? $this->formData['identifier'], timeout: 10, connectTimeout: 5, sleepMS: 1000);
+
+                return [
+                    Constants::SWH_FULL_HOST.Str::of($callNonSwhResolver->body())->match('/data-swhid-with-context="(.*?)"/')->value(),
+                    $callNonSwhResolver->status()
+                ];
 
             }catch (ClientException $e){
-                return $e->getCode();
+                return [$identifier ?? $this->formData['identifier'], $e->getCode()];
             }
         }
         return null;
@@ -526,7 +536,8 @@ trait Internals
                 if(in_array($codeMetaKey, Constants::SWH_IDENTIFIER_CODEMETA_KEY)){
                     if(Str::contains( $codeMetaValue, Constants::SWH_HOST)){
                         $this->idType = 'SWHID';
-                        $this->idStatusCode = $this->checkSwhStatusCode($codeMetaValue);
+                        [$this->formData['identifier'], $this->idStatusCode ] = $this->checkSwhStatusCode($codeMetaValue);
+                        return;
                     }
                     else $this->idType = 'DOI';
                 }
