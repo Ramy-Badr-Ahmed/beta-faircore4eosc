@@ -37,6 +37,8 @@ class TreeNode extends SyncHTTP implements SwhNodes
      */
     public function __construct(string $swhID, ...$options)
     {
+        $swhID = Str::of($swhID)->match('/^([^;]+)/')->value();
+
         $this->nodeDataType = new SwhCoreID(Formatting::reFormatSwhID($swhID));
 
         [$this->nodeID, $this->nodeInitials] = [$this->nodeDataType->getSwhid(), $this->nodeDataType->getInitials()];
@@ -52,7 +54,7 @@ class TreeNode extends SyncHTTP implements SwhNodes
      */
     private function hoppOn() : Array|Throwable
     {
-        $resolvedTo = $this->invoke("GET", 'resolve', collect($this->nodeID));
+        $resolvedTo = $this->invokeEndpoint("GET", 'resolve', collect($this->nodeID));
 
         return $resolvedTo instanceof Throwable
             ? $resolvedTo
@@ -102,7 +104,7 @@ class TreeNode extends SyncHTTP implements SwhNodes
             }
             $totalResponse=[]; $linked=true;
             do{
-                $responseSwhObject = $this->invoke("GET", $headerLink ?? $resolvedTo[Str::snake('objectType')], collect($resolvedTo[Str::snake('objectId')]));
+                $responseSwhObject = $this->invokeEndpoint("GET", $headerLink ?? $resolvedTo[Str::snake('objectType')], collect($resolvedTo[Str::snake('objectId')]));
 
                 $totalResponse = Arr::map($responseSwhObject->json(), function($val, $key) use($totalResponse) {
                     if(empty($totalResponse)) return $val;
@@ -157,7 +159,7 @@ class TreeNode extends SyncHTTP implements SwhNodes
                 return $resolvedTo;
             }
 
-            $responseSwhObject = $this->invoke("HEAD", $resolvedTo[Str::snake('objectType')], collect($resolvedTo[Str::snake('objectId')]), ...$flags);
+            $responseSwhObject = $this->invokeEndpoint("HEAD", $resolvedTo[Str::snake('objectType')], collect($resolvedTo[Str::snake('objectId')]), ...$flags);
 
             return $flags['stringType'] ?? false
                 ? Formatting::formatSwhIDs($resolvedTo[Str::snake('objectType')], $resolvedTo[Str::snake('objectId')])." --> " .self::EXISTS
@@ -198,7 +200,7 @@ class TreeNode extends SyncHTTP implements SwhNodes
                     'release',
                         'revision',
                             'directory' => TreeEdges::$edgeMethod($this->nodeID, ...$flags),
-                'content' => throw new Exception('No Edges. Content are leaves.')
+                'content' => throw new Exception('No Edges. Contents are leaves.')
             };
 
         }catch (RequestException $e){
@@ -216,7 +218,7 @@ class TreeNode extends SyncHTTP implements SwhNodes
 
     /**
      * @param string $targetName
-     * @return SwhCoreID|Array|Throwable
+     * @return SwhCoreID|array|Throwable
      * @throws Exception
      */
     public function nodeTargetEdge(string $targetName): SwhCoreID|Array|Throwable

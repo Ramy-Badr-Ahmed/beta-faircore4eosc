@@ -166,7 +166,7 @@ class SwhVisits extends SyncHTTP
 
             $responseVisit = match (true) {
                 is_numeric($visit->value()),
-                    $visit->value() === 'latest' => $this->invoke("GET", 'visit', $append2Url, ...$flags),
+                    $visit->value() === 'latest' => $this->invokeEndpoint("GET", 'visit', $append2Url, ...$flags),
                 default => NULL,
             };
             if($responseVisit instanceof Throwable){
@@ -217,7 +217,7 @@ class SwhVisits extends SyncHTTP
                 ? collect([$this->url,""])
                 : collect([$this->url, "?per_page=".$perPage]);
 
-            $responseVisits = $this->invoke("GET", 'visits', $append2Url, ...$flags);
+            $responseVisits = $this->invokeEndpoint("GET", 'visits', $append2Url, ...$flags);
 
             if($responseVisits instanceof Throwable){
                 return $responseVisits;
@@ -386,7 +386,7 @@ class SwhVisits extends SyncHTTP
         try{
             Helper::validateOptions($flags);
 
-            $responseVisit = $this->invoke("HEAD", 'visit', collect([$this->url, $visitNumber]), ...$flags);
+            $responseVisit = $this->invokeEndpoint("HEAD", 'visit', collect([$this->url, $visitNumber]), ...$flags);
 
             if($responseVisit instanceof Throwable){
                 return $responseVisit;

@@ -266,7 +266,7 @@ class Archive extends SyncHTTP implements SwhArchive
         try{
             Helper::validateOptions($flags);
 
-            $responseSave = $this->invoke("POST",'save', collect([$this->url, $this->visitType]), ...$flags);
+            $responseSave = $this->invokeEndpoint("POST",'save', collect([$this->url, $this->visitType]), ...$flags);
 
             if($responseSave instanceof Throwable){
                 return $responseSave;

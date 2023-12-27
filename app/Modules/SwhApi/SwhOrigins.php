@@ -37,7 +37,7 @@ class SwhOrigins extends SyncHTTP
     public function getOriFromURL(): SwhCoreID|Throwable
     {
         try{
-            $responseDataObject = $this->invoke("GET","origin", collect($this->url));
+            $responseDataObject = $this->invokeEndpoint("GET","origin", collect($this->url));
 
             if($responseDataObject instanceof Throwable){
                 return $responseDataObject;
@@ -69,7 +69,7 @@ class SwhOrigins extends SyncHTTP
         try{
             Helper::validateOptions($flags);
 
-            $responseOrigin = $this->invoke("GET", 'origin', collect($this->url), ...$flags);
+            $responseOrigin = $this->invokeEndpoint("GET", 'origin', collect($this->url), ...$flags);
 
             if($responseOrigin instanceof Throwable){
                 return $responseOrigin;
@@ -101,7 +101,7 @@ class SwhOrigins extends SyncHTTP
         try{
             Helper::validateOptions($flags);
 
-            $responseOri = $this->invoke("HEAD",'origin', collect($this->url), ...$flags);
+            $responseOri = $this->invokeEndpoint("HEAD",'origin', collect($this->url), ...$flags);
 
             if($responseOri instanceof Throwable){
                 return $responseOri;

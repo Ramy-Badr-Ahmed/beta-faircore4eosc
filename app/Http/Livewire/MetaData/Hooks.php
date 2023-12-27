@@ -298,7 +298,9 @@ trait Hooks
             throw ValidationException::withMessages(['formData.identifier' => implode('', $validator->errors()->get('identifier'))]);
         }
 
-        [$this->formData['identifier'], $this->idStatusCode ] = $this->checkSwhStatusCode();
+        if($this->idType === 'DOI') return;
+
+        [$this->formData['identifier'], $this->idStatusCode ] = $this->connectIdentifier2SWH();
     }
 
     public function updatedIdType(): void

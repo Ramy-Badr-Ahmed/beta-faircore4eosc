@@ -65,7 +65,7 @@ abstract class HTTPClient
      * @param ...$options
      * @return Response|iterable|Throwable
      */
-    abstract protected function invoke(string $method, string $on, Collection $append2Url, ...$options): Response|iterable|Throwable;
+    abstract protected function invokeEndpoint(string $method, string $on, Collection $append2Url, ...$options): Response|iterable|Throwable;
 
     abstract protected function invokeHTTP(string $method, string $uri, ...$options): Response;
 
@@ -268,7 +268,8 @@ abstract class HTTPClient
     private static function isExpectedSwhIdPattern(string $endPoint, Collection $append2Url): bool
     {
         try{
-            new SwhCoreID($append2Url->toArray()[0]);
+            $swhID = Str::of($append2Url->toArray()[0])->match('/^([^;]+)/')->value();
+            new SwhCoreID($swhID);
             return true;
         }catch (TypeError $e){
 

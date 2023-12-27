@@ -17,16 +17,16 @@
     },
     "bibTex": {
                 "codeMetaDirect" : [
-                    "author", "downloadUrl"
+                    "author"
                 ],
                 "bibTexDirect" : [
-                    "author", "howpublished"
+                    "author"
                 ],
                 "codeMetaComposition" : [
-                    "name", "datePublished", "dateCreated", "releaseNotes", "buildInstructions", "readme", "description", "identifier"
+                    "name", "datePublished", "dateCreated", "releaseNotes", "buildInstructions", "readme", "description", "downloadUrl", "codeRepository", "identifier"
                 ],
                 "bibTexIndirect" : [
-                    "title", "year", "month", "note", "bibtexKey"
+                    "title", "howpublished", "year", "month", "note", "bibtexKey"
                 ]
     },
     "bibLaTex": {

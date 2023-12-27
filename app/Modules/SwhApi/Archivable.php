@@ -43,7 +43,7 @@ class Archivable extends SyncHTTP
         try {
             Helper::validateOptions($flags);
 
-            $archivalRequests = $this->invoke("GET",'save', collect([$this->url, $this->visitType]), ...$flags);
+            $archivalRequests = $this->invokeEndpoint("GET",'save', collect([$this->url, $this->visitType]), ...$flags);
 
             if($archivalRequests instanceof Throwable){
                 return $archivalRequests;
@@ -170,7 +170,7 @@ class Archivable extends SyncHTTP
     public function getSnpFromSaveRequestID(int $saveRequestID): SwhCoreID|Null|Throwable
     {
         try{
-            $archivalRequest = $this->invoke("GET",'saveWithID', collect($saveRequestID));
+            $archivalRequest = $this->invokeEndpoint("GET",'saveWithID', collect($saveRequestID));
 
             if($archivalRequest instanceof Throwable){
                 return $archivalRequest;

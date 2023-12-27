@@ -9,6 +9,8 @@
 namespace App\Modules\SwhApi;
 
 use Exception;
+use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\ServerException;
 use Illuminate\Http\Client\Response;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Client\RequestException;
@@ -37,7 +39,7 @@ class SyncHTTP extends HTTPClient
     public static function call(string $method, string $on, Collection $append2Url, ...$options): Response|iterable|Throwable
     {
         $newHTTP = new self();
-        return $newHTTP->invoke($method, $on, $append2Url, ...$options);
+        return $newHTTP->invokeEndpoint($method, $on, $append2Url, ...$options);
     }
 
     /**
@@ -48,7 +50,7 @@ class SyncHTTP extends HTTPClient
      * @return Response|iterable|Throwable
      * @throws RequestException
      */
-    public function invoke(string $method, string $on, Collection $append2Url, ...$options): Response|iterable|Throwable
+    public function invokeEndpoint(string $method, string $on, Collection $append2Url, ...$options): Response|iterable|Throwable
     {
         $method = Str::lower($method);
         try{
@@ -121,10 +123,12 @@ class SyncHTTP extends HTTPClient
      * @param string $uri
      * @param ...$options
      * @return Response
+     * @throws ClientException|ServerException
      */
     public function invokeHTTP(string $method, string $uri, ...$options): Response
     {
         $method = Str::lower($method);
+        self::addLogs("Invoking '$method' on --> ". $uri);
         return Http::withOptions(
             [
                 'delay' => $options["delay"] ?? 0,

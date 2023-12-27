@@ -8,11 +8,8 @@
 
 namespace App\Modules\MetaData;
 
-use App\Http\Livewire\MetaData\Constants;
-use App\Modules\SwhApi\SyncHTTP;
 use Composer\Spdx\SpdxLicenses;
 use ErrorException;
-use GuzzleHttp\Exception\ClientException;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
@@ -48,7 +45,7 @@ class Conversion
      * @throws FileNotFoundException
      * @throws ValidationException
      */
-    public function __construct(public ?array $codeMetaData = null, public ?string $format = null)
+    public function __construct(public ?array $codeMetaData = Null, public ?string $format = Null)
     {
         self::$readConversions = json_decode(File::get(base_path('resources/CodeMeta/Conversions.json')), true, 10, JSON_OBJECT_AS_ARRAY | JSON_INVALID_UTF8_SUBSTITUTE);
         self::$rules = config('conversionsValidations.rules') ?? [];
@@ -80,7 +77,7 @@ class Conversion
      */
     public function getTargetConversion(): array|string
     {
-        if($this->codeMetaData === null || $this->format === null){
+        if($this->codeMetaData === Null || $this->format === Null){
             throw new ErrorException('Essential data missing. CodeMeta Data or Target Format.');
         }
 
@@ -112,7 +109,7 @@ class Conversion
     /**
      * @throws ValidationException
      */
-    public function validate(&$errors = null, string $scheme = 'codeMeta'): void
+    public function validate(&$errors = Null, string $scheme = 'codeMeta'): void
     {
         $codeMetaData = $this->initialiseArrayValidation($scheme);
 
@@ -142,7 +139,7 @@ class Conversion
         $codeMetaDirectUsed = Arr::map($codeMetaDirect, function ($codeMetaKey) use($codeMetaKeys){
             return Arr::has(array_flip($codeMetaKeys), $codeMetaKey)
                 ? $codeMetaKey
-                : null;
+                : Null;
         });
 
         return Arr::map(Arr::whereNotNull(array_combine($imageKeys, $codeMetaDirectUsed)),
@@ -206,7 +203,7 @@ class Conversion
                     return $authorArray['familyName'].", ".$authorArray['givenName'];
                 })),
                 'name', 'description', 'releaseNotes', 'readme', 'buildInstructions', 'identifier' => $codeMetaValue,
-                'downloadUrl'   => "\url{{$codeMetaValue}}",
+                'downloadUrl', 'codeRepository'   => "\url{{$codeMetaValue}}",
                 'dateCreated', 'datePublished' => date_parse($codeMetaValue),
             };
         });
@@ -217,18 +214,20 @@ class Conversion
                 [
                     "title" => $convertedCodeMeta['name'],
 
+                    "howpublished" => $convertedCodeMeta['codeRepository'] ?? ($convertedCodeMeta['downloadUrl'] ?? Null),
+
                     "year"  => isset($convertedCodeMeta['datePublished'])
                         ? $convertedCodeMeta['datePublished']["year"]
-                        : (isset($convertedCodeMeta['dateCreated']) ? $convertedCodeMeta['dateCreated']["year"] : null),
+                        : (isset($convertedCodeMeta['dateCreated']) ? $convertedCodeMeta['dateCreated']["year"] : Null),
 
                     "month" => isset($convertedCodeMeta['datePublished'])
                         ? $convertedCodeMeta['datePublished']["month"]
-                        : (isset($convertedCodeMeta['dateCreated']) ? $convertedCodeMeta['dateCreated']["month"] : null),
+                        : (isset($convertedCodeMeta['dateCreated']) ? $convertedCodeMeta['dateCreated']["month"] : Null),
 
-                    "note" => collect([ $convertedCodeMeta['description'] ?? null, $convertedCodeMeta['releaseNotes'] ?? null,
-                                        $convertedCodeMeta['readme'] ?? null, $convertedCodeMeta['buildInstructions'] ?? null ])
+                    "note" => collect([ $convertedCodeMeta['description'] ?? Null, $convertedCodeMeta['releaseNotes'] ?? Null,
+                                        $convertedCodeMeta['readme'] ?? Null, $convertedCodeMeta['buildInstructions'] ?? Null ])
                              ->whereNotNull()
-                             ->pipe(fn($c) => $c->isEmpty() ? null : $c->implode("\n\t")),
+                             ->pipe(fn($c) => $c->isEmpty() ? Null : $c->implode("\n\t")),
 
                     "bibtexKey" => Str::slug($convertedCodeMeta['name'], "-").  "__".$convertedCodeMeta['identifier']
                 ]
@@ -298,11 +297,11 @@ class Conversion
 
             "year"  => $convertedCodeMeta['dateCreated']["year"],
 
-            "month" => isset($convertedCodeMeta['dateCreated']) ? $convertedCodeMeta['dateCreated']["month"] : null,
+            "month" => isset($convertedCodeMeta['dateCreated']) ? $convertedCodeMeta['dateCreated']["month"] : Null,
 
             "url" => $convertedCodeMeta['publisher']['url'],
 
-            "publisher" => $convertedCodeMeta['publisher']['name'] ?? null,
+            "publisher" => $convertedCodeMeta['publisher']['name'] ?? Null,
 
             "doi" => $convertedCodeMeta['identifier']['idType'] === 'doi' ? "\url{{$convertedCodeMeta['identifier']['identifier']}}" : Null,
 
@@ -312,20 +311,20 @@ class Conversion
 
                 /** @var Collection $affiliations */
                 return $affiliations->whereNotNull()->isEmpty()
-                    ? null
+                    ? Null
                     : $affiliations->map(fn($val) => $val ?? 'Unknown')->implode(' and ');
 
             }, collect($convertedCodeMeta['author']['affiliations'])),
 
             "note" => call_user_func(function(...$codeMetaEquivalent){
                                             $note = implode("\n\t", Arr::whereNotNull($codeMetaEquivalent));
-                                            return Str::of($note)->isNotEmpty() ? $note : null;
+                                            return Str::of($note)->isNotEmpty() ? $note : Null;
                                             },
-                    $convertedCodeMeta['readme'] ?? null, $convertedCodeMeta['releaseNotes'] ?? null, $convertedCodeMeta['buildInstructions'] ?? null),
+                    $convertedCodeMeta['readme'] ?? Null, $convertedCodeMeta['releaseNotes'] ?? Null, $convertedCodeMeta['buildInstructions'] ?? Null),
 
-            "date" => isset($convertedCodeMeta['dateCreated']) ? $convertedCodeMeta['dateCreated']["full"] : null,
+            "date" => isset($convertedCodeMeta['dateCreated']) ? $convertedCodeMeta['dateCreated']["full"] : Null,
 
-            "urldate" => isset($convertedCodeMeta['datePublished']) ? $convertedCodeMeta['datePublished']["full"] : null,
+            "urldate" => isset($convertedCodeMeta['datePublished']) ? $convertedCodeMeta['datePublished']["full"] : Null,
 
             "bibLaTexKey" => Str::slug($this->codeMetaData['name'], "-").  "__".$convertedCodeMeta['identifier']['identifier']
         ]));
@@ -341,9 +340,9 @@ class Conversion
                     "year"    => $convertedCodeMeta['dateModified']["year"],
                     "month"   => $convertedCodeMeta['dateModified']["month"],
                     "date"    => $convertedCodeMeta['dateModified']["full"],
-                    "file"    => $convertedCodeMeta['downloadUrl'] ?? null,
-                    "note"    => $convertedCodeMeta['releaseNotes'] ?? null,
-                    "introducedin"   => $convertedCodeMeta['isPartOf'] ?? null,
+                    "file"    => $convertedCodeMeta['downloadUrl'] ?? Null,
+                    "note"    => $convertedCodeMeta['releaseNotes'] ?? Null,
+                    "introducedin"   => $convertedCodeMeta['isPartOf'] ?? Null,
                     "crossref"       => $compositionOnCodeMeta['bibLaTexKey'],
                     "bibLaTexSubKey" => $compositionOnCodeMeta['bibLaTexKey']."_version_".$convertedCodeMeta['version']
                 ]))
@@ -405,9 +404,10 @@ class Conversion
                     'identifierType' => 'URL'
                 ],
                     Arr::whereNotNull(['identifierType' =>
-                        Str::of(parse_url($codeMetaValue)['host'])->match('/doi/')->isEmpty()
-                            ? null
-                            : Str::of(parse_url($codeMetaValue)['host'])->match('/doi/')->value()])
+                        self::isDOI($codeMetaValue)
+                            ? 'DOI'
+                            : Null
+                    ])
                 )),
 
                 'author', 'contributor' => Arr::map(Arr::isAssoc($codeMetaValue) ? [$codeMetaValue] : $codeMetaValue , function ($personArray) use ($codeMetaKey) {
@@ -444,7 +444,7 @@ class Conversion
                             'funderName' => $funderArray['name'],
                             "funderIdentifier" => $funderArray['@id'],
                             'funderIdentifierType' => 'Crossref Funder ID',
-                            'awardNumber' => $funderArray['funding'] ?? null
+                            'awardNumber' => $funderArray['funding'] ?? Null
                         ]);
                 }),
 
@@ -475,13 +475,13 @@ class Conversion
                 [
                     "publicationYear" => (string)date_parse($convertedCodeMeta['datePublished'][0]["date"])["year"],
 
-                    "dates"  => collect([$convertedCodeMeta['dateCreated'] ?? null, $convertedCodeMeta['datePublished'] ?? null, $convertedCodeMeta['dateModified'] ?? null ])
+                    "dates"  => collect([$convertedCodeMeta['dateCreated'] ?? Null, $convertedCodeMeta['datePublished'] ?? Null, $convertedCodeMeta['dateModified'] ?? Null ])
                                 ->whereNotNull()
                                 ->reduce(function ($carry, $arr){
                                     return array_merge($carry ?? [], $arr);
                                 }),
 
-                    "descriptions" => collect([$convertedCodeMeta['description'] ?? null, $convertedCodeMeta['readme'] ?? null, $convertedCodeMeta['releaseNotes'] ?? null ])
+                    "descriptions" => collect([$convertedCodeMeta['description'] ?? Null, $convertedCodeMeta['readme'] ?? Null, $convertedCodeMeta['releaseNotes'] ?? Null ])
                                       ->whereNotNull()
                                       ->reduce(function ($carry, $arr){
                                           return array_merge($carry ?? [], $arr);

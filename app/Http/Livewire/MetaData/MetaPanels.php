@@ -73,7 +73,6 @@ class MetaPanels extends Component
         }
     }
 
-
     /**
      * @throws DOMException
      * @throws ValidationException|Throwable
@@ -341,7 +340,7 @@ class MetaPanels extends Component
 
     public function checkIdentifierWithSwh(): void
     {
-        $this->idStatusCode = $this->checkSwhStatusCode();
+        [$this->formData['identifier'], $this->idStatusCode ]  = $this->connectIdentifier2SWH();
     }
 
     /**

@@ -403,9 +403,8 @@ trait Internals
     {
         return Arr::map(Arr::where(self::$spdx->getLicenses(), function($val) use($licenseInput){
             return Str::contains($val[0].": ".$val[1], $licenseInput ?? '', true);
-        }), function ($val){
-            return $val[1];
-        });
+        }),
+            fn ($val) => $val[1]);
     }
 
     private function isKnown2SWH(?string $data = null): bool
@@ -428,31 +427,30 @@ trait Internals
             : Arr::only($visitInfo, Constants::SWH_VISIT_INFO_KEYS);
     }
 
-    private function checkSwhStatusCode(?string $identifier = null): ?array
+    private function connectIdentifier2SWH(?string $identifier = null): array
     {
-        if(preg_match('/(?<=https:\/\/archive\.softwareheritage\.org\/).*$/', $identifier ?? $this->formData['identifier'], $m)){
-            $swh = new SyncHTTP();
+        preg_match('/(?<=https:\/\/archive\.softwareheritage\.org\/).*$/', $identifier ?? $this->formData['identifier'], $match);
 
-            try{
-                if(Str::contains($m[0], 'swh:1:')){
-                    return [
-                        $identifier ?? $this->formData['identifier'],
-                        $swh->invokeHTTP('HEAD', Constants::SWH_HOST_RESOLVE.$m[0], timeout: 10, connectTimeout: 5, sleepMS: 1000)->status()
-                    ];
-                }
+        $swh = new SyncHTTP();
 
-                $callNonSwhResolver = $swh->invokeHTTP('GET', $identifier ?? $this->formData['identifier'], timeout: 10, connectTimeout: 5, sleepMS: 1000);
-
+        try{
+            if(Str::contains($match[0], 'swh:1:')){
                 return [
-                    Constants::SWH_FULL_HOST.Str::of($callNonSwhResolver->body())->match('/data-swhid-with-context="(.*?)"/')->value(),
-                    $callNonSwhResolver->status()
+                    $identifier ?? $this->formData['identifier'],
+                    $swh->invokeHTTP('HEAD', Constants::SWH_HOST_RESOLVE.$match[0], timeout: 10, connectTimeout: 5, sleepMS: 1000)->status()
                 ];
-
-            }catch (ClientException $e){
-                return [$identifier ?? $this->formData['identifier'], $e->getCode()];
             }
+
+            $callNonSwhResolver = $swh->invokeHTTP('GET', $identifier ?? $this->formData['identifier'], timeout: 10, connectTimeout: 5, sleepMS: 1000);
+
+            return [
+                Constants::SWH_FULL_HOST.Str::of($callNonSwhResolver->body())->match('/data-swhid-with-context="(.*?)"/')->value(),
+                $callNonSwhResolver->status()
+            ];
+
+        }catch (ClientException $e){
+            return [$identifier ?? $this->formData['identifier'], $e->getCode()];
         }
-        return null;
     }
 
     /**
@@ -536,7 +534,7 @@ trait Internals
                 if(in_array($codeMetaKey, Constants::SWH_IDENTIFIER_CODEMETA_KEY)){
                     if(Str::contains( $codeMetaValue, Constants::SWH_HOST)){
                         $this->idType = 'SWHID';
-                        [$this->formData['identifier'], $this->idStatusCode ] = $this->checkSwhStatusCode($codeMetaValue);
+                        [$this->formData['identifier'], $this->idStatusCode ] = $this->connectIdentifier2SWH($codeMetaValue);
                         return;
                     }
                     else $this->idType = 'DOI';
