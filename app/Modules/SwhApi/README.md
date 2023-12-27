@@ -539,14 +539,14 @@ This class deals abstractly with swh objects (`snapshot`, `revision`, `release`,
 
 This class `Implements` the `SwhNodes Interface` which comprises the following functionality for any node:
 
-| Method              | Notes                                                       |
-|---------------------|-------------------------------------------------------------|
-| `which()`           | determines which node type it is.                           |
-| `nodeExists()`      | checks if it's a swh-compatible node.                       |
-| `nodeHopp()`        | retrieves all node information.                             |
-| `nodeEdges()`       | builds the entire node edges.                               |
-| `nodeTargetEdge()`    | retrieves a specific target edge from edges set.            |
-| `nodeTraversalTo()` | traverses forwardly to the target node from an initial one. |
+| Method              | Notes                                                             |
+|---------------------|-------------------------------------------------------------------|
+| `which()`           | determines which node type it is.                                 |
+| `nodeExists()`      | checks if it's a swh-compatible node.                             |
+| `nodeHopp()`        | retrieves all node information.                                   |
+| `nodeEdges()`       | builds the entire node edges.                                     |
+| `nodeTargetEdge()`  | retrieves a specific target edge from the node edges set.         |
+| `nodeTraversalTo()` | traverses forwardly to the target node from the initialised node. |
 
 
 | `Issues Tracking` | https://github.com/dagstuhl-publishing/faircore4eosc/issues/164 |
@@ -560,6 +560,21 @@ Instantiate a node object for any SWH object (`snapshot`, `revision`, `release`,
 > $nodeObject = new TreeNode('swh:1:rel:8a6b8c6072364f068c490fcd07c42ad52748dca9')
 > $nodeObject = new TreeNode('swh:1:dir:8af8598a33cb11038a8d974ed213a31a49ef8612')
 > $nodeObject = new TreeNode('swh:1:cnt:22fd0c4c0a0a9b6f87f89169352357cb3a386618')
+```
+
+Node objects can also be instantiated using `SWH Contextual IDs`, Examples:
+
+```php
+> $nodeObject = new TreeNode('swh:1:snp:bcfd516ef0e188d20056c77b8577577ac3ca6e58')
+
+    // Directory Context
+> $nodeObject = new TreeNode('swh:1:dir:58b57d150d3350b7702df80bf0d327a6474fa528;origin=https://github.com/openssl/openssl;visit=swh:1:snp:287360875eb1c114873f020be414ad1db8629557;anchor=swh:1:rev:d6e4056805f54bb1a0ef41fa3a6a35b70c94edba')
+
+    // Snapshot Context
+> $nodeObject = new TreeNode('swh:1:snp:c447a0efe4e558f64565865f2c2ade7c5d7255eb;origin=https://github.com/tensordiffeq/TensorDiffEq')        
+
+    // Content Context
+> $nodeObject = new TreeNode('swh:1:cnt:8164e8d75970d2e1c568287f45d460bf3dad93bd;origin=https://github.com/openssl/openssl;visit=swh:1:snp:6759d1b5890f54ed531e74fc3e9c38d3d2314b58;anchor=swh:1:rev:e9241d16b47f24e27966bee0f8664a6b88994164;path=/util/perl/OpenSSL/Util/Pod.pm')
 ```
 
 > #### TreeNode Methods:
