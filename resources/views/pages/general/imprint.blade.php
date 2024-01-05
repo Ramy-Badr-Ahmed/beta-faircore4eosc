@@ -10,11 +10,13 @@
         <b>This website is published by</b>
         <br>
         <br>
-        Schloss Dagstuhl<br>
-        Leibniz-Zentrum f&uuml;r Informatik GmbH<br>
-        Oktavie-Allee<br>
-        66687 Wadern<br>
-        Deutschland<br>
+        <a href="https://maps.app.goo.gl/pcifhswiFZXgzmHQA" target='_blank' rel='noopener noreferrer'>Schloss Dagstuhl<br>
+            Leibniz-Zentrum f&uuml;r Informatik GmbH<br>
+            Oktavie-Allee<br>
+            66687 Wadern<br>
+            Deutschland<br>
+        </a>
+        <br>
         <br>
         Phone <a href="tel:+4968719050">+49 - 6871 - 905 0</a><br>
         Fax  <a href="tel:+496871905133">+49 - 6871 - 905 133</a><br>
@@ -24,7 +26,7 @@
         <br>
         Scientific Director: Prof. Dr. Raimund Seidel<br>
         Administrative Director: Heike Mei&szlig;ner<br>
-        Court: Amtsgericht Saarbr&uuml;cken<br>
+        Court: <a href="https://www.saarland.de/agsb/DE/home/home_node.html" target='_blank' rel='noopener noreferrer'>Amtsgericht Saarbr&uuml;cken</a><br>
         Court Registration: HRB 63800<br>
         VAT-ID: DE 137972446<br><br>
     </p>
