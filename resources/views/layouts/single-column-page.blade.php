@@ -18,7 +18,7 @@
 
     <div class="main-title">
         <h1>@yield('headline')</h1>
-        @if(! request()->routeIs(['lw-meta-form', 'feedback', 'uc', 'tree-view', 'on-the-fly-view', 'lw-mass-view', 'privacy', 'imprint']))
+        @if(request()->route()->getPrefix() !=='/beta' && !request()->routeIs(['privacy', 'imprint']))
             <div class="text-center">
                 <a href="https://faircore4eosc.eu/eosc-core-components/eosc-research-software-apis-and-connectors-rsac" target="_blank" rel="noopener noreferrer"
                    style="margin-top:10px; margin-bottom: 20px;">
