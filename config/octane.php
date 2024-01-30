@@ -43,7 +43,7 @@ return [
 
     'server' => env('OCTANE_SERVER', 'roadrunner'),
 
-    'host' => 'localhost',
+    'host' => '127.0.0.1',
 
     'port' => 56984,
 

@@ -107,7 +107,7 @@ class SoftwareHeritageController extends Controller
 
                 return match(true){
                     $e instanceof UnhandledMatchError => redirect($thisRoute)->with('error-message', "Non-supported repository URL. If this was a git or bitbucket instance, please report a bug!"),
-                    $e instanceof PDOException => redirect($thisRoute)->with('error-message', "DB overwriting failed. Older URL entry kept. DB Error code: {$e->getCode()}"),
+                    $e instanceof PDOException => redirect($thisRoute)->with('error-message', "DB operation failed. DB Error code: {$e->getCode()}"),
                     default => redirect($thisRoute)->with('error-message', "Internal Error. Please try again and kindly report it if the problem persists.")
                 };
             }
