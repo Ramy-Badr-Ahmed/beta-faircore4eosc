@@ -297,7 +297,7 @@ class Conversion
 
             "year"  => $convertedCodeMeta['dateCreated']["year"],
 
-            "month" => isset($convertedCodeMeta['dateCreated']) ? $convertedCodeMeta['dateCreated']["month"] : Null,
+            "month" => $convertedCodeMeta['dateCreated']["month"],
 
             "url" => $convertedCodeMeta['publisher']['url'],
 
