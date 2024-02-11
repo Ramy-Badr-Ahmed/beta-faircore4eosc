@@ -15,9 +15,9 @@ class CodemetaConversion extends SchemeDescriptions
     protected array $filteredCodeMeta;      // subset relevant to child scheme
     protected array $convertedCodeMeta;     // collects converted codeMeta throughout
     public const SUPPORTED_FORMATS = [
-        DATACITE::SCHEME,
-        BIBLATEX::SCHEME,
-        BIBTEX::SCHEME
+        DataCite::SCHEME,
+        BibLatex::SCHEME,
+        BibTex::SCHEME
     ];
     private static array $rules;
     private static array $messages;
@@ -70,7 +70,7 @@ class CodemetaConversion extends SchemeDescriptions
     {
         return array_merge($this->codeMeta, ['author' => $this->codeMeta['author'] ?? array([])],
             match(static::SCHEME){
-                BibLatex::SCHEME, dataCite::SCHEME => ['publisher' => $this->codeMeta['publisher'] ?? [] ],
+                BibLatex::SCHEME, DataCite::SCHEME => ['publisher' => $this->codeMeta['publisher'] ?? [] ],
                 default => []
             });
     }

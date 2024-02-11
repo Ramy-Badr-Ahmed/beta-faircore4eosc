@@ -2,7 +2,6 @@
 
 namespace App\Http\Livewire\MetaData;
 
-use App\Modules\MetaData\Conversion;
 use App\Rules\CodeMetaIdentifier;
 use Composer\Spdx\SpdxLicenses;
 use DOMException;
