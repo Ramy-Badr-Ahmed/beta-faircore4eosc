@@ -38,7 +38,6 @@ trait Hooks
             if (empty($this->rules) || empty($this->messages) || empty($this->validationAttributes)) {
                 throw new RuntimeException();
             }
-            self::$conversion = new Conversion();
 
         } catch (FileNotFoundException | ErrorException | RuntimeException $e) {
             $this->viewFlags['readOnceError'] = true;

@@ -18,6 +18,7 @@ use Throwable;
 
 class SWHDeposit
 {
+    public const SCHEME = 'swhXML';
     public const ON_URL = "url";
     public const ON_SWHID = "swhid";
     public const SUPPORTED_FORMATS = [self::ON_URL, self::ON_SWHID];

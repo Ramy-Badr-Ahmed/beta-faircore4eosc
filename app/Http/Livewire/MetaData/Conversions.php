@@ -2,7 +2,10 @@
 
 namespace App\Http\Livewire\MetaData;
 
-use App\Modules\MetaData\Conversion;
+use App\Modules\MetaData\Conversions\BibLatex;
+use App\Modules\MetaData\Conversions\BibTex;
+use App\Modules\MetaData\Conversions\DataCite;
+use App\Modules\MetaData\Conversions\CodemetaConversion;
 use App\Modules\MetaData\SWHDeposit;
 use Composer\Spdx\SpdxLicenses;
 use DOMException;
@@ -15,7 +18,6 @@ use Throwable;
 trait Conversions
 {
     private static SpdxLicenses $spdx;
-    private static Conversion $conversion;
 
     /**
      * @throws Throwable
@@ -25,7 +27,7 @@ trait Conversions
      */
     public function convertTo(string $format): void
     {
-        if(!in_array($format, Conversion::SUPPORTED_FORMATS)){
+        if(!in_array($format, CodemetaConversion::SUPPORTED_FORMATS)){
             return;
         }
         $this->convertAndValidate($format);
@@ -53,11 +55,14 @@ trait Conversions
 
         if(session()->has('stepEmpty')) throw ValidationException::withMessages([]);
 
-        if($format !== 'swhXML'){
-            [self::$conversion->codeMetaData , self::$conversion->format] = [$this->findCodeMetaData(), $format];
-        }
+        $schemeClass = match ($format){
+            BibTex::SCHEME   => BibTex::class,
+            BibLatex::SCHEME => BibLatex::class,
+            DataCite::SCHEME => DataCite::class,
+            SWHDeposit::SCHEME => SWHDeposit::class
+        };
 
-        $formatConverted = $this->validate4Schemes($format);
+        $formatConverted = $this->validate4Schemes($schemeClass);
 
         if($formatConverted === Null) return;
 
@@ -100,12 +105,12 @@ trait Conversions
      * @throws ValidationException|Throwable
      * @throws ErrorException
      */
-    private function validate4Schemes(string $format): array|string|Null
+    private function validate4Schemes(string $schemeClass): array|string|Null
     {
         try{
-            return $format === 'swhXML'
+            return $schemeClass === 'swhXML'
                 ? SWHDeposit::on($this->findCodeMetaData(), $this->formData['codeRepository'] ?? "https://github.com/RamyTestAccount/D2")
-                : self::$conversion->getTargetConversion();
+                : CodemetaConversion::To($schemeClass, $this->findCodeMetaData());
 
         }catch (ValidationException $e){
 
@@ -114,7 +119,7 @@ trait Conversions
             $translatedErrors = self::translateValidations($e->errors())->toArray();
             session()->put('schemeValidationErrors', $translatedErrors);
 
-            if(!self::hasStepError($e->validator->errors()->keys(), $format)){
+            if(!self::hasStepError($e->validator->errors()->keys(), $schemeClass::SCHEME)){
                 $this->allowAllSteps();
                 $this->approveCurrentStep();
                 session()->flash('incompleteConversion', "Please navigate to other steps.");
@@ -122,7 +127,7 @@ trait Conversions
             }
             $this->viewFlags['panel'.$this->viewPanel.'Failed'] = true;   // todo: deny respectively
 
-            session()->flash('schemeErrors', "For <b>$format</b>. Please correct them before proceeding.");
+            session()->flash('schemeErrors', "For <b>".$schemeClass::SCHEME."</b>. Please correct them before proceeding.");
 
             $this->dispatchBrowserEvent('triggerCSS', ['ScrollOnly'=> true]);
 
