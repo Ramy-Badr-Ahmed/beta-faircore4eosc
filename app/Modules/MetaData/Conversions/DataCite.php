@@ -106,7 +106,7 @@ class DataCite extends CodemetaConversion
             'identifier' => $codeMetaValue,
             'identifierType' => 'URL'
         ],
-            Arr::whereNotNull(['identifierType' => self::isDOI($codeMetaValue) ? 'DOI' : Null])
+            Arr::whereNotNull(['identifierType' => parent::isDOI($codeMetaValue) ? 'DOI' : NULL])
         ));
     }
 
@@ -114,7 +114,7 @@ class DataCite extends CodemetaConversion
     {
         return Array([
             "rightsUri" => $codeMetaValue,
-            'rightsIdentifier' => self::getLicenseByURL($codeMetaValue),
+            'rightsIdentifier' => parent::getLicenseByURL($codeMetaValue),
             "rightsIdentifierScheme" => "SPDX"
         ]);
     }
@@ -127,7 +127,7 @@ class DataCite extends CodemetaConversion
                     'funderName' => $funderArray['name'],
                     "funderIdentifier" => $funderArray['@id'],
                     'funderIdentifierType' => 'Crossref Funder ID',
-                    'awardNumber' => $funderArray['funding'] ?? Null
+                    'awardNumber' => $funderArray['funding'] ?? NULL
                 ]);
         });
     }

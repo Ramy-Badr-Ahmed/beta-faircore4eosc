@@ -77,7 +77,7 @@ class CodemetaConversion extends SchemeDescriptions
 
     protected function setFilteredCodeMeta(): void
     {
-        $this->filteredCodeMeta = Arr::only($this->codeMeta, self::$codeMetaKeys);
+        $this->filteredCodeMeta = Arr::only($this->codeMeta, parent::$codeMetaKeys);
     }
 
     public static function To(string $targetScheme, array $codeMeta, &$errors = NULL, $bypass = false): array|string
