@@ -108,7 +108,7 @@ trait Conversions
     private function validate4Schemes(string $schemeClass): array|string|Null
     {
         try{
-            return $schemeClass === 'swhXML'
+            return $schemeClass === SWHDeposit::class
                 ? SWHDeposit::on($this->findCodeMetaData(), $this->formData['codeRepository'] ?? "https://github.com/RamyTestAccount/D2")
                 : CodemetaConversion::To($schemeClass, $this->findCodeMetaData());
 
