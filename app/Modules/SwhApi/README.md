@@ -1519,15 +1519,14 @@ This class `Implements` the `SwhArchive Interface` which comprises the following
 
 | Method                       | Notes                                                                     |
 |------------------------------|---------------------------------------------------------------------------|
-| `save2Swh()`                 | Submit an archival request for a given SW origin.                         |
+| `save2Swh()|repository()`    | Submit an archival request for a given SW origin.                         |
 | `getArchivalStatus()`        | retrieve current status data of an archival request.                      |
 | `trackArchivalStatus()`      | Continuously requests status data of an archival request till success.    |
 | `getLatestArchivalAttempt()` | retrieves the data of the latest archival attempt for a given SW origin.  |
 | `getSnpFromSaveRequest()`    | retrieve the root node (`snapshot`) of a any successful archival attempt. |
 
 
-
-| `Issues Tracking` | https://github.com/dagstuhl-publishing/faircore4eosc/issues/14 |
+| `Issues Tracking` | https://github.com/dagstuhl-publishing/faircore4eosc/issues/10 |
 |-------------------|----------------------------------------------------------------|
 
 Instantiate archive objects for desired repositories w/o paths in their URL: 
@@ -1536,6 +1535,7 @@ Instantiate archive objects for desired repositories w/o paths in their URL:
 > namespace App\Modules\SwhApi\Archival;
 > use App\Modules\SwhApi\Archival; 
 
+    // Example 1
 > $archiveObject = new Archive('https://github.com/torvalds/linux/')
 
 = App\Modules\SwhApi\Archive {#6696
@@ -1549,6 +1549,7 @@ Instantiate archive objects for desired repositories w/o paths in their URL:
     +visitType: "git",
   }
 
+    // Example 2
 > $archiveObject = new Archive('https://github.com/hylang/hy/tree/stable/hy/core')
 
 = App\Modules\SwhApi\Archive {#6702
@@ -1578,16 +1579,13 @@ Instantiate archive objects for desired repositories w/o paths in their URL:
   }
 ```
 
-| `Issues Tracking` | https://github.com/dagstuhl-publishing/faircore4eosc/issues/10 |
-|-------------------|----------------------------------------------------------------|
-
 > #### Archive Methods:
 
 - Submit an archival request to SWH for the defined SW origin and receive the first status response accordingly. 
 
-> There are two variants for this method.
+    > There are two variants for this method.
 
-I) Non-static save method:
+> I) Non-static save method:    
 
 | `Class static` Method     | Method `$options` (defaults)                                                                          | Returns                                                                             | `SWH` Endpoint                                                                                                                                       | `HTTP` Method |
 |---------------------------|-------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------|---------------|
@@ -1610,23 +1608,25 @@ I) Non-static save method:
     ⋮
   ]    
 ```
-II) Static save method:
+
+> II) Static save method:
+
 
 | `Class static` Method                         | Method `$options` (defaults)                                                                                                                    | Returns                                                                             | `SWH` Endpoint                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                | `HTTP` Method |
 |-----------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------|
 | `repository($url[,$visitType[,...$options]])` | Named Parameters:<br/>- `withHeaders: bool (false)`<br/>- `delay: ms (0)`<br/>- `debug: bool (false)`<br/>- `withTracking: NULL \| bool (Null)` | - `Iterable\|Collection\|stdClass`<br/>- `Throwable: RequestException \| Exception` | - [`save`](https://docs.softwareheritage.org/devel/apidoc/swh.web.save_code_now.api_views.html#post--api-1-origin-save-(visit_type)-url-(origin_url)-) </br>- [`save`](https://docs.softwareheritage.org/devel/apidoc/swh.web.save_code_now.api_views.html#get--api-1-origin-save-(visit_type)-url-(origin_url)-)<br/>- [`origin`](https://docs.softwareheritage.org/devel/swh-web/uri-scheme-api.html#get--api-1-origin-(origin_url)-get-)<br/>- [`snapshot`](https://docs.softwareheritage.org/devel/swh-web/uri-scheme-api.html#get--api-1-snapshot-(snapshot_id)-)<br/>- [`revision`](https://docs.softwareheritage.org/devel/swh-web/uri-scheme-api.html#get--api-1-revision-(sha1_git)-directory-[(path)-]) <br/> - [`release`](https://docs.softwareheritage.org/devel/swh-web/uri-scheme-api.html#get--api-1-release-(sha1_git)-)<br/>- [`directory`](https://docs.softwareheritage.org/devel/swh-web/uri-scheme-api.html#get--api-1-directory-(sha1_git)-[(path)-]) <br/> - [`content`](https://docs.softwareheritage.org/devel/swh-web/uri-scheme-api.html#get--api-1-content-known-(sha1)[,(sha1),%20...,(sha1)]-) | POST[, GET]   |
 
-* Allow verbose logging (optional):
+> Allow verbose logging (optional for debugging):
 
-```php
+```php    
 > namespace App\Modules\SwhApi\HTTPConnector;
 > use App\Modules\SwhApi\HTTPConnector;
  
 > HTTPClient::setOptions(isVerbose: true)
 ```
 
-* Call the static method variant:
-
+> Call the static method variant:
+> 
 ```php
 > namespace App\Modules\SwhApi\Archival;
 > use App\Modules\SwhApi\Archival; 
