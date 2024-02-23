@@ -6,8 +6,9 @@
  * @Repo: https://github.com/dagstuhl-publishing/beta-faircore4eosc
  */
 
-namespace App\Modules\SwhApi;
+namespace App\Modules\SwhApi\Archival;
 
+use App\Modules\SwhApi\DataType\SwhCoreID;
 use Illuminate\Support\Collection;
 use stdClass;
 use Throwable;

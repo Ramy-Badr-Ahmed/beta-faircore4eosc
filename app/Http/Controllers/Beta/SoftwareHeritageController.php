@@ -3,26 +3,26 @@
 namespace App\Http\Controllers\Beta;
 
 use App\Http\Controllers\Controller;
+use App\Mail\EOSCMailer;
 use App\Models\SoftwareHeritageRequest;
-use App\Modules\SwhApi\Archive;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\DB;
+use App\Modules\SwhApi\Archival\Archive;
+use Illuminate\Contracts\Foundation\Application as ContractsApplication;
+use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
-use Illuminate\Contracts\View\Factory;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
-use Illuminate\Contracts\Foundation\Application as ContractsApplication;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use PDOException;
 use Throwable;
 use UnhandledMatchError;
-use Illuminate\Support\Facades\Log;
-use App\Mail\EOSCMailer;
-use Illuminate\Support\Facades\Mail;
 
 class SoftwareHeritageController extends Controller
 {

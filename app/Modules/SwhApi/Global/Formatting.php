@@ -6,13 +6,15 @@
  * @Repo: https://github.com/dagstuhl-publishing/beta-faircore4eosc
  */
 
-namespace App\Modules\SwhApi;
+namespace App\Modules\SwhApi\Global;
 
+use App\Modules\SwhApi\DataType\SwhCoreID;
+use App\Modules\SwhApi\HTTPConnector\HTTPClient;
 use Ds\Queue;
 use Exception;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 use stdClass;
 use Throwable;
 use TypeError;

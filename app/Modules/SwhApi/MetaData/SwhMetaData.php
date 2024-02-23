@@ -6,8 +6,14 @@
  * @Repo: https://github.com/dagstuhl-publishing/beta-faircore4eosc
  */
 
-namespace App\Modules\SwhApi;
+namespace App\Modules\SwhApi\MetaData;
 
+use App\Modules\SwhApi\DAGModel\TreeHopping;
+use App\Modules\SwhApi\Global\Formatting;
+use App\Modules\SwhApi\Global\Helper;
+use App\Modules\SwhApi\HTTPConnector\HTTPClient;
+use App\Modules\SwhApi\HTTPConnector\SyncHTTP;
+use App\Modules\SwhApi\OriginVisits\SwhOrigins;
 use Exception;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Arr;
@@ -15,7 +21,7 @@ use Illuminate\Support\Collection;
 use stdClass;
 use Throwable;
 
-abstract class MetaData
+abstract class SwhMetaData
 {
     private const REVISION_METADATA = ["message", "author", "committer", "committer_date", "type", "metadata"];
 

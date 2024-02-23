@@ -6,15 +6,19 @@
  * @Repo: https://github.com/dagstuhl-publishing/beta-faircore4eosc
  */
 
-namespace App\Modules\SwhApi;
+namespace App\Modules\SwhApi\Archival;
 
 
-use Ds\Queue;
+use App\Modules\SwhApi\DAGModel\TreeTraversal;
+use App\Modules\SwhApi\DataType\SwhCoreID;
+use App\Modules\SwhApi\Global\Formatting;
+use App\Modules\SwhApi\Global\Helper;
+use App\Modules\SwhApi\HTTPConnector\SyncHTTP;
+use App\Modules\SwhApi\OriginVisits\SwhOrigins;
+use App\Modules\SwhApi\OriginVisits\SwhVisits;
+use App\Modules\SwhApi\Repositories\Repository;
 use Exception;
 use Illuminate\Http\Client\RequestException;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
 use stdClass;
 use Throwable;
@@ -23,50 +27,16 @@ use UnhandledMatchError;
 
 class Archive extends SyncHTTP implements SwhArchive
 {
-    public const SUPPORTED_OPTIONS = ["withHeaders", "distinct"];
-
-    private const VISIT_TYPES =[
-        "git",
-        "bzr",
-        "hg",
-        "svn",
-    ];
-    private const GITTYPE = 'git';
-
-    private const BZRTYPE = 'bzr';
-
-    private const HGTYPE = 'hg';
-
-    private const SVNTYPE = 'svn';
-
-    private const GITHUB = 'github.com';
-
-    private const GITLAB = 'gitlab';
-
-    private const BITBUCKET = 'bitbucket.org';
-
-    private const GIT_BREAKPOINTS = ["tree", "blob", "releases", "pull", "commit"];
-
-    private const BITBUCKET_BREAKPOINTS = ["src"];
-
-    private const FULL_VISIT = "full";
-
-    private const NOT_FOUND_VISIT = "not_found";
-
-    private const ARCHIVAL_SUCCEEDED = "succeeded";
-
+    public const SUPPORTED_OPTIONS = ['withHeaders', 'distinct', 'withTracking'];
+    private const FULL_VISIT = 'full';
+    private const NOT_FOUND_VISIT = 'not_found';
+    private const ARCHIVAL_SUCCEEDED = 'succeeded';
     private const ARCHIVAL_FAILED = 'failed';
-
     public array $decomposedURL = [];
-
     public array $nodeHits = [];
-
     protected stdClass $swhIDs;
-
     protected SwhVisits $visitObject;
-
     protected SwhOrigins $originObject;
-
     protected Archivable $archivable;
 
 
@@ -78,12 +48,11 @@ class Archive extends SyncHTTP implements SwhArchive
      */
     public function __construct(public string $url, public ?string $visitType = null, ...$options)
     {
-        $this->processURL($this->url, $this->visitType);
+        Repository::analysis($this->url, $this->visitType, $this->nodeHits, $this->decomposedURL);
 
         $this->archivable = new Archivable($this->url, $this->visitType);
 
         $this->visitObject = new SwhVisits($this->url);
-
         $this->originObject = new SwhOrigins($this->url);
 
         parent::__construct();
@@ -92,156 +61,24 @@ class Archive extends SyncHTTP implements SwhArchive
     }
 
     /**
-     * @param $url
-     * @param $visitType
-     * @return void
-     * @throws Exception
-     */
-    public function getVisitType(&$url, &$visitType): void
-    {
-        $patternArray = [
-            self::GITTYPE  => "/".self::GITTYPE."|" .self::BITBUCKET."/i",
-            self::BZRTYPE  => "/(".self::BZRTYPE."\.)/i",
-            self::HGTYPE   => "/(".self::HGTYPE."\.)/i",
-            self::SVNTYPE  => "/(".self::SVNTYPE."\.)/i"
-        ];
-
-        if($visitType === null){
-            foreach ($patternArray as $key => $pattern){
-                if(preg_match($pattern, $this->decomposedURL['host'])){
-                    if($key===self::GITTYPE){   //todo: unnecessary condition if we later support non-git types
-                        $visitType = $key;
-                        return;
-                    }
-                }
-            }
-        }
-        if(!in_array(Str::of($visitType)->trim(), self::VISIT_TYPES)){
-            throw new Exception("Unsupported Visit Type", 912);
-        }
-    }
-
-    /**
-     * @param array $decomposedURL
-     * @return string|null
-     */
-    private function analyseBitbucket(array $decomposedURL): ?string
-    {
-        $pathArray = explode("/", substr($decomposedURL["path"], 1));
-
-        if(count($pathArray)===2){
-            return null;
-        }
-
-        $bitbucketBreakpoint  = Arr::first(self::BITBUCKET_BREAKPOINTS, function ($val) use($pathArray){
-            return Str::is($val, $pathArray[2]);
-        });
-
-        $pathArray = explode('/'.$bitbucketBreakpoint.'/', $decomposedURL["path"]);
-
-        $this->url = sprintf('%s://%s%s', $decomposedURL['scheme'], $decomposedURL['host'], $pathArray[0]);
-        return $pathArray[1];
-    }
-
-    /**
-     * @param array $decomposedURL
-     * @return string|null
-     */
-    private function analyseGit(array $decomposedURL): ?string
-    {
-        $pathArray = explode("/", substr($decomposedURL["path"], 1));
-
-        return match(true){
-            count($pathArray) <= 2,
-            empty(array_intersect($pathArray, self::GIT_BREAKPOINTS)) => Null,
-            default => $this->analyseGitPaths($decomposedURL, $pathArray)
-        };
-    }
-
-    /**
-     * @param array $decomposedURL
-     * @param array $pathArray
-     * @return string
-     */
-    private function analyseGitPaths(array $decomposedURL, array $pathArray): string
-    {
-        $pos = array_search('-', $pathArray);
-        $pos = $pos?:2;
-
-        $pathArray[$pos] = preg_replace('/^-/i', $pathArray[$pos+1], $pathArray[$pos]);
-
-        $gitBreakpoint  = Arr::first(self::GIT_BREAKPOINTS, function ($val) use($pathArray, $pos){
-            return Str::is($val, $pathArray[$pos]);
-        });
-
-        $pathArray = explode('/'. ($pathArray[$pos] === 'releases' ? $gitBreakpoint."/".$pathArray[$pos+1] : $gitBreakpoint) .'/', $decomposedURL["path"]);
-
-        $this->url = sprintf('%s://%s%s', $decomposedURL['scheme'], $decomposedURL['host'], Str::of($pathArray[0])->replaceMatches('/-$/', ""));
-        return $pathArray[1];
-
-    }
-
-    /**
-     * @return bool
-     */
-    private function isStillGitLab(): bool
-    {
-        $pendingURL = sprintf('%s://%s%s', $this->decomposedURL['scheme'], $this->decomposedURL['host'], "/help");
-
-        $headResponse = Http::withOptions(['allow_redirects' => ['max' => 1]])->HEAD($pendingURL);
-
-        return  array_key_exists('X-Gitlab-Meta', $headResponse->headers())
-            || str_contains($headResponse->header("Set-Cookie"), "_gitlab_session")
-            || str_contains(@file_get_contents($pendingURL), 'GitLab');
-    }
-
-    /**
-     * @param string $url
-     * @param string|null $visitType
-     * @return void
      * @throws Exception|UnhandledMatchError
      */
-    private function processURL(string &$url, ?string &$visitType): void
+    public static function repository(string $url, ?string $visitType = NULL, ...$flags): iterable|Collection|stdClass|Throwable
     {
-        $url = Str::of($url)->trim();
+        $newArchival = new self($url, $visitType, ...$flags);
 
-        $this->decomposedURL = parse_url(preg_replace('/\/$/i',"", rawurldecode($url)));
+        $currentResponseType = $newArchival::$responseType;
+        $newArchival::$responseType = $newArchival::RESPONSE_TYPE_ARRAY;
 
-        self::getVisitType($this->decomposedURL['host'], $visitType);
+        $archivalInitialResponse = $newArchival->save2Swh();
 
-        try{
-            $urlPath = match(Str::of($this->decomposedURL['host'])->match("/".self::GITLAB."|".self::GITHUB."|".self::BITBUCKET."/i")->value()){
-                self::GITHUB, self::GITLAB => $this->analyseGit($this->decomposedURL),
-                self::BITBUCKET => $this->analyseBitbucket($this->decomposedURL)
-            };
-        }catch (UnhandledMatchError $e){
-            if($this->isStillGitLab()){
-                $this->analyseGit($this->decomposedURL);
-                return;
-            }
-            $this->addErrors("Non-supported repository URL: ".$url. ". If this was git or bitbucket, please report a bug");
-            throw $e;
+        if($archivalInitialResponse instanceof Throwable){
+            return $archivalInitialResponse;
         }
 
-        if(is_null($urlPath)){
-            return;
-        }
-
-        self::addLogs("Archiving is considering repository arguments: ". preg_replace('/\//i',', ', $urlPath));
-
-        $urlQueues["branchName"] = new Queue(array(substr($urlPath, 0, strpos($urlPath,"/" ) ? : Null)));
-
-        if(Str::substrCount($urlPath, "/")===0){
-            $this->nodeHits = $urlQueues;
-            self::addLogs("Archiving is considering branch: ". implode("/", $urlQueues['branchName']->toArray()));
-            return;
-        }
-        $urlQueues["path"] = new Queue(explode('/', substr($urlPath, strpos($urlPath, "/") +1 )));
-
-        self::addLogs("Archiving is considering branch: ". implode("/", $urlQueues['branchName']->toArray()) .
-            " and initial path: ". implode('/', $urlQueues['path']->toArray()));
-
-        $this->nodeHits = $urlQueues;
+        return $flags['withTracking'] ?? false
+            ? Formatting::reCastTo($newArchival->trackArchivalStatus($archivalInitialResponse['id']), $currentResponseType)
+            : $archivalInitialResponse;
     }
 
     /**
@@ -352,6 +189,10 @@ class Archive extends SyncHTTP implements SwhArchive
                 }
             }
             $archivalRequest = Formatting::reCastTo($archivalRequest, self::RESPONSE_TYPE_ARRAY);
+            self::addLogs("\tRequest Status --> ". $archivalRequest['save_request_status']);
+            self::addLogs("\tTask Status --> ". $archivalRequest['save_task_status']);
+            self::addLogs("\tVisit Status --> ". $archivalRequest['visit_status']);
+
             $done = $archivalRequest['save_task_status'] === self::ARCHIVAL_SUCCEEDED;
             self::addLogs("Done --> ".var_export($done, true)."\n");
         }while(!$done);
@@ -361,7 +202,6 @@ class Archive extends SyncHTTP implements SwhArchive
 
     /**
      * @param string|int $saveRequestDateOrID
-     * @param ...$flags
      * @return SwhCoreID|Throwable|Null
      */
     public function getSnpFromSaveRequest(string|int $saveRequestDateOrID): SwhCoreID|Null|Throwable

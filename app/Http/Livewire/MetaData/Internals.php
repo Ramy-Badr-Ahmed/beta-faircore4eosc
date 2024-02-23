@@ -2,9 +2,9 @@
 
 namespace App\Http\Livewire\MetaData;
 
-use App\Modules\SwhApi\SwhOrigins;
-use App\Modules\SwhApi\SwhVisits;
-use App\Modules\SwhApi\SyncHTTP;
+use App\Modules\SwhApi\HTTPConnector\SyncHTTP;
+use App\Modules\SwhApi\OriginVisits\SwhOrigins;
+use App\Modules\SwhApi\OriginVisits\SwhVisits;
 use DOMException;
 use ErrorException;
 use GuzzleHttp\Exception\ClientException;

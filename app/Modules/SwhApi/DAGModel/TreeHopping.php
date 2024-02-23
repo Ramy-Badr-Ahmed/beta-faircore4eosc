@@ -6,16 +6,17 @@
  * @Repo: https://github.com/dagstuhl-publishing/beta-faircore4eosc
  */
 
-namespace App\Modules\SwhApi;
+namespace App\Modules\SwhApi\DAGModel;
 
+use App\Modules\SwhApi\Global\Formatting;
+use App\Modules\SwhApi\Global\Helper;
+use App\Modules\SwhApi\HTTPConnector\HTTPClient;
+use App\Modules\SwhApi\HTTPConnector\SyncHTTP;
 use Exception;
 use Illuminate\Http\Client\RequestException;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Str;
 use stdClass;
 use Throwable;
-use TypeError;
 
 abstract class TreeHopping
 {

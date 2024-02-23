@@ -27,8 +27,6 @@ Initialise a new API session to explore each API class and its `public` methods:
 ```php
 $ php artisan tinker
 Psy Shell v0.11.22 (PHP 8.2.0 — cli) by Justin Hileman
-> namespace App\Modules\SwhApi;
-> use App\Modules\SwhApi;
 ```
 
 This will open a REPL console-based session where one can test the functionality of the api classes and their methods before building a suitable workflow/use-cases.
@@ -120,6 +118,9 @@ The following configs can be tweaked on different levels:
 > The following 4 options can be changed during the course of any workflow. i.e. have immediate effect.
     
 ```php
+> namespace App\Modules\SwhApi\HTTPConnector;
+> use App\Modules\SwhApi\HTTPConnector;    
+    
     //   Specify multiple `class-level` options as named parameters     
     
 > HTTPClient::setOptions(responseType:'object', apiURL: 'https://webapp.staging.swh.network')
@@ -157,6 +158,9 @@ These options are defined on individual methods (see which ones as described bel
 
 ```php
 // Specify `method-level` options as named parameters:
+> namespace App\Modules\SwhApi\Archival;
+> use App\Modules\SwhApi\Archival; 
+
 > $archiveRequest = new Archive('https://github.com/RamyTestAccount/D2','git')
 > $archiveRequest->save2swh(debug: true, delay:2000)    // e.g. options defined on `save2swh` method
 ```
@@ -181,6 +185,9 @@ This class reveals information regarding software origins as stored in SWH.
 Instantiate an origin object for the desired repository URL:
 
 ```php
+> namespace App\Modules\SwhApi\OriginVisits;
+> use App\Modules\SwhApi\OriginVisits; 
+
 > $originObject = new SwhOrigins('https://github.com/RamyTestAccount/D2');
 
 = App\Modules\SwhApi\SwhOrigins {#6480
@@ -219,6 +226,9 @@ Instantiate an origin object for the desired repository URL:
 
   
 ```php
+> namespace App\Modules\SwhApi\HTTPConnector;
+> use App\Modules\SwhApi\HTTPConnector; 
+
 > HTTPClient::setOptions(responseType: 'collect')
 
 > $originObject->getFullOrigin()
@@ -283,6 +293,9 @@ This class reveals information regarding SWH visits on software origins and rela
 Instantiate a visit object for the desired repository URL:
 
 ```php
+> namespace App\Modules\SwhApi\OriginVisits;
+> use App\Modules\SwhApi\OriginVisits; 
+
 > $visitObject = new SwhVisits('https://github.com/torvalds/linux/');
 
 = App\Modules\SwhApi\SwhVisits {#6789
@@ -555,6 +568,9 @@ This class `Implements` the `SwhNodes Interface` which comprises the following f
 Instantiate a node object for any SWH object (`snapshot`, `revision`, `release`, `directory`, `content`), Examples:
 
 ```php
+> namespace App\Modules\SwhApi\DAGModel;
+> use App\Modules\SwhApi\DAGModel; 
+
 > $nodeObject = new TreeNode('swh:1:snp:bcfd516ef0e188d20056c77b8577577ac3ca6e58')
 > $nodeObject = new TreeNode('swh:1:rev:2d3af2a2db948a44caed042994a4f1779c8ea7c1')
 > $nodeObject = new TreeNode('swh:1:rel:8a6b8c6072364f068c490fcd07c42ad52748dca9')
@@ -728,6 +744,9 @@ $nodeObject->nodeEdges()
 > From a `snapshot` node, get a target revision node specified by its name.
 
 ```php
+> namespace App\Modules\SwhApi\OriginVisits;
+> use App\Modules\SwhApi\OriginVisits; 
+
 >$snpID = (new SwhVisits('https://github.com/tensordiffeq/TensorDiffEq'))
           ->getSnpFromVisit('latest')
           ->getSwhid()
@@ -830,6 +849,9 @@ This class reveals all information, `full JSON data`, regarding SWH Objects (aki
 Abstract class usage:
 
 ```php
+> namespace App\Modules\SwhApi\DAGModel;
+> use App\Modules\SwhApi\DAGModel; 
+
 > TreeHopping::methodName();     // methodName() is prepended with the class name and two colons `::` 
 ```
 
@@ -962,6 +984,9 @@ This class reveals all information about any SWH Object Edges (child nodes). Thi
 Abstract class usage:
 
 ```php
+> namespace App\Modules\SwhApi\DAGModel;
+> use App\Modules\SwhApi\DAGModel; 
+
 > TreeEdges::methodName();     // methodName() is prepended with the class name and two colons `::` 
 ```
 
@@ -1211,6 +1236,9 @@ This class allows the traversal to any child node from a parent node (i.e. SWH o
 Abstract class usage:
 
 ```php
+> namespace App\Modules\SwhApi\DAGModel;
+> use App\Modules\SwhApi\DAGModel; 
+
 > TreeTraversal::methodName();     // methodName() is prepended with the class name and two colons `::` 
 ```
 
@@ -1301,6 +1329,9 @@ Abstract class usage:
 > As an example: we can start from the latest `snapshot` of a repository to reach an example `revision`:
 
 ```php
+> namespace App\Modules\SwhApi\OriginVisits;
+> use App\Modules\SwhApi\OriginVisits; 
+
 > $latestSnpID = (new SwhVisits('https://gitlab.mis.mpg.de/rok/mathrepo'))
                 ->getSnpFromVisit('latest')
                 ->getSwhid()
@@ -1376,6 +1407,9 @@ Abstract class usage:
 > As an example: start from the latest `snapshot` of a repository to get an example of some `root dir`:
 
 ```php
+> namespace App\Modules\SwhApi\OriginVisits;
+> use App\Modules\SwhApi\OriginVisits; 
+
 > $latestSnpID = (new SwhVisits('https://github.com/matlab2tikz/matlab2tikz'))
                 ->getSnpFromVisit('latest')
                 ->getSwhid()
@@ -1499,6 +1533,9 @@ This class `Implements` the `SwhArchive Interface` which comprises the following
 Instantiate archive objects for desired repositories w/o paths in their URL: 
 
 ```php
+> namespace App\Modules\SwhApi\Archival;
+> use App\Modules\SwhApi\Archival; 
+
 > $archiveObject = new Archive('https://github.com/torvalds/linux/')
 
 = App\Modules\SwhApi\Archive {#6696
@@ -1546,7 +1583,11 @@ Instantiate archive objects for desired repositories w/o paths in their URL:
 
 > #### Archive Methods:
 
-- Submit an archival request to SWH for the defined SW origin and receive the first status response accordingly.
+- Submit an archival request to SWH for the defined SW origin and receive the first status response accordingly. 
+
+> There are two variants for this method.
+
+I) Non-static save method:
 
 | `Class static` Method     | Method `$options` (defaults)                                                                          | Returns                                                                             | `SWH` Endpoint                                                                                                                                       | `HTTP` Method |
 |---------------------------|-------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------|---------------|
@@ -1568,6 +1609,48 @@ Instantiate archive objects for desired repositories w/o paths in their URL:
     "snapshot_swhid" => null,
     ⋮
   ]    
+```
+II) Static save method:
+
+| `Class static` Method                         | Method `$options` (defaults)                                                                                                                    | Returns                                                                             | `SWH` Endpoint                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                | `HTTP` Method |
+|-----------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------|
+| `repository($url[,$visitType[,...$options]])` | Named Parameters:<br/>- `withHeaders: bool (false)`<br/>- `delay: ms (0)`<br/>- `debug: bool (false)`<br/>- `withTracking: NULL \| bool (Null)` | - `Iterable\|Collection\|stdClass`<br/>- `Throwable: RequestException \| Exception` | - [`save`](https://docs.softwareheritage.org/devel/apidoc/swh.web.save_code_now.api_views.html#post--api-1-origin-save-(visit_type)-url-(origin_url)-) </br>- [`save`](https://docs.softwareheritage.org/devel/apidoc/swh.web.save_code_now.api_views.html#get--api-1-origin-save-(visit_type)-url-(origin_url)-)<br/>- [`origin`](https://docs.softwareheritage.org/devel/swh-web/uri-scheme-api.html#get--api-1-origin-(origin_url)-get-)<br/>- [`snapshot`](https://docs.softwareheritage.org/devel/swh-web/uri-scheme-api.html#get--api-1-snapshot-(snapshot_id)-)<br/>- [`revision`](https://docs.softwareheritage.org/devel/swh-web/uri-scheme-api.html#get--api-1-revision-(sha1_git)-directory-[(path)-]) <br/> - [`release`](https://docs.softwareheritage.org/devel/swh-web/uri-scheme-api.html#get--api-1-release-(sha1_git)-)<br/>- [`directory`](https://docs.softwareheritage.org/devel/swh-web/uri-scheme-api.html#get--api-1-directory-(sha1_git)-[(path)-]) <br/> - [`content`](https://docs.softwareheritage.org/devel/swh-web/uri-scheme-api.html#get--api-1-content-known-(sha1)[,(sha1),%20...,(sha1)]-) | POST[, GET]   |
+
+* Allow verbose logging (optional):
+
+```php
+> namespace App\Modules\SwhApi\HTTPConnector;
+> use App\Modules\SwhApi\HTTPConnector;
+ 
+> HTTPClient::setOptions(isVerbose: true)
+```
+
+* Call the static method variant:
+
+```php
+> namespace App\Modules\SwhApi\Archival;
+> use App\Modules\SwhApi\Archival; 
+
+> Archive::repository('https://github.com/openssl/openssl', withTracking: true)    
+
+    ⋮
+    Request Status --> accepted
+    Task Status --> pending
+    Visit Status -->
+    ⋮
+
+        // Final result:
+= [
+    "id" => 1166754,
+    "origin_url" => "https://github.com/openssl/openssl",
+    ⋮
+    "save_request_date" => "2024-02-23T15:07:33.969286+00:00",
+    "save_request_status" => "accepted",
+    "save_task_status" => "succeeded",
+     ⋮
+    "snapshot_swhid" => "swh:1:snp:5c45e055a5eccb7eb369e4fe325fa9277c96b1bd",
+    ⋮
+  ]  
 ```
 
 - Whilst archiving, retrieve current status data of the archival request per its date or identifier.
@@ -1613,6 +1696,9 @@ Instantiate archive objects for desired repositories w/o paths in their URL:
 | `trackArchivalStatus($saveRequestDateOrID[,...$options])` | `<int>\|<string> $saveRequestDateOrID`<br/>- `<int>: saveID`<br/>- `<string>: ISO-formatted Date` | Named Parameters:<br/>- `withHeaders: bool (false)`<br/>- `delay: ms (0)`<br/>- `debug: bool (false)` | - `Iterable\|Collection\|stdClass`<br/>- `Throwable: RequestException \| TypeError \|Exception` | - [`save`](https://docs.softwareheritage.org/devel/apidoc/swh.web.save_code_now.api_views.html#get--api-1-origin-save-(visit_type)-url-(origin_url)-) <br/>- [`origin`](https://docs.softwareheritage.org/devel/swh-web/uri-scheme-api.html#get--api-1-origin-(origin_url)-get-)<br/>- [`snapshot`](https://docs.softwareheritage.org/devel/swh-web/uri-scheme-api.html#get--api-1-snapshot-(snapshot_id)-)<br/>- [`revision`](https://docs.softwareheritage.org/devel/swh-web/uri-scheme-api.html#get--api-1-revision-(sha1_git)-directory-[(path)-]) <br/> - [`release`](https://docs.softwareheritage.org/devel/swh-web/uri-scheme-api.html#get--api-1-release-(sha1_git)-)<br/>- [`directory`](https://docs.softwareheritage.org/devel/swh-web/uri-scheme-api.html#get--api-1-directory-(sha1_git)-[(path)-]) <br/> - [`content`](https://docs.softwareheritage.org/devel/swh-web/uri-scheme-api.html#get--api-1-content-known-(sha1)[,(sha1),%20...,(sha1)]-) | GET           |
 
 ```php
+> namespace App\Modules\SwhApi\HTTPConnector;
+> use App\Modules\SwhApi\HTTPConnector; 
+
 > HTTPClient::setOptions(isVerbose: true, fileTimestamp: true)
 
 > $archiveObject->trackArchivalStatus(823114)
@@ -1723,6 +1809,9 @@ Instantiate archive objects for desired repositories w/o paths in their URL:
 | `getAllArchives([...$options])` | Named Parameters:<br/>- `withHeaders: bool (false)`<br/>- `delay: ms (0)`<br/>- `debug: bool (false)` | - `Iterable\|Collection\|stdClass`<br/>- `Throwable: RequestException \| Exception` | [`save`](https://docs.softwareheritage.org/devel/apidoc/swh.web.save_code_now.api_views.html#get--api-1-origin-save-(visit_type)-url-(origin_url)-) | GET           |
 
 ```php
+> namespace App\Modules\SwhApi\HTTPConnector;
+> use App\Modules\SwhApi\HTTPConnector; 
+
 > HTTPClient::setOptions(responseType: 'collect')
 
 > Archive::of('https://github.com/nodejs/node/tree/main/deps/npm')->getAllArchives()    
@@ -1751,6 +1840,9 @@ Instantiate archive objects for desired repositories w/o paths in their URL:
 | `showDistinctArchives([...$options])` | Named Parameters:<br/>- `withHeaders: bool (false)`<br/>- `delay: ms (0)`<br/>- `debug: bool (false)` | - `Iterable\|Collection\|stdClass`<br/>- `Throwable: RequestException \| Exception` | [`save`](https://docs.softwareheritage.org/devel/apidoc/swh.web.save_code_now.api_views.html#get--api-1-origin-save-(visit_type)-url-(origin_url)-) | GET           |
 
 ```php
+> namespace App\Modules\SwhApi\HTTPConnector;
+> use App\Modules\SwhApi\HTTPConnector; 
+
 > HTTPClient::setOptions(responseType: 'collect')
 
 > Archive::of('https://github.com/torvalds/linux')->showDistinctArchives()      // will show archival data with unique snapshots
@@ -1859,12 +1951,15 @@ Instantiate archive objects for desired repositories w/o paths in their URL:
 
 This class reveals MetaData of `revision`, `release` and `content` nodes. This class is `abstract` with all its methods set as `static`, hence no object instantiation is necessary; all methods are accessible throughout as global functions. This class provides access to conveniently deal with these SWH objects based on self-explanatory naming of its methods.
 
-> `Abstract MetaData::class`
+> `Abstract SwhMetaData::class`
 
 Abstract class usage:
 
 ```php
-> MetaData::methodName();    // methodName() is prepended with the class name and two colons `::` 
+> namespace App\Modules\SwhApi\MetaData;
+> use App\Modules\SwhApi\MetaData; 
+
+> SwhMetaData::methodName();    // methodName() is prepended with the class name and two colons `::` 
 ```
 
 | `Issues Tracking` | https://github.com/dagstuhl-publishing/faircore4eosc/issues/24 |
@@ -1880,22 +1975,25 @@ Abstract class usage:
 | `getRevisionMetaData($revID[,...$options])` | `<string>: $revID:`<br/>-`40-hex-chars`<br/>-`as full SWHID` | Named Parameters:<br/>- `withHeaders: bool (false)`<br/>- `delay: ms (0)`<br/>- `debug: bool (false)` | - `Iterable\|Collection\|stdClass`<br/>- `Throwable: RequestException \| Exception` | [`revision`](https://docs.softwareheritage.org/devel/swh-web/uri-scheme-api.html#get--api-1-revision-(sha1_git)-) | GET           |
 
 ```php
+> namespace App\Modules\SwhApi\HTTPConnector;
+> use App\Modules\SwhApi\HTTPConnector; 
+
 > HTTPClient::$responseType = 'object'
 
-> MetaData::getRevisionMetaData('swh:1:rev:396b1ff29f7c75a0a3cc36f30e24ff7bae70bb52')           // get all metadata for this revision node
+> SwhMetaData::getRevisionMetaData('swh:1:rev:396b1ff29f7c75a0a3cc36f30e24ff7bae70bb52')           // get all metadata for this revision node
 = {#6625
     +"message": "hal: Deposit 282 in collection hal",
     ⋮
   }
   
-> MetaData::getRevisionMetaData('swh:1:rev:396b1ff29f7c75a0a3cc36f30e24ff7bae70bb52')->committer    // get committer metadata
+> SwhMetaData::getRevisionMetaData('swh:1:rev:396b1ff29f7c75a0a3cc36f30e24ff7bae70bb52')->committer    // get committer metadata
 = {#6703
     +"fullname": "Software Heritage",
     +"name": "Software Heritage",
     +"email": "robot@softwareheritage.org",
   }
 
-> MetaData::getRevisionMetaData('swh:1:rev:396b1ff29f7c75a0a3cc36f30e24ff7bae70bb52')->metadata->{'codemeta:programmingLanguage'}       // get codeMeta-specific metaData
+> SwhMetaData::getRevisionMetaData('swh:1:rev:396b1ff29f7c75a0a3cc36f30e24ff7bae70bb52')->metadata->{'codemeta:programmingLanguage'}       // get codeMeta-specific metaData
 = "Java"
 ```
 
@@ -1909,9 +2007,12 @@ Abstract class usage:
 
 
 ```php
+> namespace App\Modules\SwhApi\HTTPConnector;
+> use App\Modules\SwhApi\HTTPConnector; 
+
 > HTTPClient::$responseType = 'object'
 
-> MetaData::getReleaseMetaData('swh:1:rel:1791be4df87a0d69008ba46c5a03be2e4cfbe3d5')->author
+> SwhMetaData::getReleaseMetaData('swh:1:rel:1791be4df87a0d69008ba46c5a03be2e4cfbe3d5')->author
 
 = {#6701
     +"fullname": "Linus Torvalds <torvalds@linux-foundation.org>",
@@ -1929,7 +2030,10 @@ Abstract class usage:
 | `getFullContentWithMetaData($cntID[,...$options])` | `<string>: $cntID:`<br/>-`40-hex-chars`<br/>-`as full SWHID` | Named Parameters:<br/>- `withHeaders: bool (false)`<br/>- `delay: ms (0)`<br/>- `debug: bool (false)` | - `Collection`<br/>- `Throwable: RequestException \| Exception` | [`content`](https://docs.softwareheritage.org/devel/swh-web/uri-scheme-api.html#get--api-1-content-known-(sha1)[,(sha1),%20...,(sha1)]-) | GET           |
 
 ```php
-> MetaData::getFullContentWithMetaData("7717a647f7558135328d2877ad0f6aa45a3c5518")->all()
+> namespace App\Modules\SwhApi\HTTPConnector;
+> use App\Modules\SwhApi\HTTPConnector; 
+
+> SwhMetaData::getFullContentWithMetaData("7717a647f7558135328d2877ad0f6aa45a3c5518")->all()
 
 = [
     "response" => [
@@ -1964,7 +2068,7 @@ Abstract class usage:
 | `getOriginMetaData($url)` | `<string>: $url:`<br/> `Origin url` | - `Array`<br/>- `Throwable: RequestException \| Exception` | - [`origin`](https://docs.softwareheritage.org/devel/swh-web/uri-scheme-api.html#get--api-1-origin-(origin_url)-get-)<br/> - [`raw-extrinsic-metadata`](https://archive.softwareheritage.org/api/1/raw-extrinsic-metadata/swhid/authorities/doc/)<br/> - [`raw-extrinsic-metadata (SWHID)`](https://archive.softwareheritage.org/api/1/raw-extrinsic-metadata/swhid/doc/) | GET           |
 
 ```php
-> MetaData::getOriginMetaData('https://github.com/torvalds/linux/')
+> SwhMetaData::getOriginMetaData('https://github.com/torvalds/linux/')
 
 = [
     "metadata_list_url_1" => [

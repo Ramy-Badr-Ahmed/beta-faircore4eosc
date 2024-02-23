@@ -6,8 +6,10 @@
  * @Repo: https://github.com/dagstuhl-publishing/beta-faircore4eosc
  */
 
-namespace App\Modules\SwhApi;
+namespace App\Modules\SwhApi\HTTPConnector;
 
+use App\Modules\SwhApi\DataType\SwhCoreID;
+use App\Modules\SwhApi\Logging\Logs;
 use Exception;
 use GuzzleHttp\Exception\RequestException as GuzzleRequestException;
 use Illuminate\Http\Client\ConnectionException;
@@ -18,8 +20,8 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
 use Throwable;
 use TypeError;
 

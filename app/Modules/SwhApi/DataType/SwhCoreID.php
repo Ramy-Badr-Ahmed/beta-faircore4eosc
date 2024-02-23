@@ -6,7 +6,7 @@
  * @Repo: https://github.com/dagstuhl-publishing/beta-faircore4eosc
  */
 
-namespace App\Modules\SwhApi;
+namespace App\Modules\SwhApi\DataType;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;

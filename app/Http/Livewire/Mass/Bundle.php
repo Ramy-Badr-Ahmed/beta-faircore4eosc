@@ -3,13 +3,13 @@
 namespace App\Http\Livewire\Mass;
 
 use App\Models\SoftwareHeritageRequest;
-use App\Modules\SwhApi\Archive;
+use App\Modules\SwhApi\Archival\Archive;
 use Exception;
 use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Database\QueryException;
-use Illuminate\Foundation\Application as FoundationApplication;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Database\QueryException;
+use Illuminate\Foundation\Application as FoundationApplication;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;

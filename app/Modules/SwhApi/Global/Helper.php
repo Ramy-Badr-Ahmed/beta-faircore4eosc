@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Modules\SwhApi;
+namespace App\Modules\SwhApi\Global;
 
+use App\Modules\SwhApi\HTTPConnector\HTTPClient;
 use Exception;
 use Illuminate\Support\Arr;
 use stdClass;

@@ -6,20 +6,20 @@
  * @Repo: https://github.com/dagstuhl-publishing/beta-faircore4eosc
  */
 
-namespace App\Modules\SwhApi;
+namespace App\Modules\SwhApi\HTTPConnector;
 
 use Exception;
 use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\RequestException as GuzzleRequestException;
 use GuzzleHttp\Exception\ServerException;
-use Illuminate\Http\Client\Response;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Client\RequestException;
-use GuzzleHttp\Exception\RequestException as GuzzleRequestException;
-use Illuminate\Support\Str;
+use Illuminate\Http\Client\Response;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use Throwable;
-use Illuminate\Support\Collection;
 
 class SyncHTTP extends HTTPClient
 {

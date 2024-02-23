@@ -6,8 +6,13 @@
  * @Repo: https://github.com/dagstuhl-publishing/beta-faircore4eosc
  */
 
-namespace App\Modules\SwhApi;
+namespace App\Modules\SwhApi\Archival;
 
+use App\Modules\SwhApi\DataType\SwhCoreID;
+use App\Modules\SwhApi\Global\Formatting;
+use App\Modules\SwhApi\Global\Helper;
+use App\Modules\SwhApi\HTTPConnector\HTTPClient;
+use App\Modules\SwhApi\HTTPConnector\SyncHTTP;
 use Exception;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Arr;
