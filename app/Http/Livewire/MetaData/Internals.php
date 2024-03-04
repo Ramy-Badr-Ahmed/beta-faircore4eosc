@@ -304,7 +304,8 @@ trait Internals
 
             $data[$key] = Collect(explode(',', $data[$key]))
                 ->map(fn($val) => trim($val))
-                ->reject(fn($val) => empty($val));
+                ->reject(fn($val) => empty($val))
+                ->values();
 
             if(count($data[$key])===1) $data[$key] = $data[$key][0];
         });
