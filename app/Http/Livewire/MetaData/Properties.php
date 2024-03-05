@@ -6,9 +6,12 @@ trait Properties
 {
     public array $formData = [];
 
+    protected array $validationsConfigs;
+
     protected array $rules;
 
     protected array $messages;
+
     protected array $validationAttributes;
     public array $panelNames = [
         1 => 'SW Preliminary MetaData',

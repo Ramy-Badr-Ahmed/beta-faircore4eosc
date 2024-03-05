@@ -29,9 +29,11 @@ trait Hooks
     {
         self::$spdx = new SpdxLicenses();
 
-        $this->rules = config('metaForm.rules') ?? [];
-        $this->messages = config('metaForm.messages') ?? [];
-        $this->validationAttributes = config('metaForm.validationAttributes') ?? [];
+        $this->validationsConfigs = require 'metaFormValidations.php';
+
+        $this->rules = $this->validationsConfigs['rules'] ?? [];
+        $this->messages = $this->validationsConfigs['messages'] ?? [];
+        $this->validationAttributes = $this->validationsConfigs['validationAttributes'] ?? [];
 
         try {
             if (empty($this->rules) || empty($this->messages) || empty($this->validationAttributes)) {
