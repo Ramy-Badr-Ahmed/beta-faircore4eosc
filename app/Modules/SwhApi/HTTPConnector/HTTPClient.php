@@ -51,12 +51,18 @@ abstract class HTTPClient
     public const SUPPORTED_OPTIONS = ['delay', 'debug'];
     protected const CLIENT_OPTIONS = ['responseType', 'apiURL'];
     public const LOG_OPTIONS = ['isVerbose', 'fileTimestamp'];
+    protected const PENDING_REQUEST_OPTIONS = ['connectTimeout', 'timeout', 'retry', 'sleepMilliseconds'];
     protected static array $serverErrorCodes = [500, 501, 502, 503, 504, 505, 506, 507, 508, 510, 511];
     public const RESPONSE_TYPE_ARRAY = 'json';
     public const RESPONSE_TYPE_OBJECT = 'object';
     public const RESPONSE_TYPE_COLLECT = 'collect';
+
     public static string $responseType = self::RESPONSE_TYPE_ARRAY;
     public static ?string $apiURL = Null;
+    private static int $connectTimeout;
+    private static int $timeout;
+    private static int $retry;
+    private static int $sleepMilliseconds;
 
     protected PendingRequest $HTTPRequest;
 
@@ -77,7 +83,7 @@ abstract class HTTPClient
      */
     public static function setOptions(...$options) : void
     {
-        $irrelevantOptions = array_diff(array_keys($options), array_merge(self::CLIENT_OPTIONS, self::LOG_OPTIONS));
+        $irrelevantOptions = array_diff(array_keys($options), array_merge(self::CLIENT_OPTIONS, self::PENDING_REQUEST_OPTIONS, self::LOG_OPTIONS));
         if($irrelevantOptions){
             self::addLogs("Undefined Option(s). Ignoring: ".implode(", ", $irrelevantOptions));
             //return;
@@ -93,25 +99,32 @@ abstract class HTTPClient
             self::$apiURL = $options['apiURL'];
         }
 
+        $setPendingRequestOptions = Arr::only($options, self::PENDING_REQUEST_OPTIONS);
+
+        if(!empty($setPendingRequestOptions)){
+            foreach ($setPendingRequestOptions as $key => $value){
+                self::${$key} = $value;
+            }
+        }
+
         self::setLogOptions(...$options);
     }
 
     public function __construct()
     {
-
         self::$apiURL = self::$apiURL ?? config('swh.api-url');
 
         self::openLog();
 
         $this->HTTPRequest = Http::withToken(config('swh.token'))
-            ->connectTimeout(5)
-            ->timeout(5)
+            ->connectTimeout(self::$connectTimeout ?? 5)
+            ->timeout(self::$timeout ?? 5)
             ->throw(function ($response, $e) {
                 if($response->serverError()){
                     throw new Exception("Server-side Error Status", $response->status());
                 }
             })
-            ->retry(5, 5000,
+            ->retry(self::$retry ?? 5, self::$sleepMilliseconds ?? 5000,
                 function ($e, $request) {
                     $retryMessage = "Retrying ?";
 
