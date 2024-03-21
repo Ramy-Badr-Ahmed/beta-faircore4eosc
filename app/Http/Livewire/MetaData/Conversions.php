@@ -28,6 +28,7 @@ trait Conversions
     public function convertTo(string $format): void
     {
         if(!in_array($format, CodemetaConversion::SUPPORTED_FORMATS)){
+            session()->flash('Unsupported', "conversion to $format is under construction");
             return;
         }
         $this->convertAndValidate($format);
