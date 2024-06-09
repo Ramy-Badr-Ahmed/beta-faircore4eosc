@@ -11,7 +11,7 @@
                 <span class="glyphicon glyphicon-copyright-mark" style="margin-right: 4px;font-size: 12px"></span>
                 <span style="margin-right: 4px;">2022—{{ \App\Models\GlobalValues::where('key', 'copyright_year')->value('value') }}</span>
                     <a href="https://faircore4eosc.eu/eosc-core-components/eosc-research-software-apis-and-connectors-rsac" target='_blank' rel='noopener noreferrer'>
-                        FairCore4EOSC Project WP 6.2
+                        FairCore4EOSC Project
                     </a>
             </span>
         </div>
