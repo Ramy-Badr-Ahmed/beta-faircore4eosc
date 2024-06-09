@@ -14,9 +14,6 @@
             <p style="margin-bottom: 20px">
                 We're looking forward to hearing from you!
             </p>
-            <p style="margin-bottom: 20px">
-                Please use this form or write us directly @: <a href="mailto:dagpub-swh@dagstuhl.de" target='_blank' rel='noopener noreferrer'> dagpub-swh@dagstuhl.de</a>
-            </p>
         </div>
 
         <div class="container col-md-8 col-md-offset-2" style="margin-top: 30px; margin-bottom: 100px">

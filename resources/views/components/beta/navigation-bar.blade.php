@@ -1,7 +1,7 @@
 @section('header-banner')
     <div class="container-fluid header-banner">
 
-        <a class="navbar-nav" href="https://www.dagstuhl.de" target='_blank' rel='noopener noreferrer'><img src="{{url('/images/logo.svg')}}" alt="lzi-logo"></a>
+        <a class="navbar-nav" href="https://www.bw-cloud.org/" target='_blank' rel='noopener noreferrer'><img src="{{url('/images/bwcl.svg')}}" alt="bw-logo"></a>
 
         <div class="row">
             @if(Auth::check())
@@ -28,7 +28,7 @@
                             </ul>
                         </li>
                         <li role="presentation" @class(['active' => $isDescribeActive ?? false])><a href="{{route('lw-meta-form')}}">Describe-Cite</a></li>
-                        <li role="presentation" @class(['active' => $isAPIActive ?? false])><a href="{{route('uc')}}">LZI—SWH API</a></li>
+                        <li role="presentation" @class(['active' => $isAPIActive ?? false])><a href="{{route('uc')}}">SWH API Client</a></li>
                         <li role="presentation" @class(['active' => $isFeedbackActive ?? false])>
                             <a href="{{route('feedback')}}">
                                 <span class="glyphicon glyphicon-comment" style="font-size: 12px;margin-right: 6px;"></span>Feedback
