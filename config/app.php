@@ -59,7 +59,7 @@ return [
 
     'asset_url' => env('ASSET_URL'),
 
-    'enforce_https' => false,
+    'enforce_https' => true,
 
     /*
     |--------------------------------------------------------------------------
