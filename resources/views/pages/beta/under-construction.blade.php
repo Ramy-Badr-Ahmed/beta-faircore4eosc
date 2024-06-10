@@ -65,7 +65,7 @@
     <hr style="margin-bottom:50px; border-top-color: rgba(126, 183, 196, 0.46);"/>
     <div class="row">
       <div class="col-md-12 text-center" style="letter-spacing: 1px; font-weight: bold; margin-bottom: 30px">
-             <a href="https://github.com/dagstuhl-publishing/beta-faircore4eosc/blob/main/app/Modules/SwhApi/README.md" target='_blank' rel='noopener noreferrer'>
+             <a href="https://github.com/Ramy-Badr-Ahmed/swh-client/wiki" target='_blank' rel='noopener noreferrer'>
                  II) API Documentation
              </a><i class="glyphicon glyphicon-new-window" style="margin: auto 6px;font-size: 14px"></i>
 

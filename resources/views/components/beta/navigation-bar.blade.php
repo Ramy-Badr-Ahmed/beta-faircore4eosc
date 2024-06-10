@@ -1,7 +1,7 @@
 @section('header-banner')
     <div class="container-fluid header-banner">
 
-        <a class="navbar-nav" href="https://www.bw-cloud.org/" target='_blank' rel='noopener noreferrer'><img src="{{url('/images/bwcl.svg')}}" alt="bw-logo"></a>
+        <a class="navbar-nav" href="https://faircore4eosc.eu/" target='_blank' rel='noopener noreferrer'><img src="{{url('/images/eosc.svg')}}" alt="eosc-logo"></a>
 
         <div class="row">
             @if(Auth::check())

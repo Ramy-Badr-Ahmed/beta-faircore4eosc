@@ -3,7 +3,7 @@
 <x-beta.navigation-bar :isHomeActive="true"
     :mtime="(new DateTime('Europe/Berlin'))->setTimeStamp(File::lastModified(base_path('resources/views/landing.blade.php')))->format('d/M/y @H:i')" />
 
-@section('headline', 'LZI — WP6.2 — Beta')
+@section('headline', 'FC4EOSC — WP6.2 — Beta')
 
 @section('main')
     <div class="centered-content" style="margin-top: 10px">
@@ -63,12 +63,32 @@
                 <a href="https://roadrunner.dev/" target="_blank" rel="noopener noreferrer" style="margin-right: 45px;">
                     <img src="{{url('/images/rr.svg')}}" width="70px" height="70px" alt="rr-logo"  title="RoadRunner">
                 </a>
+                <a href="https://letsencrypt.org/" target="_blank" rel="noopener noreferrer" style="margin-right: 45px;">
+                    <img src="{{url('/images/le.svg')}}" width="65px" height="65px" alt="le-logo" title="LetsEncrypt">
+                </a>
                 <a href="https://nodejs.org/" target="_blank" rel="noopener noreferrer" style="margin-right: 45px;">
                     <img src="{{url('/images/njl.svg')}}" width="80px" height="65px" alt="nodejs-logo" title="Node.js">
                 </a>
-                <a href="https://mariadb.com/" target="_blank" rel="noopener noreferrer">
+                <a href="https://mariadb.com/" target="_blank" rel="noopener noreferrer" style="margin-right: 45px;">
                     <img src="{{url('/images/mdb.svg')}}" width="65px" height="60px" alt="mariadb-logo" title="MariaDB">
                 </a>
+                <a href="https://galeracluster.com/" target="_blank" rel="noopener noreferrer" style="margin-right: 45px;">
+                    <img src="{{url('/images/GL.svg')}}" width="60px" height="55px" alt="mariadb-logo" title="GaleraCluster">
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="container" style="margin-top: 80px">
+        <div class="row text-center">
+            <div class="col-md-12">
+                <p style="font-weight: bold">Hosted by</p>
+            </div>
+        </div>
+        <div class="row" style="margin-top: 20px">
+            <div class="col-md-12 text-center">
+                <a href="https://www.bw-cloud.org/" target="_blank" rel="noopener noreferrer" style="margin:auto;">
+                    <img src="{{url('/images/bwcl.svg')}}" width="80px" height="70px" alt="bwcl-logo" title="bwcloud">
+                </a>                
             </div>
         </div>
     </div>
