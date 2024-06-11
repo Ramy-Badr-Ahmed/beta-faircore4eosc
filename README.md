@@ -1,9 +1,6 @@
 # beta-faircore4eosc
 
-![GitHub](https://img.shields.io/github/license/dagstuhl-publishing/beta-faircore4eosc) ![GitHub top language](https://img.shields.io/github/languages/top/dagstuhl-publishing/beta-faircore4eosc) ![GitHub last commit (by committer)](https://img.shields.io/github/last-commit/dagstuhl-publishing/beta-faircore4eosc) 
-
-[![SWH](https://archive.softwareheritage.org/badge/origin/https://github.com/dagstuhl-publishing/beta-faircore4eosc/)](https://archive.softwareheritage.org/browse/origin/?origin_url=https://github.com/dagstuhl-publishing/beta-faircore4eosc)
-![Static Badge](https://img.shields.io/badge/Public%20Page-https://ariel.dagstuhl.de-8A2BE2)
+![GitHub](https://img.shields.io/github/license/Ramy-Badr-Ahmed/beta-faircore4eosc) ![GitHub top language](https://img.shields.io/github/languages/top/Ramy-Badr-Ahmed/beta-faircore4eosc) [![SWH](https://archive.softwareheritage.org/badge/origin/https://github.com/Ramy-Badr-Ahmed/beta-faircore4eosc/)](https://archive.softwareheritage.org/browse/origin/?origin_url=https://github.com/Ramy-Badr-Ahmed/beta-faircore4eosc)
  
 ## Installation Steps:
 
@@ -45,7 +42,8 @@
                 namespace App\Modules\SwhApi;                 
                 use App\Modules\SwhApi;
                 
-> You can now proceed to the [LZI-SWH API documentation](https://github.com/dagstuhl-publishing/beta-faircore4eosc/blob/main/app/Modules/SwhApi/README.md)
+> - You can now proceed to the [SWH API Client documentation](https://github.com/Ramy-Badr-Ahmed/beta-faircore4eosc/blob/dev-cont/app/Modules/SwhApi/README.md)
+> - SWH Client as a standalone php library: https://github.com/Ramy-Badr-Ahmed/swh-client/wiki
 ___
 
 #### II) Deployment Steps (Run your own local webserver instance):
