@@ -18,7 +18,7 @@
         <div class="navbar-text">
             <span id="github" style="margin-right: 13px">
                 <img src="{{url('/images/github.svg')}}" width="16px" height="15px" style="margin-top: -2px;margin-right: 6px;" alt="github-logo" title="github">
-                <a href="https://github.com/Ramy-Badr-Ahmed/beta-faircore4eosc" target='_blank' rel='noopener noreferrer'>
+                <a href="https://github.com/Ramy-Badr-Ahmed/beta-faircore4eosc/tree/dev-cont" target='_blank' rel='noopener noreferrer'>
                     GitHub
                 </a>
             </span>
