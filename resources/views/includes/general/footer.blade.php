@@ -41,16 +41,6 @@
                 </a>
             </span>
         </div>
-
-        @if(request()->routeIs('home'))
-            <p class="navbar-text pull-right" style="font-weight: bold">
-                <img src="{{url('/images/qualys.svg')}}" width="25px" height="25px" alt="arielssl-qualys" title="arielssl-qualys" style="margin-right: 5px;">
-                <a href="https://www.ssllabs.com/ssltest/analyze.html?d=ariel.dagstuhl.de" target="_blank" rel="noopener noreferrer" style="margin-right: 5px;">
-                    SSL Labs
-                </a>
-                <img src="{{url('/images/aplus.svg')}}" width="25px" height="25px" alt="arielssl-logo" title="arielssl">
-            </p>
-        @endif
     </div>
 </div>
 
