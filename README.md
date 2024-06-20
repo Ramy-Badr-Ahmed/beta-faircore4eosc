@@ -1,7 +1,5 @@
 # beta-faircore4eosc
 
-![GitHub](https://img.shields.io/github/license/Ramy-Badr-Ahmed/beta-faircore4eosc) ![GitHub top language](https://img.shields.io/github/languages/top/Ramy-Badr-Ahmed/beta-faircore4eosc) [![SWH](https://archive.softwareheritage.org/badge/origin/https://github.com/Ramy-Badr-Ahmed/beta-faircore4eosc/)](https://archive.softwareheritage.org/browse/origin/?origin_url=https://github.com/Ramy-Badr-Ahmed/beta-faircore4eosc)
- 
 ## Installation Steps:
 
     1) Clone this project.
