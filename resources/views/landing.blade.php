@@ -60,12 +60,6 @@
                 <a href="https://laravel-livewire.com/" target="_blank" rel="noopener noreferrer" style="margin-right: 45px;">
                     <img src="{{url('/images/lw.svg')}}" width="65px" height="65px" alt="lw-logo" title="Livewire">
                 </a>
-                <a href="https://roadrunner.dev/" target="_blank" rel="noopener noreferrer" style="margin-right: 45px;">
-                    <img src="{{url('/images/rr.svg')}}" width="70px" height="70px" alt="rr-logo"  title="RoadRunner">
-                </a>
-                <a href="https://nodejs.org/" target="_blank" rel="noopener noreferrer" style="margin-right: 45px;">
-                    <img src="{{url('/images/njl.svg')}}" width="80px" height="65px" alt="nodejs-logo" title="Node.js">
-                </a>
                 <a href="https://mariadb.com/" target="_blank" rel="noopener noreferrer">
                     <img src="{{url('/images/mdb.svg')}}" width="65px" height="60px" alt="mariadb-logo" title="MariaDB">
                 </a>

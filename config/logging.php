@@ -52,54 +52,6 @@ return [
     */
 
     'channels' => [
-        'octaneLogs' => [
-            'driver' => 'daily',
-            'path' => storage_path('logs/octane/roadrunner.log'),
-            'level' => 'info',
-            'ignore_exceptions' => false,
-            'days' => 14,
-            'max_files' => 30
-        ],
-        'cronDBLogs' => [
-            'driver' => 'daily',
-            'path' => storage_path("logs/cronDB/cron-db.log"),
-            'level' => 'info',
-            'ignore_exceptions' => false,
-            'days' => 14,
-            'max_files' => 30
-        ],
-        'exceptionLogs' => [
-            'driver' => 'daily',
-            'path' => storage_path('logs/exceptions/throwable.log'),
-            'level' => 'warning',
-            'ignore_exceptions' => false,
-            'days' => 14,
-            'max_files' => 30
-        ],
-        'loginLogs' => [
-            'driver' => 'daily',
-            'path' => storage_path('logs/login/attempts.log'),
-            'level' => 'info',
-            'ignore_exceptions' => false,
-            'days' => 14,
-            'max_files' => 30
-        ],
-        'eventsLogs' => [
-            'driver' => 'daily',
-            'path' => storage_path('logs/events/fireListen.log'),
-            'level' => 'info',
-            'ignore_exceptions' => false,
-            'days' => 14,
-            'max_files' => 30
-        ],
-        'accountsLogs' => [
-            'driver' => 'daily',
-            'path' => storage_path("logs/accounts/users-db.log"),
-            'level' => 'info',
-            'ignore_exceptions' => false,
-            'days' => 14,
-            'max_files' => 30
-        ],
         'stack' => [
             'driver' => 'stack',
             'channels' => ['single'],

@@ -16,28 +16,7 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('swh:updateCron')
             ->timezone('Europe/Berlin')
-            ->everyFiveSeconds()
-            ->withoutOverlapping();
-
-        $schedule->command('app:delete-unverified-accounts')
-            ->timezone('Europe/Berlin')
-            ->everyOddHour();
-
-        $schedule->call(
-            function (){
-                DB::table('global_values')
-                    ->updateOrInsert(['key' => 'copyright_year'], ['value' => now()->year]);
-            })
-            ->timezone('Europe/Berlin')
-            ->yearlyOn(1, 1, '00:05');
-
-        $schedule->call(function () {
-            $octaneLogPath = storage_path('logs/octane-roadrunner-server.log');
-
-            if (File::exists($octaneLogPath)) {
-                File::put($octaneLogPath, '');
-            }
-        })->daily();
+            ->everyFiveSeconds();
     }
 
     /**

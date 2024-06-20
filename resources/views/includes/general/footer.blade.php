@@ -9,7 +9,7 @@
             </a>
             <span class="copyright">
                 <span class="glyphicon glyphicon-copyright-mark" style="margin-right: 4px;font-size: 12px"></span>
-                <span style="margin-right: 4px;">2023—{{ \App\Models\GlobalValues::where('key', 'copyright_year')->value('value') }}</span>
+                <span style="margin-right: 4px;">2023</span>
                     <a href="https://www.dagstuhl.de" target='_blank' rel='noopener noreferrer'>
                         Schloss Dagstuhl – LZI GmbH
                     </a>

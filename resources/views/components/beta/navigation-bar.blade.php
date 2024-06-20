@@ -28,7 +28,6 @@
                             </ul>
                         </li>
                         <li role="presentation" @class(['active' => $isDescribeActive ?? false])><a href="{{route('lw-meta-form')}}">Describe-Cite</a></li>
-                        <li role="presentation" @class(['active' => $isAPIActive ?? false])><a href="{{route('uc')}}">LZI—SWH API</a></li>
                         <li role="presentation" @class(['active' => $isFeedbackActive ?? false])>
                             <a href="{{route('feedback')}}">
                                 <span class="glyphicon glyphicon-comment" style="font-size: 12px;margin-right: 6px;"></span>Feedback

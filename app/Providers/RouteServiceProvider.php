@@ -35,9 +35,6 @@ class RouteServiceProvider extends ServiceProvider
 
             Route::middleware('web')
                 ->group(base_path('routes/web.php'));
-
-            Route::namespace($this->namespace)
-                ->group(base_path('routes/octane.php'));
         });
     }
 }

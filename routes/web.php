@@ -71,13 +71,6 @@ use App\Http\Controllers\Beta\LivewireController;
         Route::get('sw-metadata', [ LivewireController::class, 'metaPanels' ])->name('lw-meta-form');
 
 
-    // ---------------------------------------- Under Construction View -----------------------------------------------------------------------------------
-
-        Route::get('swh-api', [ SoftwareHeritageController::class, 'underConstruction' ])
-            ->withoutMiddleware([GenerateNonce::class, SetNonce::class])
-            ->name('uc');
-
-
     // ---------------------------------------- Feedback View ----------------------------------------------------------------------------------------------
 
         Route::match(['get','post'], 'feedback', [ SoftwareHeritageController::class, 'feedbackForm' ])

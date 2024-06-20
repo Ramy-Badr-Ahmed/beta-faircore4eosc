@@ -69,7 +69,7 @@ class Handler extends ExceptionHandler
 
                 $e instanceof TransportException => redirect()
                     ->route('password.request')
-                    ->with('emailError', 'Is your email address still valid?!'),
+                    ->with('emailError', 'SMTP error'),
 
                 default => redirect()
                     ->route('home')
