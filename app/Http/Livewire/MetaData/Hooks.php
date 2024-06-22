@@ -15,12 +15,12 @@ use Illuminate\Routing\Redirector;
 use Illuminate\Session\SessionManager;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use JsonException;
 use RuntimeException;
 use Throwable;
-use Illuminate\Support\Facades\Validator;
 
 trait Hooks
 {

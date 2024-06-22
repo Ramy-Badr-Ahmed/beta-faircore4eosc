@@ -53,7 +53,7 @@
                                                data-content="{{$JSonLDInfo}}">
                                                 <i class="glyphicon thin glyphicon-info-sign"></i>
                                             </a>
-                                            <span style="padding-left: 5px">CodeMeta.json</span>
+                                            <span style="padding-left: 5px">CodeMeta.json<span style="font-size: smaller;letter-spacing: 1px;">&#8212;V2.0</span></span>
                                         </span>
                                 </label>
                             </div>
