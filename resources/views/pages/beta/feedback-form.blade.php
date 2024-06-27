@@ -3,7 +3,7 @@
 <x-beta.navigation-bar :isFeedbackActive="true"
                        :mtime="(new DateTime('Europe/Berlin'))->setTimeStamp(File::lastModified(base_path('resources/views/pages/beta/feedback-form.blade.php')))->format('d/M/y @H:i')"/>
 
-@section('headline', 'LZI — WP6.2 — Beta')
+@section('headline', 'FC4EOSC — WP6 — Beta')
 
 @section('subtitle') <h4 style="letter-spacing: 2px">Feedback/Corrections/Bugs ?</h4> @endsection
 

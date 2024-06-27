@@ -3,7 +3,7 @@
 <x-beta.navigation-bar :isHomeActive="true"
     :mtime="(new DateTime('Europe/Berlin'))->setTimeStamp(File::lastModified(base_path('resources/views/landing.blade.php')))->format('d/M/y @H:i')" />
 
-@section('headline', 'FC4EOSC — WP6.2 — Beta')
+@section('headline', 'FC4EOSC — WP6 — Beta')
 
 @section('main')
     <div class="centered-content" style="margin-top: 10px">
@@ -88,7 +88,7 @@
             <div class="col-md-12 text-center">
                 <a href="https://www.bw-cloud.org/" target="_blank" rel="noopener noreferrer" style="margin:auto;">
                     <img src="{{url('/images/bwcl.svg')}}" width="80px" height="70px" alt="bwcl-logo" title="bwcloud">
-                </a>                
+                </a>
             </div>
         </div>
     </div>

@@ -3,7 +3,7 @@
 <x-beta.navigation-bar :isAPIActive="true"
                        :mtime="(new DateTime('Europe/Berlin'))->setTimeStamp(File::lastModified(base_path('resources/views/pages/beta/under-construction.blade.php')))->format('d/M/y @H:i')"/>
 
-@section('headline', 'LZI — WP6.2 — Beta')
+@section('headline', 'FC4EOSC — WP6 — Beta')
 
 @section('main')
 
