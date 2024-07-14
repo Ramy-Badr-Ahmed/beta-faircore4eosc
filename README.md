@@ -1,3 +1,6 @@
+![LARAVEL](https://img.shields.io/badge/LARAVEL-%23CC342D.svg?style=plastic&logo=laravel&logoColor=white)
+![GitHub top language](https://img.shields.io/github/languages/top/Ramy-badr-Ahmed/beta-faircore4eosc) 
+
 # beta-faircore4eosc
 
 ## Installation Steps:
