@@ -1,9 +1,13 @@
 # beta-faircore4eosc
 
-![GitHub](https://img.shields.io/github/license/dagstuhl-publishing/beta-faircore4eosc) ![GitHub top language](https://img.shields.io/github/languages/top/dagstuhl-publishing/beta-faircore4eosc) ![GitHub last commit (by committer)](https://img.shields.io/github/last-commit/dagstuhl-publishing/beta-faircore4eosc) 
-
+![LARAVEL](https://img.shields.io/badge/LARAVEL-%23CC342D.svg?style=plastic&logo=laravel&logoColor=white) ![GitHub top language](https://img.shields.io/github/languages/top/dagstuhl-publishing/beta-faircore4eosc) ![GitHub last commit (by committer)](https://img.shields.io/github/last-commit/dagstuhl-publishing/beta-faircore4eosc) 
+ ![GitHub](https://img.shields.io/github/license/dagstuhl-publishing/beta-faircore4eosc)
 [![SWH](https://archive.softwareheritage.org/badge/origin/https://github.com/dagstuhl-publishing/beta-faircore4eosc/)](https://archive.softwareheritage.org/browse/origin/?origin_url=https://github.com/dagstuhl-publishing/beta-faircore4eosc)
 ![Static Badge](https://img.shields.io/badge/Public%20Page-https://ariel.dagstuhl.de-8A2BE2)
+
+
+
+
  
 ## Installation Steps:
 
