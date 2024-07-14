@@ -1,4 +1,5 @@
-![LARAVEL](https://img.shields.io/badge/LARAVEL-%23CC342D.svg?style=plastic&logo=laravel&logoColor=white)
+![LARAVEL](https://img.shields.io/badge/LARAVEL-%23CC342D.svg?style=plastic&logo=laravel&logoColor=white) ![PHP](https://img.shields.io/badge/PHP-777BB4?style=plastic&logo=php&logoColor=white)
+
 ![GitHub top language](https://img.shields.io/github/languages/top/Ramy-badr-Ahmed/beta-faircore4eosc) 
 
 # beta-faircore4eosc
