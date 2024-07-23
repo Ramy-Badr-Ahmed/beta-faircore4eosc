@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * @Author: Ramy-Badr-Ahmed
+ * @Desc: SWH API Client
+ * @Repo: https://github.com/Ramy-Badr-Ahmed/beta-faircore4eosc
+ */
+
 namespace App\Modules\SwhApi\Global;
 
 use App\Modules\SwhApi\HTTPConnector\HTTPClient;
