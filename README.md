@@ -1,6 +1,6 @@
-![LARAVEL](https://img.shields.io/badge/LARAVEL-%23CC342D.svg?style=plastic&logo=laravel&logoColor=white) ![PHP](https://img.shields.io/badge/PHP-777BB4?style=plastic&logo=php&logoColor=white)
-
 # beta-faircore4eosc
+
+![LARAVEL](https://img.shields.io/badge/LARAVEL-%23CC342D.svg?style=plastic&logo=laravel&logoColor=white) ![Livewire](https://img.shields.io/badge/Livewire-purple?style=plastic&logo=laravel&logoColor=white) ![PHP](https://img.shields.io/badge/PHP-777BB4?style=plastic&logo=php&logoColor=white)
 
 ## Installation Steps:
 
@@ -30,7 +30,7 @@
 
     You can now proceed to either I) or II)
 
-#### I) LZI - SWH API First Steps:
+#### I) SWH API First Steps:
 
     1) In a console session inside the cloned directory.    
     
