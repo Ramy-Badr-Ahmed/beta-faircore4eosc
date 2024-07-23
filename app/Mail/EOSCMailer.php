@@ -1,6 +1,9 @@
 <?php
-/*
- * Copyright (c) 2023. Schloss Dagstuhl -- LZI GmbH
+
+/**
+ * @Author: Ramy-Badr-Ahmed
+ * @Desc: SWH API Client
+ * @Repo: https://github.com/Ramy-Badr-Ahmed/beta-faircore4eosc
  */
 
 namespace App\Mail;
