@@ -2,8 +2,8 @@
 
 /**
  * @Author: Ramy-Badr-Ahmed
- * @Desc: LZI -- SWH API Client
- * @Repo: https://github.com/dagstuhl-publishing/beta-faircore4eosc
+ * @Desc: SWH API Client
+ * @Repo: https://github.com/Ramy-Badr-Ahmed/beta-faircore4eosc
  */
 
 namespace App\Modules\SwhApi\MetaData;
