@@ -1,15 +1,14 @@
 # beta-faircore4eosc
 
-![LARAVEL](https://img.shields.io/badge/LARAVEL-%23CC342D.svg?style=plastic&logo=laravel&logoColor=white) ![GitHub top language](https://img.shields.io/github/languages/top/dagstuhl-publishing/beta-faircore4eosc) ![GitHub last commit (by committer)](https://img.shields.io/github/last-commit/dagstuhl-publishing/beta-faircore4eosc) 
- ![GitHub](https://img.shields.io/github/license/dagstuhl-publishing/beta-faircore4eosc)
- 
-[![SWH](https://archive.softwareheritage.org/badge/origin/https://github.com/dagstuhl-publishing/beta-faircore4eosc/)](https://archive.softwareheritage.org/browse/origin/?origin_url=https://github.com/dagstuhl-publishing/beta-faircore4eosc)
+![LARAVEL](https://img.shields.io/badge/LARAVEL-%23CC342D.svg?style=plastic&logo=laravel&logoColor=white) ![Livewire](https://img.shields.io/badge/Livewire-purple?style=plastic&logo=laravel&logoColor=white)
+
+![GitHub top language](https://img.shields.io/github/languages/top/Ramy-Badr-Ahmed/beta-faircore4eosc?style=plastic) ![GitHub last commit (by committer)](https://img.shields.io/github/last-commit/Ramy-Badr-Ahmed/beta-faircore4eosc?style=plastic)  ![GitHub](https://img.shields.io/github/license/Ramy-Badr-Ahmed/beta-faircore4eosc?style=plastic)
+
+ [![SWH](https://archive.softwareheritage.org/badge/origin/https://github.com/Ramy-Badr-Ahmed/beta-faircore4eosc/)](https://archive.softwareheritage.org/browse/origin/?origin_url=https://github.com/Ramy-Badr-Ahmed/beta-faircore4eosc)
 
 > [!Note]
 >  A demonstrable version can be accessed here: <a href="https://1959e979-c58a-4d3c-86bb-09ec2dfcec8a.ka.bw-cloud-instance.org/" target="_blank">**Demo Version**</a>
 
-
- 
 ## Installation Steps:
 
     1) Clone this project.
