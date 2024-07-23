@@ -4,9 +4,9 @@
  ![GitHub](https://img.shields.io/github/license/dagstuhl-publishing/beta-faircore4eosc)
  
 [![SWH](https://archive.softwareheritage.org/badge/origin/https://github.com/dagstuhl-publishing/beta-faircore4eosc/)](https://archive.softwareheritage.org/browse/origin/?origin_url=https://github.com/dagstuhl-publishing/beta-faircore4eosc)
-![Static Badge](https://img.shields.io/badge/Public%20Page-https://ariel.dagstuhl.de-8A2BE2)
 
-
+> [!Note]
+>  A demonstrable version can be accessed here: <a href="https://1959e979-c58a-4d3c-86bb-09ec2dfcec8a.ka.bw-cloud-instance.org/" target="_blank">**Demo Version**</a>
 
 
  
