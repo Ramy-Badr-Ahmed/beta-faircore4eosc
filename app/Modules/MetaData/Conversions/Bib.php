@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @Author: Ramy-Badr-Ahmed 
+ * @Repo: https://github.com/Ramy-Badr-Ahmed/beta-faircore4eosc
+ */
+
 namespace App\Modules\MetaData\Conversions;
 
 use Illuminate\Support\Arr;
