@@ -9,6 +9,14 @@
 > [!Note]
 >  A demonstrable version can be accessed here: <a href="https://1959e979-c58a-4d3c-86bb-09ec2dfcec8a.ka.bw-cloud-instance.org/" target="_blank">**Demo Version**</a>
 
+#### Sample snapshot of the codemeta generator and converter demo:
+
+![snap.PNG](snap.PNG)
+
+#### Sample archiving repositories demo:
+
+![archive-samp.PNG](archive-samp.PNG)
+
 ## Installation Steps:
 
     1) Clone this project.
