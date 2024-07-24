@@ -78,7 +78,7 @@ class SyncHTTP extends HTTPClient
         catch(GuzzleRequestException | ConnectionException | ValidationException $e){
 
             $this->addErrors((match (substr(get_class($e), strrpos(get_class($e), "\\" ) )  ){
-                    "\GuzzleRequestException" => "GuzzleHTTP Request Exception occurred --> ",
+                    "\GuzzleRequestException","\RequestException" => "GuzzleHTTP Request Exception occurred --> ",
                     "\ConnectionException" => "Connection Error --> ",
                     "\ValidationException" => "Validation Exception. PrepareForInvoke() Error --> "
                 })
