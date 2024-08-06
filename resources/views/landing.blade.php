@@ -3,7 +3,7 @@
 <x-beta.navigation-bar :isHomeActive="true"
     :mtime="(new DateTime('Europe/Berlin'))->setTimeStamp(File::lastModified(base_path('resources/views/landing.blade.php')))->format('d/M/y @H:i')" />
 
-@section('headline', 'FC4EOSC — WP6 — Beta')
+@section('headline', 'FC4EOSC — RSAC — Beta')
 
 @section('main')
     <div class="centered-content" style="margin-top: 10px">

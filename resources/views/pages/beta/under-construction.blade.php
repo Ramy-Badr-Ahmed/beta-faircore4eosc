@@ -3,14 +3,14 @@
 <x-beta.navigation-bar :isAPIActive="true"
                        :mtime="(new DateTime('Europe/Berlin'))->setTimeStamp(File::lastModified(base_path('resources/views/pages/beta/under-construction.blade.php')))->format('d/M/y @H:i')"/>
 
-@section('headline', 'FC4EOSC — WP6 — Beta')
+@section('headline', 'FC4EOSC — RSAC — Beta')
 
 @section('main')
 
     <div class="centered-content">
         <div style="text-align: center; font-weight: bold">
             <p style="margin-top: 20px; word-spacing: 3px">
-                The LZI — SWH API page: Under Construction
+                The SWH API page: Under Construction
             </p>
         </div>
     </div>
@@ -18,7 +18,7 @@
     <div class="container-fluid" style="margin-top: 30px; border: none">
         <div class="row">
             <div class="col-md-12 text-center" style="letter-spacing: 1px; font-weight: bold; margin-bottom: 30px">
-                I) LZI — SWH API Principles
+                I) SWH API Principles
             </div>
         </div>
         <hr style="margin-bottom:50px; border-top-color: rgba(126, 183, 196, 0.46);"/>

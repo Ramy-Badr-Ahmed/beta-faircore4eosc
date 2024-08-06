@@ -3,7 +3,7 @@
 <x-beta.navigation-bar :isLoginActive="true"
                        :mtime="(new DateTime('Europe/Berlin'))->setTimeStamp(File::lastModified(base_path('resources/views/auth/verify.blade.php')))->format('d/M/y @H:i')" />
 
-@section('headline', 'FC4EOSC — WP6.2 — Beta')
+@section('headline', 'FC4EOSC — RSAC — Beta')
 
 @section('main')
 
